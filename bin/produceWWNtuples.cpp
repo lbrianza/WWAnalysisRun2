@@ -50,9 +50,9 @@ int main (int argc, char** argv)
   for(int iEntry=0; iEntry<chain->GetEntries(); iEntry++){
     if(iEntry % 1000 == 0)      cout << "read entry: " << iEntry << endl;
 
-    runNumber = RunNum;
-    eventNumber = EvtNum;
-    Met = MET;
+    run   = RunNum;
+    event = EvtNum;
+    met   = MET;
 
     outTree->Fill();
   }
