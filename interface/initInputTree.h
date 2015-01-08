@@ -7,7 +7,7 @@
 // Declaration of leaf types
 extern unsigned int RunNum;
 extern unsigned int EvtNum;
-extern unsigned float MET;
+extern float MET;
 
 // List of branches
 extern TBranch *b_RunNum; 

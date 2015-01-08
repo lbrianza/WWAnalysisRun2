@@ -3,7 +3,7 @@
 // Declaration of leaf types
 unsigned int RunNum;
 unsigned int EvtNum;
-unsigned int MET;
+float MET;
 
 // List of branches
 TBranch *b_RunNum; 

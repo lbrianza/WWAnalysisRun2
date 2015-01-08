@@ -27,6 +27,7 @@
 #include "../interface/initInputTree.h"
 #include "../interface/setOutputTree.h"
 
+using namespace std;
 //*******MAIN*******************************************************************
 
 int main (int argc, char** argv)
@@ -35,9 +36,9 @@ int main (int argc, char** argv)
   std::string outputFile = argv[2];
 
   //--------input tree-----------
-  TChain* chain = new TChain("H4tree");
+  TChain* chain = new TChain("TreeMaker2/PreSelection");
   InitTree(chain);
-  chain->Add(inputFile);
+  chain->Add(inputFile.c_str());
 
   //---------output tree----------------
   TFile* outROOT = TFile::Open((outputFile+".root").c_str(),"recreate");
@@ -48,8 +49,9 @@ int main (int argc, char** argv)
 
   //---------start loop on events------------
   for(int iEntry=0; iEntry<chain->GetEntries(); iEntry++){
-    if(iEntry % 1000 == 0)      cout << "read entry: " << iEntry << endl;
+    if(iEntry % 100 == 0)      cout << "read entry: " << iEntry << endl;
 
+    chain->GetEntry(iEntry);
     run   = RunNum;
     event = EvtNum;
     met   = MET;
@@ -59,6 +61,7 @@ int main (int argc, char** argv)
   
   //--------close everything-------------
   chain->Delete();
+  outTree->Write();
   outROOT->Close();
 
   return(0);
