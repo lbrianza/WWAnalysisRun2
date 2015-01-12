@@ -55,8 +55,10 @@ int main (int argc, char** argv)
     chain->GetEntry(iEntry);
 
     if (selectedIDIsoElectronsNum!=1 && selectedIDIsoMuonsNum!=1)  continue;      
+
+    //    cout<<"qui"<<MHTJetsPt->size()<<endl;
     if (MHTJetsNum < 1) continue;
-    if ((*MHTJetsPt)[0] < 200) continue;
+    if (MHTJetsPt[0] < 200) continue;
     if (MET < 50) continue;
 
     //save variables
@@ -68,26 +70,26 @@ int main (int argc, char** argv)
 
     if      (selectedIDIsoElectronsNum==1)   
       {
-	leptonPt  = (*selectedIDIsoElectronsPt)[0];
-	leptonEta = (*selectedIDIsoElectronsEta)[0];
-	leptonPhi = (*selectedIDIsoElectronsPhi)[0];
-	leptonE   = (*selectedIDIsoElectronsE)[0];
+	leptonPt  = selectedIDIsoElectronsPt[0];
+	leptonEta = selectedIDIsoElectronsEta[0];
+	leptonPhi = selectedIDIsoElectronsPhi[0];
+	leptonE   = selectedIDIsoElectronsE[0];
       }
     else if (selectedIDIsoMuonsNum==1)      
       {
-	leptonPt  = (*selectedIDIsoMuonsPt)[0];
-	leptonEta = (*selectedIDIsoMuonsEta)[0];
-	leptonPhi = (*selectedIDIsoMuonsPhi)[0];
-	leptonE   = (*selectedIDIsoMuonsE)[0];
+	leptonPt  = selectedIDIsoMuonsPt[0];
+	leptonEta = selectedIDIsoMuonsEta[0];
+	leptonPhi = selectedIDIsoMuonsPhi[0];
+	leptonE   = selectedIDIsoMuonsE[0];
       }
     else  cout<<"Error!! No leptons. "<<endl;
 
     for (int i=0; i<MHTJetsNum; i++)
       {
-	AK8jetPt[i]  = (*MHTJetsPt)[i];
-	AK8jetEta[i] = (*MHTJetsEta)[i];
-	AK8jetPhi[i] = (*MHTJetsPhi)[i];
-	AK8jetE[i]   = (*MHTJetsE)[i];
+	AK8jetPt[i]  = MHTJetsPt[i];
+	AK8jetEta[i] = MHTJetsEta[i];
+	AK8jetPhi[i] = MHTJetsPhi[i];
+	AK8jetE[i]   = MHTJetsE[i];
       }
 
     //fill the tree
