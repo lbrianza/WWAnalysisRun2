@@ -56,15 +56,18 @@ int main (int argc, char** argv)
 
     if (selectedIDIsoElectronsNum!=1 && selectedIDIsoMuonsNum!=1)  continue;      
 
-    //    cout<<"qui"<<MHTJetsPt->size()<<endl;
-    if (MHTJetsNum < 1) continue;
-    if (MHTJetsPt[0] < 200) continue;
-    if (MET < 50) continue;
+    //    cout<<"qui"<<JetsPt->size()<<endl;
+    if (JetsNum < 1 || AK8JetsNum < 1) continue;
+    if (AK8JetsPt[0] < 200) continue;
+    if (METPt < 50) continue;
 
     //save variables
     run   = RunNum;
     event = EvtNum;
-    met   = MET;
+    met   = METPt;
+    met_px = METPt*TMath::Cos(METPhi);
+    met_py = METPt*TMath::Sin(METPhi);
+    met_pz = -999;  //TO BE FIXED
     nJets = NJets;
     nVtx  = NVtx;
 
@@ -84,12 +87,26 @@ int main (int argc, char** argv)
       }
     else  cout<<"Error!! No leptons. "<<endl;
 
-    for (int i=0; i<MHTJetsNum; i++)
+    for (unsigned int i=0; i<AK8JetsNum; i++)
       {
-	AK8jetPt[i]  = MHTJetsPt[i];
-	AK8jetEta[i] = MHTJetsEta[i];
-	AK8jetPhi[i] = MHTJetsPhi[i];
-	AK8jetE[i]   = MHTJetsE[i];
+	AK8jetPt[i]  = AK8JetsPt[i];
+	AK8jetEta[i] = AK8JetsEta[i];
+	AK8jetPhi[i] = AK8JetsPhi[i];
+	AK8jetE[i]   = AK8JetsE[i];
+	AK8jetPrunedMass[i]   = AK8Jets_prunedMass[i];
+	AK8jetTrimmedMass[i]   = AK8Jets_trimmedMass[i];
+	AK8jetFilteredMass[i]   = AK8Jets_filteredMass[i];
+	AK8jetTau1[i]   = AK8Jets_tau1[i];
+	AK8jetTau2[i]   = AK8Jets_tau2[i];
+	AK8jetTau3[i]   = AK8Jets_tau3[i];
+      }
+
+    for (unsigned int i=0; i<JetsNum; i++)
+      {
+	jetPt[i]  = JetsPt[i];
+	jetEta[i] = JetsEta[i];
+	jetPhi[i] = JetsPhi[i];
+	jetE[i]   = JetsE[i];
       }
 
     //fill the tree
