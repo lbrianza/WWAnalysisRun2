@@ -36,6 +36,7 @@ int main (int argc, char** argv)
 { 
   std::string inputFile = argv[1];
   std::string outputFile = argv[2];
+  bool isMC = argv[3];
 
   //--------input tree-----------
   TChain* chain = new TChain("TreeMaker2/PreSelection");
@@ -51,16 +52,16 @@ int main (int argc, char** argv)
 
   //---------start loop on events------------
   for(int iEntry=0; iEntry<chain->GetEntries(); iEntry++){
-    if(iEntry % 100 == 0)      cout << "read entry: " << iEntry << endl;
+    if(iEntry % 1000 == 0)      cout << "read entry: " << iEntry << endl;
 
     //get entry
     chain->GetEntry(iEntry);
 
-    if (selectedIDIsoElectronsNum!=1 && selectedIDIsoMuonsNum!=1)  continue;      
+    if ( (selectedIDIsoElectronsNum+selectedIDIsoMuonsNum)!=1)  continue;      //exactly one lepton
 
     //    cout<<"qui"<<JetsPt->size()<<endl;
-    if (JetsNum < 1 || AK8JetsNum < 1) continue;
-    if (AK8JetsPt[0] < 200) continue;
+    if (JetsNum < 1 || AK8JetsNum < 1) continue; //no jets
+    if (AK8JetsPt[0] < 30) continue;
     if (METPt < 50) continue;
 
     //save variables
@@ -92,10 +93,12 @@ int main (int argc, char** argv)
       continue;
     }
 
+    if (leptonPt<30) continue;
+
     //MET
 
     // Fill lepton information
-    int isReal_type0;
+    //    int isReal_type0;
     TLorentzVector mup;
     mup.SetPtEtaPhiE(leptonPt, leptonEta, leptonPhi, leptonE );
 
@@ -108,19 +111,19 @@ int main (int argc, char** argv)
     b_metpz_type0.SetLeptonType(leptonName);
 
     double b_nvpz1_type0 = b_metpz_type0.Calculate(0); // Default one
-    double b_nvpz2_type0 = b_metpz_type0.getOther() ;
+    //    double b_nvpz2_type0 = b_metpz_type0.getOther() ;
 
-    if(!b_metpz_type0.IsComplex()) isReal_type0=1;
+    //    if(!b_metpz_type0.IsComplex()) isReal_type0=1;
 
     TLorentzVector b_nvp_type0_met;
     b_nvp_type0_met.SetPxPyPzE(b_metpt.Px(), b_metpt.Py(), b_nvpz1_type0, sqrt(b_metpt.Px()*b_metpt.Px() + b_metpt.Py()*b_metpt.Py() + b_nvpz1_type0*b_nvpz1_type0) );
     TLorentzVector b_nvp_type0;
     b_nvp_type0.SetPxPyPzE(b_metpt.Px(), b_metpt.Py(), b_nvpz1_type0, sqrt(b_metpt.Px()*b_metpt.Px() + b_metpt.Py()*b_metpt.Py() + b_nvpz1_type0*b_nvpz1_type0) );
-    double W_mass_type0_met = (mup+b_nvp_type0_met).M(); 
+    /*    double W_mass_type0_met = (mup+b_nvp_type0_met).M(); 
     double W_pz_type0_met = (mup+b_nvp_type0_met).Pz(); 
     double W_nu1_pz_type0_met = b_nvpz1_type0; 
     double W_nu2_pz_type0_met = b_nvpz2_type0;
-    //std::cout<<" type0 : pz1 "<<W_nu1_pz_type0<<" pz2 : "<<W_nu2_pz_type0<<" W_mass "<<W_mass<<" W_mass new "<<W_mass_type0_met<<std::endl;
+    */  //std::cout<<" type0 : pz1 "<<W_nu1_pz_type0<<" pz2 : "<<W_nu2_pz_type0<<" W_mass "<<W_mass<<" W_mass new "<<W_mass_type0_met<<std::endl;
 
     if (b_metpz_type0.IsComplex()) {// if this is a complix, change MET
       double nu_pt1 = b_metpz_type0.getPtneutrino(1);
@@ -131,11 +134,11 @@ int main (int argc, char** argv)
       tmpp2_type0.SetPxPyPzE(nu_pt2 * cos(METPhi), nu_pt2 * sin(METPhi), b_nvpz1_type0, sqrt(nu_pt2*nu_pt2 + b_nvpz1_type0*b_nvpz1_type0) );
       b_nvp_type0 = tmpp1_type0; if ( fabs((mup+tmpp1_type0).M()-80.4) > fabs((mup+tmpp2_type0).M()-80.4) ) b_nvp_type0 = tmpp2_type0;
     }
-    double W_mass_type0 = (mup+b_nvp_type0).M(); 
+    /*    double W_mass_type0 = (mup+b_nvp_type0).M(); 
     double W_pz_type0 = (mup+b_nvp_type0).Pz(); 
     double W_nu1_pz_type0 = b_nvpz1_type0; 
     double W_nu2_pz_type0 = b_nvpz2_type0;
-    //std::cout<<" type0 : pz1 "<<W_nu1_pz_type0<<" pz2 : "<<W_nu2_pz_type0<<" W_mass "<<W_mass<<" W_mass new "<<W_mass_type0<<std::endl;
+    */  //std::cout<<" type0 : pz1 "<<W_nu1_pz_type0<<" pz2 : "<<W_nu2_pz_type0<<" W_mass "<<W_mass<<" W_mass new "<<W_mass_type0<<std::endl;
 
     met   = METPt;
     met_px = METPt*TMath::Cos(METPhi);
@@ -163,6 +166,44 @@ int main (int argc, char** argv)
 	jetEta[i] = JetsEta[i];
 	jetPhi[i] = JetsPhi[i];
 	jetE[i]   = JetsE[i];
+      }
+
+    //MC Infos
+    if (isMC)
+      {
+	for (int i=0; i<GenBosonNum; i++) {
+	  genBosonPdgId[i] = GenBoson_GenBosonPDGId[i];
+	  genBosonPt[i]    = GenBosonPt[i];
+	  genBosonEta[i]   = GenBosonEta[i];
+	  genBosonPhi[i]   = GenBosonPhi[i];
+	  genBosonE[i]     = GenBosonE[i];
+	}	
+
+	int start=0;
+	for (int i=0; i<GenElecNum; i++) {
+	  genLeptonPdgId[i] = 11;
+	  genLeptonPt[i]    = GenElecPt[i];
+	  genLeptonEta[i]   = GenElecEta[i];
+	  genLeptonPhi[i]   = GenElecPhi[i];
+	  genLeptonE[i]     = GenElecE[i];
+	  start++;
+	}	
+
+	for (int i=0; i<GenMuNum; i++) {
+	  genLeptonPdgId[start+i] = 13;
+	  genLeptonPt[start+i]    = GenMuPt[i];
+	  genLeptonEta[start+i]   = GenMuEta[i];
+	  genLeptonPhi[start+i]   = GenMuPhi[i];
+	  genLeptonE[start+i]     = GenMuE[i];
+	}	
+
+	for (int i=0; i<GenNuNum; i++) {
+	  genLeptonPt[i]    = GenNuPt[i];
+	  genLeptonEta[i]   = GenNuEta[i];
+	  genLeptonPhi[i]   = GenNuPhi[i];
+	  genLeptonE[i]     = GenNuE[i];
+	}	
+
       }
 
     //fill the tree

@@ -26,6 +26,20 @@ float jetPt[10];
 float jetEta[10];
 float jetPhi[10];
 float jetE[10];
+int genBosonPdgId[10];
+float genBosonPt[10];
+float genBosonEta[10];
+float genBosonPhi[10];
+float genBosonE[10];
+int genLeptonPdgId[10];
+float genLeptonPt[10];
+float genLeptonEta[10];
+float genLeptonPhi[10];
+float genLeptonE[10];
+float genNuPt[10];
+float genNuEta[10];
+float genNuPhi[10];
+float genNuE[10];
 
 // List of branches
 TBranch *b_run;
@@ -54,6 +68,21 @@ TBranch *b_jetPt;
 TBranch *b_jetEta;
 TBranch *b_jetPhi;
 TBranch *b_jetE;
+TBranch *b_genBosonPdgId;
+TBranch *b_genBosonPt;
+TBranch *b_genBosonEta;
+TBranch *b_genBosonPhi;
+TBranch *b_genBosonE;
+TBranch *b_genLeptonPdgId;
+TBranch *b_genLeptonPt;
+TBranch *b_genLeptonEta;
+TBranch *b_genLeptonPhi;
+TBranch *b_genLeptonE;
+TBranch *b_genNuPt;
+TBranch *b_genNuEta;
+TBranch *b_genNuPhi;
+TBranch *b_genNuE;
+
 
 void init()
 {
@@ -87,6 +116,21 @@ void SetOutTree(TTree* outTree)
   outTree->Branch("jetEta",&jetEta,"jetEta[10]/F");
   outTree->Branch("jetPhi",&jetPhi,"jetPhi[10]/F");
   outTree->Branch("jetE",&jetE,"jetE[10]/F");
+  outTree->Branch("genBosonPdgId",&genBosonPdgId,"genBosonPdgId[10]/I");
+  outTree->Branch("genBosonPt",&genBosonPt,"genBosonPt[10]/F");
+  outTree->Branch("genBosonEta",&genBosonEta,"genBosonEta[10]/F");
+  outTree->Branch("genBosonPhi",&genBosonPhi,"genBosonPhi[10]/F");
+  outTree->Branch("genBosonE",&genBosonE,"genBosonE[10]/F");
+  outTree->Branch("genLeptonPdgId",&genLeptonPdgId,"genLeptonPdgId[10]/I");
+  outTree->Branch("genLeptonPt",&genLeptonPt,"genLeptonPt[10]/F");
+  outTree->Branch("genLeptonEta",&genLeptonEta,"genLeptonEta[10]/F");
+  outTree->Branch("genLeptonPhi",&genLeptonPhi,"genLeptonPhi[10]/F");
+  outTree->Branch("genLeptonE",&genLeptonE,"genLeptonE[10]/F");
+  outTree->Branch("genNuPt",&genNuPt,"genNuPt[10]/F");
+  outTree->Branch("genNuEta",&genNuEta,"genNuEta[10]/F");
+  outTree->Branch("genNuPhi",&genNuPhi,"genNuPhi[10]/F");
+  outTree->Branch("genNuE",&genNuE,"genNuE[10]/F");
+
 }
 
 void InitRecoTree(TTree* nt)
@@ -115,4 +159,18 @@ void InitRecoTree(TTree* nt)
   nt->SetBranchAddress("jetEta",&jetEta,&b_jetEta);
   nt->SetBranchAddress("jetPhi",&jetPhi,&b_jetPhi);
   nt->SetBranchAddress("jetE",&jetE,&b_jetE);
+  nt->SetBranchAddress("genBosonPdgId",&genBosonPdgId,&b_genBosonPdgId);
+  nt->SetBranchAddress("genBosonPt",&genBosonPt,&b_genBosonPt);
+  nt->SetBranchAddress("genBosonEta",&genBosonEta,&b_genBosonEta);
+  nt->SetBranchAddress("genBosonPhi",&genBosonPhi,&b_genBosonPhi);
+  nt->SetBranchAddress("genBosonE",&genBosonE,&b_genBosonE);
+  nt->SetBranchAddress("genLeptonPdgId",&genLeptonPdgId,&b_genLeptonPdgId);
+  nt->SetBranchAddress("genLeptonPt",&genLeptonPt,&b_genLeptonPt);
+  nt->SetBranchAddress("genLeptonEta",&genLeptonEta,&b_genLeptonEta);
+  nt->SetBranchAddress("genLeptonPhi",&genLeptonPhi,&b_genLeptonPhi);
+  nt->SetBranchAddress("genLeptonE",&genLeptonE,&b_genLeptonE);
+  nt->SetBranchAddress("genNuPt",&genNuPt,&b_genNuPt);
+  nt->SetBranchAddress("genNuEta",&genNuEta,&b_genNuEta);
+  nt->SetBranchAddress("genNuPhi",&genNuPhi,&b_genNuPhi);
+  nt->SetBranchAddress("genNuE",&genNuE,&b_genNuE);
 }

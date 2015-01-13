@@ -31,6 +31,20 @@ extern float jetPt[10];
 extern float jetEta[10];
 extern float jetPhi[10];
 extern float jetE[10];
+extern int genBosonPdgId[10];
+extern float genBosonPt[10];
+extern float genBosonEta[10];
+extern float genBosonPhi[10];
+extern float genBosonE[10];
+extern int genLeptonPdgId[10];
+extern float genLeptonPt[10];
+extern float genLeptonEta[10];
+extern float genLeptonPhi[10];
+extern float genLeptonE[10];
+extern float genNuPt[10];
+extern float genNuEta[10];
+extern float genNuPhi[10];
+extern float genNuE[10];
 
 // List of branches
 extern TBranch *b_run;
@@ -59,6 +73,20 @@ extern TBranch *b_jetPt;
 extern TBranch *b_jetEta;
 extern TBranch *b_jetPhi;
 extern TBranch *b_jetE;
+extern TBranch *b_genBosonPdgId;
+extern TBranch *b_genBosonPt;
+extern TBranch *b_genBosonEta;
+extern TBranch *b_genBosonPhi;
+extern TBranch *b_genBosonE;
+extern TBranch *b_genLeptonPdgId;
+extern TBranch *b_genLeptonPt;
+extern TBranch *b_genLeptonEta;
+extern TBranch *b_genLeptonPhi;
+extern TBranch *b_genLeptonE;
+extern TBranch *b_genNuPt;
+extern TBranch *b_genNuEta;
+extern TBranch *b_genNuPhi;
+extern TBranch *b_genNuE;
 
 void InitRecoTree(TTree* nt);
 
