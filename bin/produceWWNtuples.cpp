@@ -56,6 +56,7 @@ int main (int argc, char** argv)
 
     //get entry
     chain->GetEntry(iEntry);
+    init();
 
     if ( (selectedIDIsoElectronsNum+selectedIDIsoMuonsNum)!=1)  continue;      //exactly one lepton
 
