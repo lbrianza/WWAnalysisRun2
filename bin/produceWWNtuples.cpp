@@ -23,9 +23,11 @@
 #include "TString.h"
 #include "TClass.h"
 #include "TApplication.h"
+#include "TLorentzVector.h"
 
 #include "../interface/initInputTree.h"
 #include "../interface/setOutputTree.h"
+#include "../interface/METzCalculator.h"
 
 using namespace std;
 //*******MAIN*******************************************************************
@@ -64,15 +66,14 @@ int main (int argc, char** argv)
     //save variables
     run   = RunNum;
     event = EvtNum;
-    met   = METPt;
-    met_px = METPt*TMath::Cos(METPhi);
-    met_py = METPt*TMath::Sin(METPhi);
-    met_pz = -999;  //TO BE FIXED
     nJets = NJets;
     nVtx  = NVtx;
-
+    
+    //Lepton info
+    std::string leptonName="";
     if      (selectedIDIsoElectronsNum==1)   
       {
+	leptonName="electron";
 	leptonPt  = selectedIDIsoElectronsPt[0];
 	leptonEta = selectedIDIsoElectronsEta[0];
 	leptonPhi = selectedIDIsoElectronsPhi[0];
@@ -80,13 +81,68 @@ int main (int argc, char** argv)
       }
     else if (selectedIDIsoMuonsNum==1)      
       {
+	leptonName="muon";
 	leptonPt  = selectedIDIsoMuonsPt[0];
 	leptonEta = selectedIDIsoMuonsEta[0];
 	leptonPhi = selectedIDIsoMuonsPhi[0];
 	leptonE   = selectedIDIsoMuonsE[0];
       }
-    else  cout<<"Error!! No leptons. "<<endl;
+    else  {
+      cout<<"Error!! No leptons. "<<endl;
+      continue;
+    }
 
+    //MET
+
+    // Fill lepton information
+    int isReal_type0;
+    TLorentzVector mup;
+    mup.SetPtEtaPhiE(leptonPt, leptonEta, leptonPhi, leptonE );
+
+    TLorentzVector b_metpt; 
+    b_metpt.SetPxPyPzE(METPt * cos(METPhi), METPt * sin(METPhi), 0, sqrt(METPt*METPt) );
+
+    METzCalculator b_metpz_type0;
+    b_metpz_type0.SetMET(b_metpt);
+    b_metpz_type0.SetLepton(mup);
+    b_metpz_type0.SetLeptonType(leptonName);
+
+    double b_nvpz1_type0 = b_metpz_type0.Calculate(0); // Default one
+    double b_nvpz2_type0 = b_metpz_type0.getOther() ;
+
+    if(!b_metpz_type0.IsComplex()) isReal_type0=1;
+
+    TLorentzVector b_nvp_type0_met;
+    b_nvp_type0_met.SetPxPyPzE(b_metpt.Px(), b_metpt.Py(), b_nvpz1_type0, sqrt(b_metpt.Px()*b_metpt.Px() + b_metpt.Py()*b_metpt.Py() + b_nvpz1_type0*b_nvpz1_type0) );
+    TLorentzVector b_nvp_type0;
+    b_nvp_type0.SetPxPyPzE(b_metpt.Px(), b_metpt.Py(), b_nvpz1_type0, sqrt(b_metpt.Px()*b_metpt.Px() + b_metpt.Py()*b_metpt.Py() + b_nvpz1_type0*b_nvpz1_type0) );
+    double W_mass_type0_met = (mup+b_nvp_type0_met).M(); 
+    double W_pz_type0_met = (mup+b_nvp_type0_met).Pz(); 
+    double W_nu1_pz_type0_met = b_nvpz1_type0; 
+    double W_nu2_pz_type0_met = b_nvpz2_type0;
+    //std::cout<<" type0 : pz1 "<<W_nu1_pz_type0<<" pz2 : "<<W_nu2_pz_type0<<" W_mass "<<W_mass<<" W_mass new "<<W_mass_type0_met<<std::endl;
+
+    if (b_metpz_type0.IsComplex()) {// if this is a complix, change MET
+      double nu_pt1 = b_metpz_type0.getPtneutrino(1);
+      double nu_pt2 = b_metpz_type0.getPtneutrino(2);
+      TLorentzVector tmpp1_type0;
+      tmpp1_type0.SetPxPyPzE(nu_pt1 * cos(METPhi), nu_pt1 * sin(METPhi), b_nvpz1_type0, sqrt(nu_pt1*nu_pt1 + b_nvpz1_type0*b_nvpz1_type0) );
+      TLorentzVector tmpp2_type0;
+      tmpp2_type0.SetPxPyPzE(nu_pt2 * cos(METPhi), nu_pt2 * sin(METPhi), b_nvpz1_type0, sqrt(nu_pt2*nu_pt2 + b_nvpz1_type0*b_nvpz1_type0) );
+      b_nvp_type0 = tmpp1_type0; if ( fabs((mup+tmpp1_type0).M()-80.4) > fabs((mup+tmpp2_type0).M()-80.4) ) b_nvp_type0 = tmpp2_type0;
+    }
+    double W_mass_type0 = (mup+b_nvp_type0).M(); 
+    double W_pz_type0 = (mup+b_nvp_type0).Pz(); 
+    double W_nu1_pz_type0 = b_nvpz1_type0; 
+    double W_nu2_pz_type0 = b_nvpz2_type0;
+    //std::cout<<" type0 : pz1 "<<W_nu1_pz_type0<<" pz2 : "<<W_nu2_pz_type0<<" W_mass "<<W_mass<<" W_mass new "<<W_mass_type0<<std::endl;
+
+    met   = METPt;
+    met_px = METPt*TMath::Cos(METPhi);
+    met_py = METPt*TMath::Sin(METPhi);
+    met_pz = b_nvpz1_type0;
+
+    //jet infos
     for (unsigned int i=0; i<AK8JetsNum; i++)
       {
 	AK8jetPt[i]  = AK8JetsPt[i];
