@@ -86,6 +86,49 @@ TBranch *b_genNuE;
 
 void init()
 {
+  run=-999;
+  event=-999;
+  nJets=-999;
+  nVtx=-999;
+  met=-999;
+  met_px=-999;
+  met_py=-999;
+  met_pz=-999;
+  leptonPt=-999;
+  leptonEta=-999;
+  leptonPhi=-999;
+  leptonE=-999;
+
+ for (int i=0; i<10; i++) {
+   AK8jetPt[i]=-999;
+   AK8jetEta[i]=-999;
+   AK8jetPhi[i]=-999;
+   AK8jetE[i]=-999;
+   AK8jetPrunedMass[i]=-999;
+   AK8jetTrimmedMass[i]=-999;
+   AK8jetFilteredMass[i]=-999;
+   AK8jetTau1[i]=-999;
+   AK8jetTau2[i]=-999;
+   AK8jetTau3[i]=-999;
+   jetPt[i]=-999;
+   jetEta[i]=-999;
+   jetPhi[i]=-999;
+   jetE[i]=-999;
+   genBosonPdgId[i]=-999;
+   genBosonPt[i]=-999;
+   genBosonEta[i]=-999;
+   genBosonPhi[i]=-999;
+   genBosonE[i]=-999;
+   genLeptonPdgId[i]=-999;
+   genLeptonPt[i]=-999;
+   genLeptonEta[i]=-999;
+   genLeptonPhi[i]=-999;
+   genLeptonE[i]=-999;
+   genNuPt[i]=-999;
+   genNuEta[i]=-999;
+   genNuPhi[i]=-999;
+   genNuE[i]=-999;
+ }
 }
 
 void SetOutTree(TTree* outTree)
