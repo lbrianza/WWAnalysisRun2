@@ -56,14 +56,14 @@ int main (int argc, char** argv)
 
     //get entry
     chain->GetEntry(iEntry);
-    init();
+    init(); //initialize all variables
 
-    if ( (selectedIDIsoElectronsNum+selectedIDIsoMuonsNum)!=1)  continue;      //exactly one lepton
+    if ( (selectedIDIsoElectronsNum+selectedIDIsoMuonsNum)!=1)  continue;      //require exactly one lepton
+    if (JetsNum < 1 || AK8JetsNum < 1) continue; //at least one jet
 
-    //    cout<<"qui"<<JetsPt->size()<<endl;
-    if (JetsNum < 1 || AK8JetsNum < 1) continue; //no jets
-    if (AK8JetsPt[0] < 30) continue;
+    if (AK8JetsPt[0] < 150) continue; 
     if (METPt < 50) continue;
+    if (selectedIDIsoElectronsPt[0]<35 || selectedIDIsoMuonsPt[0]<30) continue; //lepton pt selection
 
     //save variables
     run   = RunNum;
@@ -71,9 +71,9 @@ int main (int argc, char** argv)
     nJets = NJets;
     nVtx  = NVtx;
     
-    //Lepton info
+    /////////////////LEPTON
     std::string leptonName="";
-    if      (selectedIDIsoElectronsNum==1)   
+    if (selectedIDIsoElectronsNum==1)   
       {
 	leptonName="electron";
 	leptonPt  = selectedIDIsoElectronsPt[0];
@@ -94,61 +94,152 @@ int main (int argc, char** argv)
       continue;
     }
 
-    if (leptonPt<30) continue;
 
-    //MET
+    //////////////MET
 
-    // Fill lepton information
-    //    int isReal_type0;
-    TLorentzVector mup;
-    mup.SetPtEtaPhiE(leptonPt, leptonEta, leptonPhi, leptonE );
+    // Calculate Neutrino Pz using all the possible choices : 
+    // type0 -> if real roots, pick the one nearest to the lepton Pz except when the Pz so chosen
+    //               is greater than 300 GeV in which case pick the most central root.
+    // type1 -> type = 1: if real roots, choose the one closest to the lepton Pz if complex roots, use only the real part.
+    //          type = 2: if real roots, choose the most central solution. if complex roots, use only the real part. 
+    //          type = 3: if real roots, pick the largest value of the cosine*
 
-    TLorentzVector b_metpt; 
-    b_metpt.SetPxPyPzE(METPt * cos(METPhi), METPt * sin(METPhi), 0, sqrt(METPt*METPt) );
+    float Wmass = 80.385;
 
-    METzCalculator b_metpz_type0;
-    b_metpz_type0.SetMET(b_metpt);
-    b_metpz_type0.SetLepton(mup);
-    b_metpz_type0.SetLeptonType(leptonName);
+    TLorentzVector W_mu, W_Met;
 
-    double b_nvpz1_type0 = b_metpz_type0.Calculate(0); // Default one
-    //    double b_nvpz2_type0 = b_metpz_type0.getOther() ;
+    W_mu.SetPtEtaPhiE(leptonPt,leptonEta,leptonPhi,leptonE);
+    W_Met.SetPxPyPzE(METPt * TMath::Cos(METPhi), METPt * TMath::Sin(METPhi), 0., sqrt(METPt*METPt));
 
-    //    if(!b_metpz_type0.IsComplex()) isReal_type0=1;
+    if(W_mu.Pt()<=0 || W_Met.Pt() <= 0 ){ std::cerr<<" Negative Lepton - Neutrino Pt "<<std::endl; continue ; }
 
-    TLorentzVector b_nvp_type0_met;
-    b_nvp_type0_met.SetPxPyPzE(b_metpt.Px(), b_metpt.Py(), b_nvpz1_type0, sqrt(b_metpt.Px()*b_metpt.Px() + b_metpt.Py()*b_metpt.Py() + b_nvpz1_type0*b_nvpz1_type0) );
-    TLorentzVector b_nvp_type0;
-    b_nvp_type0.SetPxPyPzE(b_metpt.Px(), b_metpt.Py(), b_nvpz1_type0, sqrt(b_metpt.Px()*b_metpt.Px() + b_metpt.Py()*b_metpt.Py() + b_nvpz1_type0*b_nvpz1_type0) );
-    /*    double W_mass_type0_met = (mup+b_nvp_type0_met).M(); 
-    double W_pz_type0_met = (mup+b_nvp_type0_met).Pz(); 
-    double W_nu1_pz_type0_met = b_nvpz1_type0; 
-    double W_nu2_pz_type0_met = b_nvpz2_type0;
-    */  //std::cout<<" type0 : pz1 "<<W_nu1_pz_type0<<" pz2 : "<<W_nu2_pz_type0<<" W_mass "<<W_mass<<" W_mass new "<<W_mass_type0_met<<std::endl;
 
-    if (b_metpz_type0.IsComplex()) {// if this is a complix, change MET
-      double nu_pt1 = b_metpz_type0.getPtneutrino(1);
-      double nu_pt2 = b_metpz_type0.getPtneutrino(2);
-      TLorentzVector tmpp1_type0;
-      tmpp1_type0.SetPxPyPzE(nu_pt1 * cos(METPhi), nu_pt1 * sin(METPhi), b_nvpz1_type0, sqrt(nu_pt1*nu_pt1 + b_nvpz1_type0*b_nvpz1_type0) );
-      TLorentzVector tmpp2_type0;
-      tmpp2_type0.SetPxPyPzE(nu_pt2 * cos(METPhi), nu_pt2 * sin(METPhi), b_nvpz1_type0, sqrt(nu_pt2*nu_pt2 + b_nvpz1_type0*b_nvpz1_type0) );
-      b_nvp_type0 = tmpp1_type0; if ( fabs((mup+tmpp1_type0).M()-80.4) > fabs((mup+tmpp2_type0).M()-80.4) ) b_nvp_type0 = tmpp2_type0;
+    // type0 calculation of neutrino pZ
+    METzCalculator NeutrinoPz_type0;
+    NeutrinoPz_type0.SetMET(W_Met);
+    NeutrinoPz_type0.SetLepton(W_mu);
+    NeutrinoPz_type0.SetLeptonType(leptonName.c_str());
+
+    double pz1_type0 = NeutrinoPz_type0.Calculate(); // Default one -> according to type0
+    double pz2_type0 = NeutrinoPz_type0.getOther(); // Default one
+
+    // don't touch the neutrino pT
+    TLorentzVector W_neutrino_type0_met; 
+    W_neutrino_type0_met.SetPxPyPzE(W_Met.Px(),W_Met.Py(),pz1_type0,sqrt(W_Met.Pt()*W_Met.Pt()+pz1_type0*pz1_type0));
+
+    //    W_mass_type0_met = (W_neutrino_type0_met+W_mu).M();
+    //    W_pz_type0_met = (W_neutrino_type0_met+W_mu).Pz();
+    //    W_nu1_pz_type0_met = pz1_type0;
+    //    W_nu2_pz_type0_met = pz2_type0;
+
+    // chenge the neutrino pT in case of complex solution in order to make it real
+    TLorentzVector W_neutrino_type0; 
+    W_neutrino_type0.SetPxPyPzE(W_Met.Px(),W_Met.Py(),pz1_type0,sqrt(W_Met.Pt()*W_Met.Pt()+pz1_type0*pz1_type0));
+
+    if (NeutrinoPz_type0.IsComplex()) {// if this is a complix, change MET
+      double nu_pt1 = NeutrinoPz_type0.getPtneutrino(1);
+      double nu_pt2 = NeutrinoPz_type0.getPtneutrino(2);
+      TLorentzVector W_neutrino_1;
+      W_neutrino_1.SetPxPyPzE(nu_pt1 * TMath::Cos(METPhi),
+			      nu_pt1 * TMath::Sin(METPhi), pz1_type0, sqrt(nu_pt1*nu_pt1 + pz1_type0*pz1_type0) );
+      TLorentzVector W_neutrino_2;
+      W_neutrino_2.SetPxPyPzE(nu_pt2 * TMath::Cos(METPhi),
+			      nu_pt2 * TMath::Sin(METPhi), pz1_type0, sqrt(nu_pt2*nu_pt2 + pz1_type0*pz1_type0) );
+
+      if ( fabs((W_mu+W_neutrino_1).M()-Wmass) < fabs((W_mu+W_neutrino_2).M()-Wmass) ) W_neutrino_type0 = W_neutrino_1;
+      else W_neutrino_type0 = W_neutrino_2;
     }
-    /*    double W_mass_type0 = (mup+b_nvp_type0).M(); 
-    double W_pz_type0 = (mup+b_nvp_type0).Pz(); 
-    double W_nu1_pz_type0 = b_nvpz1_type0; 
-    double W_nu2_pz_type0 = b_nvpz2_type0;
-    */  //std::cout<<" type0 : pz1 "<<W_nu1_pz_type0<<" pz2 : "<<W_nu2_pz_type0<<" W_mass "<<W_mass<<" W_mass new "<<W_mass_type0<<std::endl;
 
-    met   = METPt;
+    //    W_mass_type0 = (W_mu+W_neutrino_type0).M();
+    //    W_pz_type0 = (W_mu+W_neutrino_type0).Pz();
+    //    W_nu1_pz_type0 = pz1_type0;
+    //    W_nu2_pz_type0 = pz2_type0;
+
+    // type2 calculation of neutrino pZ
+    METzCalculator NeutrinoPz_type2;
+    NeutrinoPz_type2.SetMET(W_Met);
+    NeutrinoPz_type2.SetLepton(W_mu);
+    NeutrinoPz_type2.SetLeptonType(leptonName.c_str());
+
+    double pz1_type2 = NeutrinoPz_type2.Calculate(2); // Default one -> according to type2
+    double pz2_type2 = NeutrinoPz_type2.getOther(); // Default one
+
+    // don't touch the neutrino pT
+    TLorentzVector W_neutrino_type2_met; 
+    W_neutrino_type2_met.SetPxPyPzE(W_Met.Px(),W_Met.Py(),pz1_type2,sqrt(W_Met.Pt()*W_Met.Pt()+pz1_type2*pz1_type2));
+    //    W_mass_type2_met = (W_neutrino_type2_met+W_mu).M();
+    //    W_pz_type2_met = (W_neutrino_type2_met+W_mu).Pz();
+    //    W_nu1_pz_type2_met = pz1_type2;
+    //    W_nu2_pz_type2_met = pz2_type2;
+
+    // chenge the neutrino pT in case of complex solution in order to make it real
+    TLorentzVector W_neutrino_type2; 
+    W_neutrino_type2.SetPxPyPzE(W_Met.Px(),W_Met.Py(),pz1_type2,sqrt(W_Met.Pt()*W_Met.Pt()+pz1_type2*pz1_type2));
+
+    if (NeutrinoPz_type2.IsComplex()) {// if this is a complix, change MET
+      double nu_pt1 = NeutrinoPz_type2.getPtneutrino(1);
+      double nu_pt2 = NeutrinoPz_type2.getPtneutrino(2);
+      TLorentzVector W_neutrino_1;
+      W_neutrino_1.SetPxPyPzE(nu_pt1 * TMath::Cos(METPhi),
+			      nu_pt1 * TMath::Sin(METPhi), pz1_type2, sqrt(nu_pt1*nu_pt1 + pz1_type2*pz1_type2) );
+      TLorentzVector W_neutrino_2;
+      W_neutrino_2.SetPxPyPzE(nu_pt2 * TMath::Cos(METPhi),
+			      nu_pt2 * TMath::Sin(METPhi), pz1_type2, sqrt(nu_pt2*nu_pt2 + pz1_type2*pz1_type2) );
+
+      if ( fabs((W_mu+W_neutrino_1).M()-Wmass) < fabs((W_mu+W_neutrino_2).M()-Wmass) ) W_neutrino_type2 = W_neutrino_1;
+      else W_neutrino_type2 = W_neutrino_2;
+    }
+
+    //    W_mass_type2 = (W_mu+W_neutrino_type2).M();
+    //    W_pz_type2 = (W_mu+W_neutrino_type2).Pz();
+    //    W_nu1_pz_type2 = pz1_type2;
+    //    W_nu2_pz_type2 = pz2_type2;
+
+    met   = sqrt(METPt*METPt);
     met_px = METPt*TMath::Cos(METPhi);
     met_py = METPt*TMath::Sin(METPhi);
-    met_pz = b_nvpz1_type0;
+    met_pz_type0 = pz1_type0;
+    met_pz_type2 = pz1_type2;
 
-    //jet infos
+
+    /////////////////LEPTONIC W
+
+    TLorentzVector *W = new TLorentzVector();
+    TLorentzVector *LEP = new TLorentzVector();
+    TLorentzVector *NU  = new TLorentzVector();
+    
+    LEP->SetPtEtaPhiE(leptonPt,leptonEta,leptonPhi,leptonE);
+    NU->SetPxPyPzE(met_px,met_py,met_pz_type0,met);
+    *W = *LEP + *NU;
+    
+    W_pt = W->Pt();
+    W_eta = W->Eta();
+    W_phi = W->Phi();
+    W_E = W->E();
+    W_mt = W->Mt();
+
+    //////////////////ANGULAR VARIABLES
+
+    TLorentzVector *JET = new TLorentzVector();
+    JET->SetPtEtaPhiE(AK8JetsPt[0],AK8JetsEta[0],AK8JetsPhi[0],AK8JetsE[0]);
+    deltaR_lak8jet = JET->DeltaR(*LEP);
+    deltaphi_METak8jet = JET->DeltaPhi(*NU);
+    deltaphi_Vak8jet = JET->DeltaPhi(*W);
+
+    //delete all the TLorentzVector before a new selection
+    delete W;
+    delete LEP;
+    delete NU;
+    delete JET;
+
+    if (W_pt < 150) continue;
+    if (deltaR_lak8jet < (TMath::Pi()/2.0))   continue;
+
+
+    ///////////JETS
     for (unsigned int i=0; i<AK8JetsNum; i++)
       {
+	if (AK8JetsPt[i]<30 || AK8JetsEta[i]>4.7)  continue;
 	AK8jetPt[i]  = AK8JetsPt[i];
 	AK8jetEta[i] = AK8JetsEta[i];
 	AK8jetPhi[i] = AK8JetsPhi[i];
@@ -163,13 +254,15 @@ int main (int argc, char** argv)
 
     for (unsigned int i=0; i<JetsNum; i++)
       {
+	if (JetsPt[i]<30 || JetsEta[i]>4.7)  continue;
 	jetPt[i]  = JetsPt[i];
 	jetEta[i] = JetsEta[i];
 	jetPhi[i] = JetsPhi[i];
 	jetE[i]   = JetsE[i];
+	jet_bDiscr[i] = Jets_bDiscriminator[i];
       }
 
-    //MC Infos
+    /////////////////MC Infos
     if (isMC)
       {
 	for (int i=0; i<GenBosonNum; i++) {
