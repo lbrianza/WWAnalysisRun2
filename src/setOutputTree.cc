@@ -50,6 +50,8 @@ float W_eta;
 float W_phi;
 float W_E;
 float W_mt;
+float boosted_lvj_m_type0;
+float boosted_lvj_m_type2;
 
 // List of branches
 TBranch *b_run;
@@ -102,6 +104,8 @@ TBranch *b_W_eta;
 TBranch *b_W_phi;
 TBranch *b_W_E;
 TBranch *b_W_mt;
+TBranch *b_boosted_lvj_m_type0;
+TBranch *b_boosted_lvj_m_type2;
 
 void init()
 {
@@ -126,6 +130,8 @@ void init()
   W_phi=-999;
   W_E=-999;
   W_mt=-999;
+  boosted_lvj_m_type0=-999;
+  boosted_lvj_m_type2=-999;
 
  for (int i=0; i<10; i++) {
    AK8jetPt[i]=-999;
@@ -212,6 +218,8 @@ void SetOutTree(TTree* outTree)
   outTree->Branch("W_phi",&W_phi,"W_phi/F");
   outTree->Branch("W_E",&W_E,"W_E/F");
   outTree->Branch("W_mt",&W_mt,"W_mt/F");
+  outTree->Branch("boosted_lvj_m_type0",&boosted_lvj_m_type0,"boosted_lvj_m_type0/F");
+  outTree->Branch("boosted_lvj_m_type2",&boosted_lvj_m_type2,"boosted_lvj_m_type2/F");
 }
 
 void InitRecoTree(TTree* nt)
@@ -264,4 +272,6 @@ void InitRecoTree(TTree* nt)
   nt->SetBranchAddress("W_phi",&W_phi,&b_W_phi);
   nt->SetBranchAddress("W_E",&W_E,&b_W_E);
   nt->SetBranchAddress("W_mt",&W_mt,&b_W_mt);
+  nt->SetBranchAddress("boosted_lvj_m_type0",&boosted_lvj_m_type0,&b_boosted_lvj_m_type0);  
+  nt->SetBranchAddress("boosted_lvj_m_type2",&boosted_lvj_m_type2,&b_boosted_lvj_m_type2);  
 }
