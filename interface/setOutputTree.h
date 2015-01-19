@@ -55,6 +55,8 @@ extern float W_eta;
 extern float W_phi;
 extern float W_E;
 extern float W_mt;
+extern float boosted_lvj_m_type0;
+extern float boosted_lvj_m_type2;
 
 // List of branches
 extern TBranch *b_run;
@@ -107,6 +109,8 @@ extern TBranch *b_W_eta;
 extern TBranch *b_W_phi;
 extern TBranch *b_W_E;
 extern TBranch *b_W_mt;
+extern TBranch *b_boosted_lvj_m_type0;
+extern TBranch *b_boosted_lvj_m_type2;
 
 void InitRecoTree(TTree* nt);
 
