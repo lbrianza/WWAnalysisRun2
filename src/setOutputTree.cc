@@ -7,7 +7,8 @@ int nVtx;
 float met;
 float met_px;
 float met_py;
-float met_pz;
+float met_pz_type0;
+float met_pz_type2;
 float leptonPt;
 float leptonEta;
 float leptonPhi;
@@ -26,6 +27,7 @@ float jetPt[10];
 float jetEta[10];
 float jetPhi[10];
 float jetE[10];
+float jet_bDiscr[10];
 int genBosonPdgId[10];
 float genBosonPt[10];
 float genBosonEta[10];
@@ -40,6 +42,14 @@ float genNuPt[10];
 float genNuEta[10];
 float genNuPhi[10];
 float genNuE[10];
+float deltaR_lak8jet;
+float deltaphi_METak8jet;
+float deltaphi_Vak8jet;
+float W_pt;
+float W_eta;
+float W_phi;
+float W_E;
+float W_mt;
 
 // List of branches
 TBranch *b_run;
@@ -49,7 +59,8 @@ TBranch *b_nVtx;
 TBranch *b_met;
 TBranch *b_met_px;
 TBranch *b_met_py;
-TBranch *b_met_pz;
+TBranch *b_met_pz_type0;
+TBranch *b_met_pz_type2;
 TBranch *b_leptonPt;
 TBranch *b_leptonEta;
 TBranch *b_leptonPhi;
@@ -68,6 +79,7 @@ TBranch *b_jetPt;
 TBranch *b_jetEta;
 TBranch *b_jetPhi;
 TBranch *b_jetE;
+TBranch *b_jet_bDiscr;
 TBranch *b_genBosonPdgId;
 TBranch *b_genBosonPt;
 TBranch *b_genBosonEta;
@@ -82,7 +94,14 @@ TBranch *b_genNuPt;
 TBranch *b_genNuEta;
 TBranch *b_genNuPhi;
 TBranch *b_genNuE;
-
+TBranch *b_deltaR_lak8jet;
+TBranch *b_deltaphi_METak8jet;
+TBranch *b_deltaphi_Vak8jet;
+TBranch *b_W_pt;
+TBranch *b_W_eta;
+TBranch *b_W_phi;
+TBranch *b_W_E;
+TBranch *b_W_mt;
 
 void init()
 {
@@ -93,11 +112,20 @@ void init()
   met=-999;
   met_px=-999;
   met_py=-999;
-  met_pz=-999;
+  met_pz_type0=-999;
+  met_pz_type2=-999;
   leptonPt=-999;
   leptonEta=-999;
   leptonPhi=-999;
   leptonE=-999;
+  deltaR_lak8jet=-999;
+  deltaphi_METak8jet=-999;
+  deltaphi_Vak8jet=-999;
+  W_pt=-999;
+  W_eta=-999;
+  W_phi=-999;
+  W_E=-999;
+  W_mt=-999;
 
  for (int i=0; i<10; i++) {
    AK8jetPt[i]=-999;
@@ -114,6 +142,7 @@ void init()
    jetEta[i]=-999;
    jetPhi[i]=-999;
    jetE[i]=-999;
+   jet_bDiscr[i]=-999;
    genBosonPdgId[i]=-999;
    genBosonPt[i]=-999;
    genBosonEta[i]=-999;
@@ -140,7 +169,8 @@ void SetOutTree(TTree* outTree)
   outTree->Branch("met",&met,"met/F");
   outTree->Branch("met_px",&met_px,"met_px/F");
   outTree->Branch("met_py",&met_py,"met_py/F");
-  outTree->Branch("met_pz",&met_pz,"met_pz/F");
+  outTree->Branch("met_pz_type0",&met_pz_type0,"met_pz_type0/F");
+  outTree->Branch("met_pz_type2",&met_pz_type2,"met_pz_type2/F");
   outTree->Branch("leptonPt",&leptonPt,"leptonPt/F");
   outTree->Branch("leptonEta",&leptonEta,"leptonEta/F");
   outTree->Branch("leptonPhi",&leptonPhi,"leptonPhi/F");
@@ -159,6 +189,7 @@ void SetOutTree(TTree* outTree)
   outTree->Branch("jetEta",&jetEta,"jetEta[10]/F");
   outTree->Branch("jetPhi",&jetPhi,"jetPhi[10]/F");
   outTree->Branch("jetE",&jetE,"jetE[10]/F");
+  outTree->Branch("jet_bDiscr",&jet_bDiscr,"jet_bDiscr[10]/F");
   outTree->Branch("genBosonPdgId",&genBosonPdgId,"genBosonPdgId[10]/I");
   outTree->Branch("genBosonPt",&genBosonPt,"genBosonPt[10]/F");
   outTree->Branch("genBosonEta",&genBosonEta,"genBosonEta[10]/F");
@@ -173,7 +204,14 @@ void SetOutTree(TTree* outTree)
   outTree->Branch("genNuEta",&genNuEta,"genNuEta[10]/F");
   outTree->Branch("genNuPhi",&genNuPhi,"genNuPhi[10]/F");
   outTree->Branch("genNuE",&genNuE,"genNuE[10]/F");
-
+  outTree->Branch("deltaR_lak8jet",&deltaR_lak8jet,"deltaR_lak8jet/F");
+  outTree->Branch("deltaphi_METak8jet",&deltaphi_METak8jet,"deltaphi_METak8jet/F");
+  outTree->Branch("deltaphi_Vak8jet",&deltaphi_Vak8jet,"deltaphi_Vak8jet/F");
+  outTree->Branch("W_pt",&W_pt,"W_pt/F");
+  outTree->Branch("W_eta",&W_eta,"W_eta/F");
+  outTree->Branch("W_phi",&W_phi,"W_phi/F");
+  outTree->Branch("W_E",&W_E,"W_E/F");
+  outTree->Branch("W_mt",&W_mt,"W_mt/F");
 }
 
 void InitRecoTree(TTree* nt)
@@ -183,7 +221,8 @@ void InitRecoTree(TTree* nt)
   nt->SetBranchAddress("met", &met, &b_met);
   nt->SetBranchAddress("met_px", &met_px, &b_met_px);
   nt->SetBranchAddress("met_py", &met_py, &b_met_py);
-  nt->SetBranchAddress("met_pz", &met_pz, &b_met_pz);
+  nt->SetBranchAddress("met_pz_type0", &met_pz_type0, &b_met_pz_type0);
+  nt->SetBranchAddress("met_pz_type2", &met_pz_type2, &b_met_pz_type2);
   nt->SetBranchAddress("leptonPt",&leptonPt,&b_leptonPt);
   nt->SetBranchAddress("leptonEta",&leptonEta,&b_leptonEta);
   nt->SetBranchAddress("leptonPhi",&leptonPhi,&b_leptonPhi);
@@ -202,6 +241,7 @@ void InitRecoTree(TTree* nt)
   nt->SetBranchAddress("jetEta",&jetEta,&b_jetEta);
   nt->SetBranchAddress("jetPhi",&jetPhi,&b_jetPhi);
   nt->SetBranchAddress("jetE",&jetE,&b_jetE);
+  nt->SetBranchAddress("jet_bDiscr",&jet_bDiscr,&b_jet_bDiscr);
   nt->SetBranchAddress("genBosonPdgId",&genBosonPdgId,&b_genBosonPdgId);
   nt->SetBranchAddress("genBosonPt",&genBosonPt,&b_genBosonPt);
   nt->SetBranchAddress("genBosonEta",&genBosonEta,&b_genBosonEta);
@@ -216,4 +256,12 @@ void InitRecoTree(TTree* nt)
   nt->SetBranchAddress("genNuEta",&genNuEta,&b_genNuEta);
   nt->SetBranchAddress("genNuPhi",&genNuPhi,&b_genNuPhi);
   nt->SetBranchAddress("genNuE",&genNuE,&b_genNuE);
+  nt->SetBranchAddress("deltaR_lak8jet",&deltaR_lak8jet,&b_deltaR_lak8jet);
+  nt->SetBranchAddress("deltaphi_METak8jet",&deltaphi_METak8jet,&b_deltaphi_METak8jet);
+  nt->SetBranchAddress("deltaphi_Vak8jet",&deltaphi_Vak8jet,&b_deltaphi_Vak8jet);
+  nt->SetBranchAddress("W_pt",&W_pt,&b_W_pt);
+  nt->SetBranchAddress("W_eta",&W_eta,&b_W_eta);
+  nt->SetBranchAddress("W_phi",&W_phi,&b_W_phi);
+  nt->SetBranchAddress("W_E",&W_E,&b_W_E);
+  nt->SetBranchAddress("W_mt",&W_mt,&b_W_mt);
 }
