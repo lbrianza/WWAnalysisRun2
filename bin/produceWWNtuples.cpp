@@ -206,30 +206,38 @@ int main (int argc, char** argv)
 
     TLorentzVector *W = new TLorentzVector();
     TLorentzVector *LEP = new TLorentzVector();
-    TLorentzVector *NU  = new TLorentzVector();
+    TLorentzVector *NU0  = new TLorentzVector();
+    TLorentzVector *NU2  = new TLorentzVector();
     
     LEP->SetPtEtaPhiE(leptonPt,leptonEta,leptonPhi,leptonE);
-    NU->SetPxPyPzE(met_px,met_py,met_pz_type0,met);
-    *W = *LEP + *NU;
+    NU0->SetPxPyPzE(met_px,met_py,met_pz_type0,met);
+    NU2->SetPxPyPzE(met_px,met_py,met_pz_type2,met);
+    *W = *LEP + *NU0;
     
     W_pt = W->Pt();
     W_eta = W->Eta();
     W_phi = W->Phi();
     W_E = W->E();
-    W_mt = W->Mt();
+    //    W_mt = W->Mt();
+    W_mt = TMath::Sqrt(2*LEP->Et()*NU0->Et()*(1-TMath::Cos(LEP->DeltaPhi(*NU0))));
 
     //////////////////ANGULAR VARIABLES
 
     TLorentzVector *JET = new TLorentzVector();
     JET->SetPtEtaPhiE(AK8JetsPt[0],AK8JetsEta[0],AK8JetsPhi[0],AK8JetsE[0]);
     deltaR_lak8jet = JET->DeltaR(*LEP);
-    deltaphi_METak8jet = JET->DeltaPhi(*NU);
+    deltaphi_METak8jet = JET->DeltaPhi(*NU0);
     deltaphi_Vak8jet = JET->DeltaPhi(*W);
+
+    //FOUR-BODY INVARIANT MASS
+    boosted_lvj_m_type0 = (*LEP + *NU0 + *JET).M();
+    boosted_lvj_m_type2 = (*LEP + *NU2 + *JET).M();
 
     //delete all the TLorentzVector before a new selection
     delete W;
     delete LEP;
-    delete NU;
+    delete NU0;
+    delete NU2;
     delete JET;
 
     if (W_pt < 150) continue;
