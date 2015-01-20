@@ -8,7 +8,7 @@ import time
 import subprocess
 
 currentDir = os.getcwd();
-CMSSWDir = currentDir+"../";
+CMSSWDir = currentDir+"/../";
 ReducedTreeDir = "";
 
 name = ["WJets","TTBar"];
@@ -16,7 +16,7 @@ name = ["WJets","TTBar"];
 for i in range(len(name)):
     fn = "Job/Job_"+name[i];
     outScript = open(fn+".sh","w");
-    command = "python python/produceNtupleWW.py -i ReducedSelection_"+name[i]+".root -o WWTree_"+name[i]+".root";
+    command = "python python/produceWWNtuples.py -i "+ReducedTreeDir+"ReducedSelection_"+name[i]+".root -o WWTree_"+name[i]+".root";
     outScript.write('#!/bin/bash');
     outScript.write("\n"+'cd '+CMSSWDir);
     outScript.write("\n"+'eval `scram runtime -sh`');
