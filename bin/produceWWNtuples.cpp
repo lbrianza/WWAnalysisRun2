@@ -50,6 +50,8 @@ int main (int argc, char** argv)
   outTree->SetDirectory(0);
   SetOutTree(outTree);
 
+  int totNumS=0, lepNumS=0, jetPtS=0, jetNumS=0, METPtS=0, lepPtS=0, WPtS=0, angS=0;
+
   //---------start loop on events------------
   for(int iEntry=0; iEntry<chain->GetEntries(); iEntry++){
     if(iEntry % 1000 == 0)      cout << "read entry: " << iEntry << endl;
@@ -58,13 +60,19 @@ int main (int argc, char** argv)
     chain->GetEntry(iEntry);
     init(); //initialize all variables
 
+    totNumS++;
     if ( (selectedIDIsoElectronsNum+selectedIDIsoMuonsNum)!=1)  continue;      //require exactly one lepton
+    lepNumS++;
     if (JetsNum < 1 || AK8JetsNum < 1) continue; //at least one jet
+    jetNumS++;
 
     if (AK8JetsPt[0] < 150) continue; 
+    jetPtS++;
     if (METPt < 50) continue;
+    METPtS++;
     if (selectedIDIsoElectronsPt[0]<35 || selectedIDIsoMuonsPt[0]<30) continue; //lepton pt selection
-
+    lepPtS++;
+    
     //save variables
     run   = RunNum;
     event = EvtNum;
@@ -241,8 +249,9 @@ int main (int argc, char** argv)
     delete JET;
 
     if (W_pt < 150) continue;
+    WPtS++;
     if (deltaR_lak8jet < (TMath::Pi()/2.0))   continue;
-
+    angS++;
 
     ///////////JETS
     for (unsigned int i=0; i<AK8JetsNum; i++)
@@ -311,7 +320,10 @@ int main (int argc, char** argv)
     //fill the tree
     outTree->Fill();
   }
-  
+
+  std::cout<<"tot: "<<totNumS<<" lepNum:" << lepNumS << "jetPt: "<<jetPtS<<" jetNum: "<< jetNumS <<" MET: "<< METPtS<<" lepPt: "<<lepPtS<<" Wpt: "<< WPtS<<
+    "ang: "<<angS<<std::endl;
+
   //--------close everything-------------
   chain->Delete();
   outTree->Write();
