@@ -1,34 +1,27 @@
 #include "../interface/setOutputTree.h"
 
-int run;
+// Declaration of leaf types
+int event_runNo;
 int event;
-int nJets;
-int nVtx;
-float met;
-float met_px;
-float met_py;
-float met_pz_type0;
-float met_pz_type2;
-float leptonPt;
-float leptonEta;
-float leptonPhi;
-float leptonE;
-float AK8jetPt[10];
-float AK8jetEta[10];
-float AK8jetPhi[10];
-float AK8jetE[10];
-float AK8jetPrunedMass[10];
-float AK8jetTrimmedMass[10];
-float AK8jetFilteredMass[10];
-float AK8jetTau1[10];
-float AK8jetTau2[10];
-float AK8jetTau3[10];
-float jetPt[10];
-float jetEta[10];
-float jetPhi[10];
-float jetE[10];
-float jet_bDiscr[10];
-int genBosonPdgId[10];
+int njets;
+int nPV;
+float pfMET;
+float pfMET_Phi;
+float nu_pz_type0;
+float nu_pz_type2;
+float l_pt;
+float l_eta;
+float l_phi;
+float l_e;
+float ungroomed_jet_pt;
+float ungroomed_jet_eta;
+float ungroomed_jet_phi;
+float ungroomed_jet_e;
+float jet_mass_pr;
+float jet_mass_tr;
+float jet_mass_fi;
+float jet_tau2tau1;
+/*int genBosonPdgId[10];
 float genBosonPt[10];
 float genBosonEta[10];
 float genBosonPhi[10];
@@ -42,113 +35,98 @@ float genNuPt[10];
 float genNuEta[10];
 float genNuPhi[10];
 float genNuE[10];
+*/
 float deltaR_lak8jet;
 float deltaphi_METak8jet;
 float deltaphi_Vak8jet;
-float W_pt;
-float W_eta;
-float W_phi;
-float W_E;
-float W_mt;
-float boosted_lvj_m_type0;
-float boosted_lvj_m_type2;
+float v_pt;
+float v_eta;
+float v_phi;
+float v_mt;
+float mass_lvj_type0;
+float mass_lvj_type2;
 
 // List of branches
-TBranch *b_run;
+TBranch *b_event_runNo;
 TBranch *b_event;
-TBranch *b_nJets;
-TBranch *b_nVtx;
-TBranch *b_met;
-TBranch *b_met_px;
-TBranch *b_met_py;
-TBranch *b_met_pz_type0;
-TBranch *b_met_pz_type2;
-TBranch *b_leptonPt;
-TBranch *b_leptonEta;
-TBranch *b_leptonPhi;
-TBranch *b_leptonE;
-TBranch *b_AK8jetPt;
-TBranch *b_AK8jetEta;
-TBranch *b_AK8jetPhi;
-TBranch *b_AK8jetE;
-TBranch *b_AK8jetPrunedMass;
-TBranch *b_AK8jetTrimmedMass;
-TBranch *b_AK8jetFilteredMass;
-TBranch *b_AK8jetTau1;
-TBranch *b_AK8jetTau2;
-TBranch *b_AK8jetTau3;
-TBranch *b_jetPt;
-TBranch *b_jetEta;
-TBranch *b_jetPhi;
-TBranch *b_jetE;
-TBranch *b_jet_bDiscr;
-TBranch *b_genBosonPdgId;
-TBranch *b_genBosonPt;
-TBranch *b_genBosonEta;
-TBranch *b_genBosonPhi;
-TBranch *b_genBosonE;
-TBranch *b_genLeptonPdgId;
-TBranch *b_genLeptonPt;
-TBranch *b_genLeptonEta;
-TBranch *b_genLeptonPhi;
-TBranch *b_genLeptonE;
-TBranch *b_genNuPt;
-TBranch *b_genNuEta;
-TBranch *b_genNuPhi;
-TBranch *b_genNuE;
+TBranch *b_njets;
+TBranch *b_nPV;
+TBranch *b_pfMET;
+TBranch *b_pfMET_Phi;
+TBranch *b_nu_pz_type0;
+TBranch *b_nu_pz_type2;
+TBranch *b_l_pt;
+TBranch *b_l_eta;
+TBranch *b_l_phi;
+TBranch *b_l_e;
+TBranch *b_ungroomed_jet_pt;
+TBranch *b_ungroomed_jet_eta;
+TBranch *b_ungroomed_jet_phi;
+TBranch *b_ungroomed_jet_e;
+TBranch *b_jet_mass_pr;
+TBranch *b_jet_mass_tr;
+TBranch *b_jet_mass_fi;
+TBranch *b_jet_tau2tau1;
+/*TBranch *b_genBosonPdgId[10];
+TBranch *b_genBosonPt[10];
+TBranch *b_genBosonEta[10];
+TBranch *b_genBosonPhi[10];
+TBranch *b_genBosonE[10];
+TBranch *b_genLeptonPdgId[10];
+TBranch *b_genLeptonPt[10];
+TBranch *b_genLeptonEta[10];
+TBranch *b_genLeptonPhi[10];
+TBranch *b_genLeptonE[10];
+TBranch *b_genNuPt[10];
+TBranch *b_genNuEta[10];
+TBranch *b_genNuPhi[10];
+TBranch *b_genNuE[10];
+*/
 TBranch *b_deltaR_lak8jet;
 TBranch *b_deltaphi_METak8jet;
 TBranch *b_deltaphi_Vak8jet;
-TBranch *b_W_pt;
-TBranch *b_W_eta;
-TBranch *b_W_phi;
-TBranch *b_W_E;
-TBranch *b_W_mt;
-TBranch *b_boosted_lvj_m_type0;
-TBranch *b_boosted_lvj_m_type2;
+TBranch *b_v_pt;
+TBranch *b_v_eta;
+TBranch *b_v_phi;
+TBranch *b_v_mt;
+TBranch *b_mass_lvj_type0;
+TBranch *b_mass_lvj_type2;
+
+// List of branches
 
 void init()
 {
-  run=-999;
+  event_runNo=-999;
   event=-999;
-  nJets=-999;
-  nVtx=-999;
-  met=-999;
-  met_px=-999;
-  met_py=-999;
-  met_pz_type0=-999;
-  met_pz_type2=-999;
-  leptonPt=-999;
-  leptonEta=-999;
-  leptonPhi=-999;
-  leptonE=-999;
+  njets=-999;
+  nPV=-999;
+  pfMET=-999;
+  pfMET_Phi=-999;
+  nu_pz_type0=-999;
+  nu_pz_type2=-999;
+  l_pt=-999;
+  l_eta=-999;
+  l_phi=-999;
+  l_e=-999;
   deltaR_lak8jet=-999;
   deltaphi_METak8jet=-999;
   deltaphi_Vak8jet=-999;
-  W_pt=-999;
-  W_eta=-999;
-  W_phi=-999;
-  W_E=-999;
-  W_mt=-999;
-  boosted_lvj_m_type0=-999;
-  boosted_lvj_m_type2=-999;
+  v_pt=-999;
+  v_eta=-999;
+  v_phi=-999;
+  v_mt=-999;
+  mass_lvj_type0=-999;
+  mass_lvj_type2=-999;
+  ungroomed_jet_pt=-999;
+  ungroomed_jet_eta=-999;
+  ungroomed_jet_phi=-999;
+  ungroomed_jet_e=-999;
+  jet_mass_pr=-999;
+  jet_mass_tr=-999;
+  jet_mass_fi=-999;
+  jet_tau2tau1=-999;
 
- for (int i=0; i<10; i++) {
-   AK8jetPt[i]=-999;
-   AK8jetEta[i]=-999;
-   AK8jetPhi[i]=-999;
-   AK8jetE[i]=-999;
-   AK8jetPrunedMass[i]=-999;
-   AK8jetTrimmedMass[i]=-999;
-   AK8jetFilteredMass[i]=-999;
-   AK8jetTau1[i]=-999;
-   AK8jetTau2[i]=-999;
-   AK8jetTau3[i]=-999;
-   jetPt[i]=-999;
-   jetEta[i]=-999;
-   jetPhi[i]=-999;
-   jetE[i]=-999;
-   jet_bDiscr[i]=-999;
+   /* for (int i=0; i<10; i++) {
    genBosonPdgId[i]=-999;
    genBosonPt[i]=-999;
    genBosonEta[i]=-999;
@@ -164,34 +142,32 @@ void init()
    genNuPhi[i]=-999;
    genNuE[i]=-999;
  }
+   */
 }
 
 void SetOutTree(TTree* outTree)
 {
-  outTree->Branch("run",&event,"run/I");
+  outTree->Branch("event_runNo",&event_runNo,"event_runNo/I");
   outTree->Branch("event",&event,"event/I");
-  outTree->Branch("nJets",&nJets,"nJets/I");
-  outTree->Branch("nVtx",&nVtx,"nVtx/I");
-  outTree->Branch("met",&met,"met/F");
-  outTree->Branch("met_px",&met_px,"met_px/F");
-  outTree->Branch("met_py",&met_py,"met_py/F");
-  outTree->Branch("met_pz_type0",&met_pz_type0,"met_pz_type0/F");
-  outTree->Branch("met_pz_type2",&met_pz_type2,"met_pz_type2/F");
-  outTree->Branch("leptonPt",&leptonPt,"leptonPt/F");
-  outTree->Branch("leptonEta",&leptonEta,"leptonEta/F");
-  outTree->Branch("leptonPhi",&leptonPhi,"leptonPhi/F");
-  outTree->Branch("leptonE",&leptonE,"leptonE/F");
-  outTree->Branch("AK8jetPt",&AK8jetPt,"AK8jetPt[10]/F");
-  outTree->Branch("AK8jetEta",&AK8jetEta,"AK8jetEta[10]/F");
-  outTree->Branch("AK8jetPhi",&AK8jetPhi,"AK8jetPhi[10]/F");
-  outTree->Branch("AK8jetE",&AK8jetE,"AK8jetE[10]/F");
-  outTree->Branch("AK8jetPrunedMass",&AK8jetPrunedMass,"AK8jetPrunedMass[10]/F");
-  outTree->Branch("AK8jetTrimmedMass",&AK8jetTrimmedMass,"AK8jetTrimmedMass[10]/F");
-  outTree->Branch("AK8jetFilteredMass",&AK8jetFilteredMass,"AK8jetFilteredMass[10]/F");
-  outTree->Branch("AK8jetTau1",&AK8jetTau1,"AK8jetTau1[10]/F");
-  outTree->Branch("AK8jetTau2",&AK8jetTau2,"AK8jetTau2[10]/F");
-  outTree->Branch("AK8jetTau3",&AK8jetTau3,"AK8jetTau3[10]/F");
-  outTree->Branch("jetPt",&jetPt,"jetPt[10]/F");
+  outTree->Branch("njets",&njets,"njets/I");
+  outTree->Branch("nPV",&nPV,"nPV/I");
+  outTree->Branch("pfMET",&pfMET,"pfMET/F");
+  outTree->Branch("pfMET_Phi",&pfMET_Phi,"pfMET_Phi/F");
+  outTree->Branch("nu_pz_type0",&nu_pz_type0,"nu_pz_type0/F");
+  outTree->Branch("nu_pz_type2",&nu_pz_type2,"nu_pz_type2/F");
+  outTree->Branch("l_pt",&l_pt,"l_pt/F");
+  outTree->Branch("l_eta",&l_eta,"l_eta/F");
+  outTree->Branch("l_phi",&l_phi,"l_phi/F");
+  outTree->Branch("l_e",&l_e,"l_e/F");
+  outTree->Branch("ungroomed_jet_pt",&ungroomed_jet_pt,"ungroomed_jet_pt/F");
+  outTree->Branch("ungroomed_jet_eta",&ungroomed_jet_eta,"ungroomed_jet_eta/F");
+  outTree->Branch("ungroomed_jet_phi",&ungroomed_jet_phi,"ungroomed_jet_phi/F");
+  outTree->Branch("ungroomed_jet_e",&ungroomed_jet_e,"ungroomed_jet_e/F");
+  outTree->Branch("jet_mass_pr",&jet_mass_pr,"jet_mass_pr");
+  outTree->Branch("jet_mass_tr",&jet_mass_tr,"jet_mass_tr");
+  outTree->Branch("jet_mass_fi",&jet_mass_fi,"jet_mass_fi");
+  outTree->Branch("jet_tau2tau1",&jet_tau2tau1,"jet_tau2tau1");
+  /*  outTree->Branch("jetPt",&jetPt,"jetPt[10]/F");
   outTree->Branch("jetEta",&jetEta,"jetEta[10]/F");
   outTree->Branch("jetPhi",&jetPhi,"jetPhi[10]/F");
   outTree->Branch("jetE",&jetE,"jetE[10]/F");
@@ -210,18 +186,19 @@ void SetOutTree(TTree* outTree)
   outTree->Branch("genNuEta",&genNuEta,"genNuEta[10]/F");
   outTree->Branch("genNuPhi",&genNuPhi,"genNuPhi[10]/F");
   outTree->Branch("genNuE",&genNuE,"genNuE[10]/F");
+  */
   outTree->Branch("deltaR_lak8jet",&deltaR_lak8jet,"deltaR_lak8jet/F");
   outTree->Branch("deltaphi_METak8jet",&deltaphi_METak8jet,"deltaphi_METak8jet/F");
   outTree->Branch("deltaphi_Vak8jet",&deltaphi_Vak8jet,"deltaphi_Vak8jet/F");
-  outTree->Branch("W_pt",&W_pt,"W_pt/F");
-  outTree->Branch("W_eta",&W_eta,"W_eta/F");
-  outTree->Branch("W_phi",&W_phi,"W_phi/F");
-  outTree->Branch("W_E",&W_E,"W_E/F");
-  outTree->Branch("W_mt",&W_mt,"W_mt/F");
-  outTree->Branch("boosted_lvj_m_type0",&boosted_lvj_m_type0,"boosted_lvj_m_type0/F");
-  outTree->Branch("boosted_lvj_m_type2",&boosted_lvj_m_type2,"boosted_lvj_m_type2/F");
+  outTree->Branch("v_pt",&v_pt,"v_pt/F");
+  outTree->Branch("v_eta",&v_eta,"v_eta/F");
+  outTree->Branch("v_phi",&v_phi,"v_phi/F");
+  outTree->Branch("v_mt",&v_mt,"v_mt/F");
+  outTree->Branch("mass_lvj_type0",&mass_lvj_type0,"mass_lvj_type0/F");
+  outTree->Branch("mass_lvj_type2",&mass_lvj_type2,"mass_lvj_type2/F");
 }
 
+/*
 void InitRecoTree(TTree* nt)
 {
   nt->SetBranchAddress("run", &run, &b_run);
@@ -275,3 +252,4 @@ void InitRecoTree(TTree* nt)
   nt->SetBranchAddress("boosted_lvj_m_type0",&boosted_lvj_m_type0,&b_boosted_lvj_m_type0);  
   nt->SetBranchAddress("boosted_lvj_m_type2",&boosted_lvj_m_type2,&b_boosted_lvj_m_type2);  
 }
+*/
