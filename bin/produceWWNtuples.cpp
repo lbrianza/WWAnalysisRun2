@@ -30,27 +30,34 @@
 #include "../interface/METzCalculator.h"
 
 using namespace std;
+
 //*******MAIN*******************************************************************
 
 int main (int argc, char** argv)
 { 
-  std::string inputFile = argv[1];
+  std::string inputFolder = argv[1];
   std::string outputFile = argv[2];
   bool isMC = argv[3];
-
+  std::string leptonName = argv[4];
+  std::string inputTreeName = argv[5];
+  std::string inputFile = argv[6];
+  if (strcmp(leptonName.c_str(),"el")!=0 && strcmp(leptonName.c_str(),"mu")!=0) {
+    std::cout<<"Error: wrong lepton category"<<std::endl;
+    return(-1);
+  }
+    
   //--------input tree-----------
-  TChain* chain = new TChain("TreeMaker2/PreSelection");
+  //  TChain* chain = new TChain("TreeMaker2/PreSelection");
+  TChain* chain = new TChain(inputTreeName.c_str());
   InitTree(chain);
-  chain->Add(inputFile.c_str());
+  chain->Add((inputFolder+inputFile).c_str());
 
   //---------output tree----------------
-  TFile* outROOT = TFile::Open((outputFile+".root").c_str(),"recreate");
+  TFile* outROOT = TFile::Open((outputFile).c_str(),"recreate");
   outROOT->cd();
-  TTree* outTree = new TTree("WWTree", "WWTree");
+  TTree* outTree = new TTree("otree", "otree");
   outTree->SetDirectory(0);
   SetOutTree(outTree);
-
-  int totNumS=0, lepNumS=0, jetPtS=0, jetNumS=0, METPtS=0, lepPtS=0, WPtS=0, angS=0;
 
   //---------start loop on events------------
   for(int iEntry=0; iEntry<chain->GetEntries(); iEntry++){
@@ -60,48 +67,38 @@ int main (int argc, char** argv)
     chain->GetEntry(iEntry);
     init(); //initialize all variables
 
-    totNumS++;
-    if ( (selectedIDIsoElectronsNum+selectedIDIsoMuonsNum)!=1)  continue;      //require exactly one lepton
-    lepNumS++;
-    if (JetsNum < 1 || AK8JetsNum < 1) continue; //at least one jet
-    jetNumS++;
+    //require exactly one lepton
+    if ( strcmp(leptonName.c_str(),"el")==0 && selectedIDIsoElectronsNum!=1) continue; 
+    if ( strcmp(leptonName.c_str(),"mu")==0 && selectedIDIsoMuonsNum!=1) continue;      
+    
+    if (AK8JetsNum < 1) continue; //at least one jet
 
     if (AK8JetsPt[0] < 150) continue; 
-    jetPtS++;
     if (METPt < 50) continue;
-    METPtS++;
-    if (selectedIDIsoElectronsPt[0]<35 || selectedIDIsoMuonsPt[0]<30) continue; //lepton pt selection
-    lepPtS++;
+
+    //lepton Pt selection
+    if ( strcmp(leptonName.c_str(),"el")==0 && selectedIDIsoElectronsPt[0]<35) continue; 
+    if ( strcmp(leptonName.c_str(),"mu")==0 && selectedIDIsoMuonsPt[0]<30) continue; 
     
-    //save variables
-    run   = RunNum;
+    //save event variables
+    event_runNo   = RunNum;
     event = EvtNum;
-    nJets = NJets;
-    nVtx  = NVtx;
+    njets = NJets;
+    nPV  = NVtx;
     
     /////////////////LEPTON
-    std::string leptonName="";
-    if (selectedIDIsoElectronsNum==1)   
-      {
-	leptonName="electron";
-	leptonPt  = selectedIDIsoElectronsPt[0];
-	leptonEta = selectedIDIsoElectronsEta[0];
-	leptonPhi = selectedIDIsoElectronsPhi[0];
-	leptonE   = selectedIDIsoElectronsE[0];
+    if (strcmp(leptonName.c_str(),"el")==0) {
+	l_pt  = selectedIDIsoElectronsPt[0];
+	l_eta = selectedIDIsoElectronsEta[0];
+	l_phi = selectedIDIsoElectronsPhi[0];	
+	l_e = selectedIDIsoElectronsE[0];	
       }
-    else if (selectedIDIsoMuonsNum==1)      
-      {
-	leptonName="muon";
-	leptonPt  = selectedIDIsoMuonsPt[0];
-	leptonEta = selectedIDIsoMuonsEta[0];
-	leptonPhi = selectedIDIsoMuonsPhi[0];
-	leptonE   = selectedIDIsoMuonsE[0];
+    else if (strcmp(leptonName.c_str(),"mu")==0) {
+	l_pt  = selectedIDIsoMuonsPt[0];
+	l_eta = selectedIDIsoMuonsEta[0];
+	l_phi = selectedIDIsoMuonsPhi[0];
+	l_e = selectedIDIsoMuonsE[0];
       }
-    else  {
-      cout<<"Error!! No leptons. "<<endl;
-      continue;
-    }
-
 
     //////////////MET
 
@@ -116,7 +113,7 @@ int main (int argc, char** argv)
 
     TLorentzVector W_mu, W_Met;
 
-    W_mu.SetPtEtaPhiE(leptonPt,leptonEta,leptonPhi,leptonE);
+    W_mu.SetPtEtaPhiE(l_pt,l_eta,l_phi,l_e);
     W_Met.SetPxPyPzE(METPt * TMath::Cos(METPhi), METPt * TMath::Sin(METPhi), 0., sqrt(METPt*METPt));
 
     if(W_mu.Pt()<=0 || W_Met.Pt() <= 0 ){ std::cerr<<" Negative Lepton - Neutrino Pt "<<std::endl; continue ; }
@@ -203,11 +200,10 @@ int main (int argc, char** argv)
     //    W_nu1_pz_type2 = pz1_type2;
     //    W_nu2_pz_type2 = pz2_type2;
 
-    met   = sqrt(METPt*METPt);
-    met_px = METPt*TMath::Cos(METPhi);
-    met_py = METPt*TMath::Sin(METPhi);
-    met_pz_type0 = pz1_type0;
-    met_pz_type2 = pz1_type2;
+    pfMET   = sqrt(METPt*METPt);
+    pfMET_Phi = METPhi;
+    nu_pz_type0 = pz1_type0;
+    nu_pz_type2 = pz1_type2;
 
 
     /////////////////LEPTONIC W
@@ -217,17 +213,16 @@ int main (int argc, char** argv)
     TLorentzVector *NU0  = new TLorentzVector();
     TLorentzVector *NU2  = new TLorentzVector();
     
-    LEP->SetPtEtaPhiE(leptonPt,leptonEta,leptonPhi,leptonE);
-    NU0->SetPxPyPzE(met_px,met_py,met_pz_type0,met);
-    NU2->SetPxPyPzE(met_px,met_py,met_pz_type2,met);
+    LEP->SetPtEtaPhiE(l_pt,l_eta,l_phi,l_e);
+    NU0->SetPxPyPzE(METPt*TMath::Cos(METPhi),METPt*TMath::Sin(METPhi),nu_pz_type0,pfMET);
+    NU2->SetPxPyPzE(METPt*TMath::Cos(METPhi),METPt*TMath::Sin(METPhi),nu_pz_type2,pfMET);
     *W = *LEP + *NU0;
     
-    W_pt = W->Pt();
-    W_eta = W->Eta();
-    W_phi = W->Phi();
-    W_E = W->E();
+    v_pt = W->Pt();
+    v_eta = W->Eta();
+    v_phi = W->Phi();
+    v_mt = TMath::Sqrt(2*LEP->Et()*NU0->Et()*(1-TMath::Cos(LEP->DeltaPhi(*NU0))));
     //    W_mt = W->Mt();
-    W_mt = TMath::Sqrt(2*LEP->Et()*NU0->Et()*(1-TMath::Cos(LEP->DeltaPhi(*NU0))));
 
     //////////////////ANGULAR VARIABLES
 
@@ -238,8 +233,8 @@ int main (int argc, char** argv)
     deltaphi_Vak8jet = JET->DeltaPhi(*W);
 
     //FOUR-BODY INVARIANT MASS
-    boosted_lvj_m_type0 = (*LEP + *NU0 + *JET).M();
-    boosted_lvj_m_type2 = (*LEP + *NU2 + *JET).M();
+    mass_lvj_type0 = (*LEP + *NU0 + *JET).M();
+    mass_lvj_type2 = (*LEP + *NU2 + *JET).M();
 
     //delete all the TLorentzVector before a new selection
     delete W;
@@ -248,28 +243,28 @@ int main (int argc, char** argv)
     delete NU2;
     delete JET;
 
-    if (W_pt < 150) continue;
-    WPtS++;
+    if (v_pt < 150) continue;
     if (deltaR_lak8jet < (TMath::Pi()/2.0))   continue;
-    angS++;
 
     ///////////JETS
+    float tempPt=0.;
     for (unsigned int i=0; i<AK8JetsNum; i++)
       {
 	if (AK8JetsPt[i]<30 || AK8JetsEta[i]>4.7)  continue;
-	AK8jetPt[i]  = AK8JetsPt[i];
-	AK8jetEta[i] = AK8JetsEta[i];
-	AK8jetPhi[i] = AK8JetsPhi[i];
-	AK8jetE[i]   = AK8JetsE[i];
-	AK8jetPrunedMass[i]   = AK8Jets_prunedMass[i];
-	AK8jetTrimmedMass[i]   = AK8Jets_trimmedMass[i];
-	AK8jetFilteredMass[i]   = AK8Jets_filteredMass[i];
-	AK8jetTau1[i]   = AK8Jets_tau1[i];
-	AK8jetTau2[i]   = AK8Jets_tau2[i];
-	AK8jetTau3[i]   = AK8Jets_tau3[i];
+	if (AK8JetsPt[i]<=tempPt) continue; //to save the jet with largest pt
+	ungroomed_jet_pt  = AK8JetsPt[i];
+	ungroomed_jet_eta = AK8JetsEta[i];
+	ungroomed_jet_phi = AK8JetsPhi[i];
+	ungroomed_jet_e   = AK8JetsE[i];
+	jet_mass_pr   = AK8Jets_prunedMass[i];
+	jet_mass_tr   = AK8Jets_trimmedMass[i];
+	jet_mass_fi   = AK8Jets_filteredMass[i];
+	jet_tau2tau1   = AK8Jets_tau2[i]/AK8Jets_tau1[i];
+	tempPt = ungroomed_jet_pt;
       }
 
-    for (unsigned int i=0; i<JetsNum; i++)
+    //THIS PART IS FOR VBF.. TO BE FIXED
+    /*    for (unsigned int i=0; i<JetsNum; i++)
       {
 	if (JetsPt[i]<30 || JetsEta[i]>4.7)  continue;
 	jetPt[i]  = JetsPt[i];
@@ -278,9 +273,10 @@ int main (int argc, char** argv)
 	jetE[i]   = JetsE[i];
 	jet_bDiscr[i] = Jets_bDiscriminator[i];
       }
+    */
 
     /////////////////MC Infos
-    if (isMC)
+    /*    if (isMC)
       {
 	for (int i=0; i<GenBosonNum; i++) {
 	  genBosonPdgId[i] = GenBoson_GenBosonPDGId[i];
@@ -316,13 +312,10 @@ int main (int argc, char** argv)
 	}	
 
       }
-
+    */
     //fill the tree
     outTree->Fill();
   }
-
-  std::cout<<"tot: "<<totNumS<<" lepNum:" << lepNumS << "jetPt: "<<jetPtS<<" jetNum: "<< jetNumS <<" MET: "<< METPtS<<" lepPt: "<<lepPtS<<" Wpt: "<< WPtS<<
-    "ang: "<<angS<<std::endl;
 
   //--------close everything-------------
   chain->Delete();
