@@ -45,54 +45,21 @@ float v_phi;
 float v_mt;
 float mass_lvj_type0;
 float mass_lvj_type2;
+float vbf_maxpt_j1_pt;
+float vbf_maxpt_j1_eta;
+float vbf_maxpt_j1_phi;
+float vbf_maxpt_j1_e;
+float vbf_maxpt_j1_bDiscriminatorCSV;
+float vbf_maxpt_j2_pt;
+float vbf_maxpt_j2_eta;
+float vbf_maxpt_j2_phi;
+float vbf_maxpt_j2_e;
+float vbf_maxpt_j2_bDiscriminatorCSV;
+float vbf_maxpt_jj_pt;
+float vbf_maxpt_jj_eta;
+float vbf_maxpt_jj_phi;
+float vbf_maxpt_jj_m;
 
-// List of branches
-TBranch *b_event_runNo;
-TBranch *b_event;
-TBranch *b_njets;
-TBranch *b_nPV;
-TBranch *b_pfMET;
-TBranch *b_pfMET_Phi;
-TBranch *b_nu_pz_type0;
-TBranch *b_nu_pz_type2;
-TBranch *b_l_pt;
-TBranch *b_l_eta;
-TBranch *b_l_phi;
-TBranch *b_l_e;
-TBranch *b_ungroomed_jet_pt;
-TBranch *b_ungroomed_jet_eta;
-TBranch *b_ungroomed_jet_phi;
-TBranch *b_ungroomed_jet_e;
-TBranch *b_jet_mass_pr;
-TBranch *b_jet_mass_tr;
-TBranch *b_jet_mass_fi;
-TBranch *b_jet_tau2tau1;
-/*TBranch *b_genBosonPdgId[10];
-TBranch *b_genBosonPt[10];
-TBranch *b_genBosonEta[10];
-TBranch *b_genBosonPhi[10];
-TBranch *b_genBosonE[10];
-TBranch *b_genLeptonPdgId[10];
-TBranch *b_genLeptonPt[10];
-TBranch *b_genLeptonEta[10];
-TBranch *b_genLeptonPhi[10];
-TBranch *b_genLeptonE[10];
-TBranch *b_genNuPt[10];
-TBranch *b_genNuEta[10];
-TBranch *b_genNuPhi[10];
-TBranch *b_genNuE[10];
-*/
-TBranch *b_deltaR_lak8jet;
-TBranch *b_deltaphi_METak8jet;
-TBranch *b_deltaphi_Vak8jet;
-TBranch *b_v_pt;
-TBranch *b_v_eta;
-TBranch *b_v_phi;
-TBranch *b_v_mt;
-TBranch *b_mass_lvj_type0;
-TBranch *b_mass_lvj_type2;
-
-// List of branches
 
 void init()
 {
@@ -125,7 +92,20 @@ void init()
   jet_mass_tr=-999;
   jet_mass_fi=-999;
   jet_tau2tau1=-999;
-
+  vbf_maxpt_j1_pt=-999;
+  vbf_maxpt_j1_eta=-999;
+  vbf_maxpt_j1_phi=-999;
+  vbf_maxpt_j1_e=-999;
+  vbf_maxpt_j1_bDiscriminatorCSV=-999;
+  vbf_maxpt_j2_pt=-999;
+  vbf_maxpt_j2_eta=-999;
+  vbf_maxpt_j2_phi=-999;
+  vbf_maxpt_j2_e=-999;
+  vbf_maxpt_j2_bDiscriminatorCSV=-999;
+  vbf_maxpt_jj_pt=-999;
+  vbf_maxpt_jj_eta=-999;
+  vbf_maxpt_jj_phi=-999;
+  vbf_maxpt_jj_m=-999;
    /* for (int i=0; i<10; i++) {
    genBosonPdgId[i]=-999;
    genBosonPt[i]=-999;
@@ -167,11 +147,7 @@ void SetOutTree(TTree* outTree)
   outTree->Branch("jet_mass_tr",&jet_mass_tr,"jet_mass_tr");
   outTree->Branch("jet_mass_fi",&jet_mass_fi,"jet_mass_fi");
   outTree->Branch("jet_tau2tau1",&jet_tau2tau1,"jet_tau2tau1");
-  /*  outTree->Branch("jetPt",&jetPt,"jetPt[10]/F");
-  outTree->Branch("jetEta",&jetEta,"jetEta[10]/F");
-  outTree->Branch("jetPhi",&jetPhi,"jetPhi[10]/F");
-  outTree->Branch("jetE",&jetE,"jetE[10]/F");
-  outTree->Branch("jet_bDiscr",&jet_bDiscr,"jet_bDiscr[10]/F");
+  /*  
   outTree->Branch("genBosonPdgId",&genBosonPdgId,"genBosonPdgId[10]/I");
   outTree->Branch("genBosonPt",&genBosonPt,"genBosonPt[10]/F");
   outTree->Branch("genBosonEta",&genBosonEta,"genBosonEta[10]/F");
@@ -196,60 +172,19 @@ void SetOutTree(TTree* outTree)
   outTree->Branch("v_mt",&v_mt,"v_mt/F");
   outTree->Branch("mass_lvj_type0",&mass_lvj_type0,"mass_lvj_type0/F");
   outTree->Branch("mass_lvj_type2",&mass_lvj_type2,"mass_lvj_type2/F");
+  outTree->Branch("vbf_maxpt_j1_pt",&vbf_maxpt_j1_pt,"vbf_maxpt_j1_pt/F");
+  outTree->Branch("vbf_maxpt_j1_eta",&vbf_maxpt_j1_eta,"vbf_maxpt_j1_eta/F");
+  outTree->Branch("vbf_maxpt_j1_phi",&vbf_maxpt_j1_phi,"vbf_maxpt_j1_phi/F");
+  outTree->Branch("vbf_maxpt_j1_e",&vbf_maxpt_j1_e,"vbf_maxpt_j1_e/F");
+  outTree->Branch("vbf_maxpt_j1_bDiscriminatorCSV",&vbf_maxpt_j1_bDiscriminatorCSV,"vbf_maxpt_j1_bDiscriminatorCSV/F");
+  outTree->Branch("vbf_maxpt_j2_pt",&vbf_maxpt_j2_pt,"vbf_maxpt_j2_pt/F");
+  outTree->Branch("vbf_maxpt_j2_eta",&vbf_maxpt_j2_eta,"vbf_maxpt_j2_eta/F");
+  outTree->Branch("vbf_maxpt_j2_phi",&vbf_maxpt_j2_phi,"vbf_maxpt_j2_phi/F");
+  outTree->Branch("vbf_maxpt_j2_e",&vbf_maxpt_j2_e,"vbf_maxpt_j2_e/F");
+  outTree->Branch("vbf_maxpt_j2_bDiscriminatorCSV",&vbf_maxpt_j2_bDiscriminatorCSV,"vbf_maxpt_j2_bDiscriminatorCSV/F");
+  outTree->Branch("vbf_maxpt_jj_pt",&vbf_maxpt_jj_pt,"vbf_maxpt_jj_pt/F");
+  outTree->Branch("vbf_maxpt_jj_eta",&vbf_maxpt_jj_eta,"vbf_maxpt_jj_eta/F");
+  outTree->Branch("vbf_maxpt_jj_phi",&vbf_maxpt_jj_phi,"vbf_maxpt_jj_phi/F");
+  outTree->Branch("vbf_maxpt_jj_m",&vbf_maxpt_jj_m,"vbf_maxpt_jj_m/F");
 }
 
-/*
-void InitRecoTree(TTree* nt)
-{
-  nt->SetBranchAddress("run", &run, &b_run);
-  nt->SetBranchAddress("event", &event, &b_event);
-  nt->SetBranchAddress("met", &met, &b_met);
-  nt->SetBranchAddress("met_px", &met_px, &b_met_px);
-  nt->SetBranchAddress("met_py", &met_py, &b_met_py);
-  nt->SetBranchAddress("met_pz_type0", &met_pz_type0, &b_met_pz_type0);
-  nt->SetBranchAddress("met_pz_type2", &met_pz_type2, &b_met_pz_type2);
-  nt->SetBranchAddress("leptonPt",&leptonPt,&b_leptonPt);
-  nt->SetBranchAddress("leptonEta",&leptonEta,&b_leptonEta);
-  nt->SetBranchAddress("leptonPhi",&leptonPhi,&b_leptonPhi);
-  nt->SetBranchAddress("leptonE",&leptonE,&b_leptonE);
-  nt->SetBranchAddress("AK8jetPt",&AK8jetPt,&b_AK8jetPt);
-  nt->SetBranchAddress("AK8jetEta",&AK8jetEta,&b_AK8jetEta);
-  nt->SetBranchAddress("AK8jetPhi",&AK8jetPhi,&b_AK8jetPhi);
-  nt->SetBranchAddress("AK8jetE",&AK8jetE,&b_AK8jetE);
-  nt->SetBranchAddress("AK8jetPrunedMass",&AK8jetPrunedMass,&b_AK8jetPrunedMass);
-  nt->SetBranchAddress("AK8jetTrimmedMass",&AK8jetTrimmedMass,&b_AK8jetTrimmedMass);
-  nt->SetBranchAddress("AK8jetFilteredMass",&AK8jetFilteredMass,&b_AK8jetFilteredMass);
-  nt->SetBranchAddress("AK8jetTau1",&AK8jetTau1,&b_AK8jetTau1);
-  nt->SetBranchAddress("AK8jetTau2",&AK8jetTau2,&b_AK8jetTau2);
-  nt->SetBranchAddress("AK8jetTau3",&AK8jetTau3,&b_AK8jetTau3);
-  nt->SetBranchAddress("jetPt",&jetPt,&b_jetPt);
-  nt->SetBranchAddress("jetEta",&jetEta,&b_jetEta);
-  nt->SetBranchAddress("jetPhi",&jetPhi,&b_jetPhi);
-  nt->SetBranchAddress("jetE",&jetE,&b_jetE);
-  nt->SetBranchAddress("jet_bDiscr",&jet_bDiscr,&b_jet_bDiscr);
-  nt->SetBranchAddress("genBosonPdgId",&genBosonPdgId,&b_genBosonPdgId);
-  nt->SetBranchAddress("genBosonPt",&genBosonPt,&b_genBosonPt);
-  nt->SetBranchAddress("genBosonEta",&genBosonEta,&b_genBosonEta);
-  nt->SetBranchAddress("genBosonPhi",&genBosonPhi,&b_genBosonPhi);
-  nt->SetBranchAddress("genBosonE",&genBosonE,&b_genBosonE);
-  nt->SetBranchAddress("genLeptonPdgId",&genLeptonPdgId,&b_genLeptonPdgId);
-  nt->SetBranchAddress("genLeptonPt",&genLeptonPt,&b_genLeptonPt);
-  nt->SetBranchAddress("genLeptonEta",&genLeptonEta,&b_genLeptonEta);
-  nt->SetBranchAddress("genLeptonPhi",&genLeptonPhi,&b_genLeptonPhi);
-  nt->SetBranchAddress("genLeptonE",&genLeptonE,&b_genLeptonE);
-  nt->SetBranchAddress("genNuPt",&genNuPt,&b_genNuPt);
-  nt->SetBranchAddress("genNuEta",&genNuEta,&b_genNuEta);
-  nt->SetBranchAddress("genNuPhi",&genNuPhi,&b_genNuPhi);
-  nt->SetBranchAddress("genNuE",&genNuE,&b_genNuE);
-  nt->SetBranchAddress("deltaR_lak8jet",&deltaR_lak8jet,&b_deltaR_lak8jet);
-  nt->SetBranchAddress("deltaphi_METak8jet",&deltaphi_METak8jet,&b_deltaphi_METak8jet);
-  nt->SetBranchAddress("deltaphi_Vak8jet",&deltaphi_Vak8jet,&b_deltaphi_Vak8jet);
-  nt->SetBranchAddress("W_pt",&W_pt,&b_W_pt);
-  nt->SetBranchAddress("W_eta",&W_eta,&b_W_eta);
-  nt->SetBranchAddress("W_phi",&W_phi,&b_W_phi);
-  nt->SetBranchAddress("W_E",&W_E,&b_W_E);
-  nt->SetBranchAddress("W_mt",&W_mt,&b_W_mt);
-  nt->SetBranchAddress("boosted_lvj_m_type0",&boosted_lvj_m_type0,&b_boosted_lvj_m_type0);  
-  nt->SetBranchAddress("boosted_lvj_m_type2",&boosted_lvj_m_type2,&b_boosted_lvj_m_type2);  
-}
-*/
