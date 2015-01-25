@@ -263,17 +263,67 @@ int main (int argc, char** argv)
 	tempPt = ungroomed_jet_pt;
       }
 
-    //THIS PART IS FOR VBF.. TO BE FIXED
-    /*    for (unsigned int i=0; i<JetsNum; i++)
+    /////////VBF PART
+    TLorentzVector *HADW = new TLorentzVector();
+    HADW->SetPtEtaPhiE(ungroomed_jet_pt,ungroomed_jet_eta,ungroomed_jet_phi,ungroomed_jet_e); //AK8 fat jet (hadronic W)
+    TLorentzVector *AK4 = new TLorentzVector();
+    std::vector<int> indexGoodJets;
+
+    for (unsigned int i=0; i<JetsNum; i++) //loop on AK4 jet
       {
 	if (JetsPt[i]<30 || JetsEta[i]>4.7)  continue;
-	jetPt[i]  = JetsPt[i];
-	jetEta[i] = JetsEta[i];
-	jetPhi[i] = JetsPhi[i];
-	jetE[i]   = JetsE[i];
-	jet_bDiscr[i] = Jets_bDiscriminator[i];
+	AK4->SetPtEtaPhiE(JetsPt[i],JetsEta[i],JetsPhi[i],JetsE[i]);
+	float deltaR = HADW->DeltaR(*AK4);
+	if (deltaR<0.8) continue; //the vbf jets must be outside the had W cone
+	indexGoodJets.push_back(i); //save index of the "good" vbf jets candidate
       }
-    */
+
+    delete HADW;
+    delete AK4;
+
+    TLorentzVector *VBF1 = new TLorentzVector();
+    TLorentzVector *VBF2 = new TLorentzVector();
+    TLorentzVector *TOT = new TLorentzVector();
+    float tempPtMax=0.;
+    int nVBF1=-1, nVBF2=-1; //position of the two vbf jets
+    
+    for (unsigned int i=0; i<indexGoodJets.size()-1; i++) {
+      for (unsigned int ii=i+1; ii<indexGoodJets.size(); ii++) {
+	VBF1->SetPtEtaPhiE(JetsPt[indexGoodJets.at(i)],JetsEta[indexGoodJets.at(i)],JetsPhi[indexGoodJets.at(i)],JetsE[indexGoodJets.at(i)]);
+	VBF2->SetPtEtaPhiE(JetsPt[indexGoodJets.at(ii)],JetsEta[indexGoodJets.at(ii)],JetsPhi[indexGoodJets.at(ii)],JetsE[indexGoodJets.at(ii)]);
+	*TOT = *VBF1 + *VBF2;
+	if (TOT->Pt() < tempPtMax) continue;
+	tempPtMax = TOT->Pt(); //take the jet pair with largest Pt
+	nVBF1 = indexGoodJets.at(i); //save position of the 1st vbf jet
+	nVBF2 = indexGoodJets.at(ii); //save position of the 2nd vbf jet
+      }
+    }
+
+    if (nVBF1!=-1 && nVBF2!=-1) //save infos for vbf jet pair
+      {
+	VBF1->SetPtEtaPhiE(JetsPt[nVBF1],JetsEta[nVBF1],JetsPhi[nVBF1],JetsE[nVBF1]);
+	VBF2->SetPtEtaPhiE(JetsPt[nVBF2],JetsEta[nVBF2],JetsPhi[nVBF2],JetsE[nVBF2]);
+	*TOT = *VBF1 + *VBF2;
+
+	vbf_maxpt_j1_pt = JetsPt[nVBF1];
+	vbf_maxpt_j1_eta = JetsEta[nVBF1];
+	vbf_maxpt_j1_phi = JetsPhi[nVBF1];
+	vbf_maxpt_j1_e = JetsE[nVBF1];
+	vbf_maxpt_j1_bDiscriminatorCSV = Jets_bDiscriminator[nVBF1];
+	vbf_maxpt_j2_pt = JetsPt[nVBF2];
+	vbf_maxpt_j2_eta = JetsEta[nVBF2];
+	vbf_maxpt_j2_phi = JetsPhi[nVBF2];
+	vbf_maxpt_j2_e = JetsE[nVBF2];
+	vbf_maxpt_j2_bDiscriminatorCSV = Jets_bDiscriminator[nVBF2];
+	vbf_maxpt_jj_pt = TOT->Pt();
+	vbf_maxpt_jj_eta = TOT->Eta();
+	vbf_maxpt_jj_phi = TOT->Phi();
+	vbf_maxpt_jj_m = TOT->M();	
+      }
+
+    delete VBF1;
+    delete VBF2;
+    delete TOT;
 
     /////////////////MC Infos
     /*    if (isMC)
