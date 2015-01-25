@@ -53,7 +53,7 @@ int main (int argc, char** argv)
   chain->Add((inputFolder+inputFile).c_str());
 
   //---------output tree----------------
-  TFile* outROOT = TFile::Open((outputFile).c_str(),"recreate");
+  TFile* outROOT = TFile::Open((std::string("output/output_")+leptonName+std::string("/")+outputFile).c_str(),"recreate");
   outROOT->cd();
   TTree* outTree = new TTree("otree", "otree");
   outTree->SetDirectory(0);
