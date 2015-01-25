@@ -18,7 +18,7 @@ for a in range(len(category)):
     for i in range(len(name)):
         fn = "Job/Job_"+name[i]+"_"+category[a];
         outScript = open(fn+".sh","w");
-        command = "python python/produceWWNtuples.py -n ReducedSelection_"+name[i]+".root -o WWTree_"+name[i]+"_"+category[a]+".root -l "+category[a];
+        command = "python python/produceWWNtuples.py -n ReducedSelection_"+name[i]+".root -o WWTree_"+name[i]+".root -l "+category[a];
         outScript.write('#!/bin/bash');
         outScript.write("\n"+'cd '+CMSSWDir);
         outScript.write("\n"+'eval `scram runtime -sh`');
