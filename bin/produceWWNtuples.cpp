@@ -28,6 +28,7 @@
 #include "../interface/initInputTree.h"
 #include "../interface/setOutputTree.h"
 #include "../interface/METzCalculator.h"
+#include "../interface/analysisUtils.h"
 
 using namespace std;
 
@@ -334,43 +335,36 @@ int main (int argc, char** argv)
       }
 
     /////////////////MC Infos
-    /*    if (isMC)
+    if (isMC)
       {
+	TLorentzVector temp, temp2;
+	//	std::cout<<"entry: "<<iEntry<<" "<<GenNuNum<<std::endl;
+	double deltaPhiOld=100.;
 	for (int i=0; i<GenBosonNum; i++) {
-	  genBosonPdgId[i] = GenBoson_GenBosonPDGId[i];
-	  genBosonPt[i]    = GenBosonPt[i];
-	  genBosonEta[i]   = GenBosonEta[i];
-	  genBosonPhi[i]   = GenBosonPhi[i];
-	  genBosonE[i]     = GenBosonE[i];
+	  double deltaPhi = getDeltaPhi(GenBosonPhi[i],v_phi);
+	  if (abs(deltaPhi)>abs(deltaPhiOld))   continue;
+	  //	  std::cout<<"bosone: "<<i<<" "<<GenBosonPhi[i]<<" "<<v_phi<<std::endl;
+	  temp.SetPtEtaPhiE(GenBosonPt[i],GenBosonEta[i],GenBosonPhi[i],GenBosonE[i]);
+	  W_pt_gen = GenBosonPt[i];
+	  W_pz_gen = temp.Pz();
+	  deltaPhiOld = deltaPhi;
 	}	
+	if (GenBosonNum==2) {
+	  temp.SetPtEtaPhiE(GenBosonPt[0],GenBosonEta[0],GenBosonPhi[0],GenBosonE[0]);
+	  temp2.SetPtEtaPhiE(GenBosonPt[1],GenBosonEta[1],GenBosonPhi[1],GenBosonE[1]);
+	  gen_GravMass=(temp+temp2).M();	
+	}
 
-	int start=0;
-	for (int i=0; i<GenElecNum; i++) {
-	  genLeptonPdgId[i] = 11;
-	  genLeptonPt[i]    = GenElecPt[i];
-	  genLeptonEta[i]   = GenElecEta[i];
-	  genLeptonPhi[i]   = GenElecPhi[i];
-	  genLeptonE[i]     = GenElecE[i];
-	  start++;
-	}	
-
-	for (int i=0; i<GenMuNum; i++) {
-	  genLeptonPdgId[start+i] = 13;
-	  genLeptonPt[start+i]    = GenMuPt[i];
-	  genLeptonEta[start+i]   = GenMuEta[i];
-	  genLeptonPhi[start+i]   = GenMuPhi[i];
-	  genLeptonE[start+i]     = GenMuE[i];
-	}	
-
-	for (int i=0; i<GenNuNum; i++) {
-	  genLeptonPt[i]    = GenNuPt[i];
-	  genLeptonEta[i]   = GenNuEta[i];
-	  genLeptonPhi[i]   = GenNuPhi[i];
-	  genLeptonE[i]     = GenNuE[i];
-	}	
-
+	deltaPhiOld=100.;
+       	for (int i=0; i<GenNuNum; i++) {
+	  double deltaPhi = getDeltaPhi(GenNuPhi[i],v_phi);
+	  if (abs(deltaPhi)>abs(deltaPhiOld))   continue;	  
+	  temp.SetPtEtaPhiE(GenNuPt[i],GenNuEta[i],GenNuPhi[i],GenNuE[i]);
+	  nu_pz_gen=temp.Pz();	  
+	  deltaPhiOld = deltaPhi;
+	}		
       }
-    */
+    
     //fill the tree
     outTree->Fill();
   }
