@@ -25,7 +25,8 @@
 #include "TApplication.h"
 #include "TLorentzVector.h"
 
-#include "../interface/initInputTree.h"
+#include "../interface/setInputTree.h"
+//#include "../interface/initInputTree.h"
 #include "../interface/setOutputTree.h"
 #include "../interface/METzCalculator.h"
 #include "../interface/analysisUtils.h"
@@ -49,9 +50,16 @@ int main (int argc, char** argv)
     
   //--------input tree-----------
   //  TChain* chain = new TChain("TreeMaker2/PreSelection");
-  TChain* chain = new TChain(inputTreeName.c_str());
-  InitTree(chain);
-  chain->Add((inputFolder+inputFile).c_str());
+  //  TChain* chain = new TChain(inputTreeName.c_str());
+  //  InitTree(chain);
+  //  chain->Add((inputFolder+inputFile).c_str());
+
+  TFile *MyFile = new TFile((inputFolder+inputFile).c_str(),"READ");
+  setInputTree *WWTree = new setInputTree (MyFile, inputTreeName.c_str());
+  if (WWTree->fChain == 0) return (-1);
+  WWTree->Init();
+  //  TTree *chain = (TTree *) MyFile->Get(inputTreeName.c_str());
+  //  setInputTree(chain);
 
   //---------output tree----------------
   TFile* outROOT = TFile::Open((std::string("output/output_")+leptonName+std::string("/")+outputFile).c_str(),"recreate");
@@ -61,45 +69,49 @@ int main (int argc, char** argv)
   SetOutTree(outTree);
 
   //---------start loop on events------------
-  for(int iEntry=0; iEntry<chain->GetEntries(); iEntry++){
+  for (Long64_t jentry=0; jentry<WWTree->fChain->GetEntries();jentry++) {
+
+    Long64_t iEntry = WWTree->LoadTree(jentry);
+    if (iEntry < 0) break;
+    int nb = WWTree->fChain->GetEntry(jentry);   
+    // if (Cut(ientry) < 0) continue;                                                                                                                           
+
     if(iEntry % 1000 == 0)    
       cout << "read entry: " << iEntry << endl;
 
-    //get entry
-    chain->GetEntry(iEntry);
     init(); //initialize all variables
 
     //require exactly one lepton
-    if ( strcmp(leptonName.c_str(),"el")==0 && selectedIDIsoElectronsNum!=1) continue; 
-    if ( strcmp(leptonName.c_str(),"mu")==0 && selectedIDIsoMuonsNum!=1) continue;      
+    if ( strcmp(leptonName.c_str(),"el")==0 && WWTree->selectedIDIsoElectronsNum!=1) continue; 
+    if ( strcmp(leptonName.c_str(),"mu")==0 && WWTree->selectedIDIsoMuonsNum!=1) continue;      
     
-    if (AK8JetsNum < 1) continue; //at least one jet
+    if (WWTree->AK8JetsNum < 1) continue; //at least one jet
 
-    if (AK8JetsPt[0] < 150) continue; 
-    if (METPt < 50) continue;
+    if (WWTree->AK8JetsPt[0] < 150) continue; 
+    if (WWTree->METPt < 50) continue;
 
     //lepton Pt selection
-    if ( strcmp(leptonName.c_str(),"el")==0 && selectedIDIsoElectronsPt[0]<35) continue; 
-    if ( strcmp(leptonName.c_str(),"mu")==0 && selectedIDIsoMuonsPt[0]<30) continue; 
+    if ( strcmp(leptonName.c_str(),"el")==0 && WWTree->selectedIDIsoElectronsPt[0]<35) continue; 
+    if ( strcmp(leptonName.c_str(),"mu")==0 && WWTree->selectedIDIsoMuonsPt[0]<30) continue; 
     
     //save event variables
-    event_runNo   = RunNum;
-    event = EvtNum;
-    njets = NJets;
-    nPV  = NVtx;
+    event_runNo   = WWTree->RunNum;
+    event = WWTree->EvtNum;
+    njets = WWTree->NJets;
+    nPV  = WWTree->NVtx;
     
     /////////////////LEPTON
     if (strcmp(leptonName.c_str(),"el")==0) {
-	l_pt  = selectedIDIsoElectronsPt[0];
-	l_eta = selectedIDIsoElectronsEta[0];
-	l_phi = selectedIDIsoElectronsPhi[0];	
-	l_e = selectedIDIsoElectronsE[0];	
+	l_pt  = WWTree->selectedIDIsoElectronsPt[0];
+	l_eta = WWTree->selectedIDIsoElectronsEta[0];
+	l_phi = WWTree->selectedIDIsoElectronsPhi[0];	
+	l_e = WWTree->selectedIDIsoElectronsE[0];	
       }
     else if (strcmp(leptonName.c_str(),"mu")==0) {
-	l_pt  = selectedIDIsoMuonsPt[0];
-	l_eta = selectedIDIsoMuonsEta[0];
-	l_phi = selectedIDIsoMuonsPhi[0];
-	l_e = selectedIDIsoMuonsE[0];
+	l_pt  = WWTree->selectedIDIsoMuonsPt[0];
+	l_eta = WWTree->selectedIDIsoMuonsEta[0];
+	l_phi = WWTree->selectedIDIsoMuonsPhi[0];
+	l_e = WWTree->selectedIDIsoMuonsE[0];
       }
 
     //////////////MET
@@ -116,7 +128,7 @@ int main (int argc, char** argv)
     TLorentzVector W_mu, W_Met;
 
     W_mu.SetPtEtaPhiE(l_pt,l_eta,l_phi,l_e);
-    W_Met.SetPxPyPzE(METPt * TMath::Cos(METPhi), METPt * TMath::Sin(METPhi), 0., sqrt(METPt*METPt));
+    W_Met.SetPxPyPzE(WWTree->METPt * TMath::Cos(WWTree->METPhi), WWTree->METPt * TMath::Sin(WWTree->METPhi), 0., sqrt(WWTree->METPt*WWTree->METPt));
 
     if(W_mu.Pt()<=0 || W_Met.Pt() <= 0 ){ std::cerr<<" Negative Lepton - Neutrino Pt "<<std::endl; continue ; }
 
@@ -147,11 +159,11 @@ int main (int argc, char** argv)
       double nu_pt1 = NeutrinoPz_type0.getPtneutrino(1);
       double nu_pt2 = NeutrinoPz_type0.getPtneutrino(2);
       TLorentzVector W_neutrino_1;
-      W_neutrino_1.SetPxPyPzE(nu_pt1 * TMath::Cos(METPhi),
-			      nu_pt1 * TMath::Sin(METPhi), pz1_type0, sqrt(nu_pt1*nu_pt1 + pz1_type0*pz1_type0) );
+      W_neutrino_1.SetPxPyPzE(nu_pt1 * TMath::Cos(WWTree->METPhi),
+			      nu_pt1 * TMath::Sin(WWTree->METPhi), pz1_type0, sqrt(nu_pt1*nu_pt1 + pz1_type0*pz1_type0) );
       TLorentzVector W_neutrino_2;
-      W_neutrino_2.SetPxPyPzE(nu_pt2 * TMath::Cos(METPhi),
-			      nu_pt2 * TMath::Sin(METPhi), pz1_type0, sqrt(nu_pt2*nu_pt2 + pz1_type0*pz1_type0) );
+      W_neutrino_2.SetPxPyPzE(nu_pt2 * TMath::Cos(WWTree->METPhi),
+			      nu_pt2 * TMath::Sin(WWTree->METPhi), pz1_type0, sqrt(nu_pt2*nu_pt2 + pz1_type0*pz1_type0) );
 
       if ( fabs((W_mu+W_neutrino_1).M()-Wmass) < fabs((W_mu+W_neutrino_2).M()-Wmass) ) W_neutrino_type0 = W_neutrino_1;
       else W_neutrino_type0 = W_neutrino_2;
@@ -187,11 +199,11 @@ int main (int argc, char** argv)
       double nu_pt1 = NeutrinoPz_type2.getPtneutrino(1);
       double nu_pt2 = NeutrinoPz_type2.getPtneutrino(2);
       TLorentzVector W_neutrino_1;
-      W_neutrino_1.SetPxPyPzE(nu_pt1 * TMath::Cos(METPhi),
-			      nu_pt1 * TMath::Sin(METPhi), pz1_type2, sqrt(nu_pt1*nu_pt1 + pz1_type2*pz1_type2) );
+      W_neutrino_1.SetPxPyPzE(nu_pt1 * TMath::Cos(WWTree->METPhi),
+			      nu_pt1 * TMath::Sin(WWTree->METPhi), pz1_type2, sqrt(nu_pt1*nu_pt1 + pz1_type2*pz1_type2) );
       TLorentzVector W_neutrino_2;
-      W_neutrino_2.SetPxPyPzE(nu_pt2 * TMath::Cos(METPhi),
-			      nu_pt2 * TMath::Sin(METPhi), pz1_type2, sqrt(nu_pt2*nu_pt2 + pz1_type2*pz1_type2) );
+      W_neutrino_2.SetPxPyPzE(nu_pt2 * TMath::Cos(WWTree->METPhi),
+			      nu_pt2 * TMath::Sin(WWTree->METPhi), pz1_type2, sqrt(nu_pt2*nu_pt2 + pz1_type2*pz1_type2) );
 
       if ( fabs((W_mu+W_neutrino_1).M()-Wmass) < fabs((W_mu+W_neutrino_2).M()-Wmass) ) W_neutrino_type2 = W_neutrino_1;
       else W_neutrino_type2 = W_neutrino_2;
@@ -202,8 +214,8 @@ int main (int argc, char** argv)
     //    W_nu1_pz_type2 = pz1_type2;
     //    W_nu2_pz_type2 = pz2_type2;
 
-    pfMET   = sqrt(METPt*METPt);
-    pfMET_Phi = METPhi;
+    pfMET   = sqrt(WWTree->METPt*WWTree->METPt);
+    pfMET_Phi = WWTree->METPhi;
     nu_pz_type0 = pz1_type0;
     nu_pz_type2 = pz1_type2;
 
@@ -216,8 +228,8 @@ int main (int argc, char** argv)
     TLorentzVector *NU2  = new TLorentzVector();
     
     LEP->SetPtEtaPhiE(l_pt,l_eta,l_phi,l_e);
-    NU0->SetPxPyPzE(METPt*TMath::Cos(METPhi),METPt*TMath::Sin(METPhi),nu_pz_type0,pfMET);
-    NU2->SetPxPyPzE(METPt*TMath::Cos(METPhi),METPt*TMath::Sin(METPhi),nu_pz_type2,pfMET);
+    NU0->SetPxPyPzE(WWTree->METPt*TMath::Cos(WWTree->METPhi),WWTree->METPt*TMath::Sin(WWTree->METPhi),nu_pz_type0,pfMET);
+    NU2->SetPxPyPzE(WWTree->METPt*TMath::Cos(WWTree->METPhi),WWTree->METPt*TMath::Sin(WWTree->METPhi),nu_pz_type2,pfMET);
     *W = *LEP + *NU0;
     
     v_pt = W->Pt();
@@ -229,7 +241,7 @@ int main (int argc, char** argv)
     //////////////////ANGULAR VARIABLES
 
     TLorentzVector *JET = new TLorentzVector();
-    JET->SetPtEtaPhiE(AK8JetsPt[0],AK8JetsEta[0],AK8JetsPhi[0],AK8JetsE[0]);
+    JET->SetPtEtaPhiE(WWTree->AK8JetsPt[0],WWTree->AK8JetsEta[0],WWTree->AK8JetsPhi[0],WWTree->AK8JetsE[0]);
     deltaR_lak8jet = JET->DeltaR(*LEP);
     deltaphi_METak8jet = JET->DeltaPhi(*NU0);
     deltaphi_Vak8jet = JET->DeltaPhi(*W);
@@ -250,18 +262,18 @@ int main (int argc, char** argv)
 
     ///////////JETS
     float tempPt=0.;
-    for (unsigned int i=0; i<AK8JetsNum; i++)
+    for (unsigned int i=0; i<WWTree->AK8JetsNum; i++)
       {
-	if (AK8JetsPt[i]<30 || AK8JetsEta[i]>4.7)  continue;
-	if (AK8JetsPt[i]<=tempPt) continue; //to save the jet with largest pt
-	ungroomed_jet_pt  = AK8JetsPt[i];
-	ungroomed_jet_eta = AK8JetsEta[i];
-	ungroomed_jet_phi = AK8JetsPhi[i];
-	ungroomed_jet_e   = AK8JetsE[i];
-	jet_mass_pr   = AK8Jets_prunedMass[i];
-	jet_mass_tr   = AK8Jets_trimmedMass[i];
-	jet_mass_fi   = AK8Jets_filteredMass[i];
-	jet_tau2tau1   = AK8Jets_tau2[i]/AK8Jets_tau1[i];
+	if (WWTree->AK8JetsPt[i]<30 || WWTree->AK8JetsEta[i]>4.7)  continue;
+	if (WWTree->AK8JetsPt[i]<=tempPt) continue; //to save the jet with largest pt
+	ungroomed_jet_pt  = WWTree->AK8JetsPt[i];
+	ungroomed_jet_eta = WWTree->AK8JetsEta[i];
+	ungroomed_jet_phi = WWTree->AK8JetsPhi[i];
+	ungroomed_jet_e   = WWTree->AK8JetsE[i];
+	jet_mass_pr   = WWTree->AK8Jets_prunedMass[i];
+	jet_mass_tr   = WWTree->AK8Jets_trimmedMass[i];
+	jet_mass_fi   = WWTree->AK8Jets_filteredMass[i];
+	jet_tau2tau1   = WWTree->AK8Jets_tau2[i]/WWTree->AK8Jets_tau1[i];
 	tempPt = ungroomed_jet_pt;
       }
 
@@ -275,10 +287,10 @@ int main (int argc, char** argv)
     indexGoodJets.clear();
     if (indexGoodJets.size()!=0)  fillVBF=false;
 
-    for (unsigned int i=0; i<JetsNum; i++) //loop on AK4 jet
+    for (unsigned int i=0; i<WWTree->JetsNum; i++) //loop on AK4 jet
       {
-	if (JetsPt[i]<30 || JetsEta[i]>4.7)  continue;
-	AK4->SetPtEtaPhiE(JetsPt[i],JetsEta[i],JetsPhi[i],JetsE[i]);
+	if (WWTree->JetsPt[i]<30 || WWTree->JetsEta[i]>4.7)  continue;
+	AK4->SetPtEtaPhiE(WWTree->JetsPt[i],WWTree->JetsEta[i],WWTree->JetsPhi[i],WWTree->JetsE[i]);
 	float deltaR = HADW->DeltaR(*AK4);
 	if (deltaR<0.8) continue; //the vbf jets must be outside the had W cone
 	indexGoodJets.push_back(i); //save index of the "good" vbf jets candidate
@@ -297,8 +309,8 @@ int main (int argc, char** argv)
     
 	for (unsigned int i=0; i<indexGoodJets.size()-1; i++) {
 	  for (unsigned int ii=i+1; ii<indexGoodJets.size(); ii++) {
-	    VBF1->SetPtEtaPhiE(JetsPt[indexGoodJets.at(i)],JetsEta[indexGoodJets.at(i)],JetsPhi[indexGoodJets.at(i)],JetsE[indexGoodJets.at(i)]);
-	    VBF2->SetPtEtaPhiE(JetsPt[indexGoodJets.at(ii)],JetsEta[indexGoodJets.at(ii)],JetsPhi[indexGoodJets.at(ii)],JetsE[indexGoodJets.at(ii)]);
+	    VBF1->SetPtEtaPhiE(WWTree->JetsPt[indexGoodJets.at(i)],WWTree->JetsEta[indexGoodJets.at(i)],WWTree->JetsPhi[indexGoodJets.at(i)],WWTree->JetsE[indexGoodJets.at(i)]);
+	    VBF2->SetPtEtaPhiE(WWTree->JetsPt[indexGoodJets.at(ii)],WWTree->JetsEta[indexGoodJets.at(ii)],WWTree->JetsPhi[indexGoodJets.at(ii)],WWTree->JetsE[indexGoodJets.at(ii)]);
 	    *TOT = *VBF1 + *VBF2;
 	    if (TOT->Pt() < tempPtMax) continue;
 	    tempPtMax = TOT->Pt(); //take the jet pair with largest Pt
@@ -309,20 +321,20 @@ int main (int argc, char** argv)
 	
 	if (nVBF1!=-1 && nVBF2!=-1) //save infos for vbf jet pair
 	  {
-	    VBF1->SetPtEtaPhiE(JetsPt[nVBF1],JetsEta[nVBF1],JetsPhi[nVBF1],JetsE[nVBF1]);
-	    VBF2->SetPtEtaPhiE(JetsPt[nVBF2],JetsEta[nVBF2],JetsPhi[nVBF2],JetsE[nVBF2]);
+	    VBF1->SetPtEtaPhiE(WWTree->JetsPt[nVBF1],WWTree->JetsEta[nVBF1],WWTree->JetsPhi[nVBF1],WWTree->JetsE[nVBF1]);
+	    VBF2->SetPtEtaPhiE(WWTree->JetsPt[nVBF2],WWTree->JetsEta[nVBF2],WWTree->JetsPhi[nVBF2],WWTree->JetsE[nVBF2]);
 	    *TOT = *VBF1 + *VBF2;
 	    
-	    vbf_maxpt_j1_pt = JetsPt[nVBF1];
-	    vbf_maxpt_j1_eta = JetsEta[nVBF1];
-	    vbf_maxpt_j1_phi = JetsPhi[nVBF1];
-	    vbf_maxpt_j1_e = JetsE[nVBF1];
-	    vbf_maxpt_j1_bDiscriminatorCSV = Jets_bDiscriminator[nVBF1];
-	    vbf_maxpt_j2_pt = JetsPt[nVBF2];
-	    vbf_maxpt_j2_eta = JetsEta[nVBF2];
-	    vbf_maxpt_j2_phi = JetsPhi[nVBF2];
-	    vbf_maxpt_j2_e = JetsE[nVBF2];
-	    vbf_maxpt_j2_bDiscriminatorCSV = Jets_bDiscriminator[nVBF2];
+	    vbf_maxpt_j1_pt = WWTree->JetsPt[nVBF1];
+	    vbf_maxpt_j1_eta = WWTree->JetsEta[nVBF1];
+	    vbf_maxpt_j1_phi = WWTree->JetsPhi[nVBF1];
+	    vbf_maxpt_j1_e = WWTree->JetsE[nVBF1];
+	    vbf_maxpt_j1_bDiscriminatorCSV = WWTree->Jets_bDiscriminator[nVBF1];
+	    vbf_maxpt_j2_pt = WWTree->JetsPt[nVBF2];
+	    vbf_maxpt_j2_eta = WWTree->JetsEta[nVBF2];
+	    vbf_maxpt_j2_phi = WWTree->JetsPhi[nVBF2];
+	    vbf_maxpt_j2_e = WWTree->JetsE[nVBF2];
+	    vbf_maxpt_j2_bDiscriminatorCSV = WWTree->Jets_bDiscriminator[nVBF2];
 	    vbf_maxpt_jj_pt = TOT->Pt();
 	    vbf_maxpt_jj_eta = TOT->Eta();
 	    vbf_maxpt_jj_phi = TOT->Phi();
@@ -340,26 +352,26 @@ int main (int argc, char** argv)
 	TLorentzVector temp, temp2;
 	//	std::cout<<"entry: "<<iEntry<<" "<<GenNuNum<<std::endl;
 	double deltaPhiOld=100.;
-	for (int i=0; i<GenBosonNum; i++) {
-	  double deltaPhi = getDeltaPhi(GenBosonPhi[i],v_phi);
+	for (int i=0; i<WWTree->GenBosonNum; i++) {
+	  double deltaPhi = getDeltaPhi(WWTree->GenBosonPhi[i],v_phi);
 	  if (abs(deltaPhi)>abs(deltaPhiOld))   continue;
-	  //	  std::cout<<"bosone: "<<i<<" "<<GenBosonPhi[i]<<" "<<v_phi<<std::endl;
-	  temp.SetPtEtaPhiE(GenBosonPt[i],GenBosonEta[i],GenBosonPhi[i],GenBosonE[i]);
-	  W_pt_gen = GenBosonPt[i];
+	  //	  std::cout<<"bosone: "<<i<<" "<<WWTree->GenBosonPhi[i]<<" "<<v_phi<<std::endl;
+	  temp.SetPtEtaPhiE(WWTree->GenBosonPt[i],WWTree->GenBosonEta[i],WWTree->GenBosonPhi[i],WWTree->GenBosonE[i]);
+	  W_pt_gen = WWTree->GenBosonPt[i];
 	  W_pz_gen = temp.Pz();
 	  deltaPhiOld = deltaPhi;
 	}	
-	if (GenBosonNum==2) {
-	  temp.SetPtEtaPhiE(GenBosonPt[0],GenBosonEta[0],GenBosonPhi[0],GenBosonE[0]);
-	  temp2.SetPtEtaPhiE(GenBosonPt[1],GenBosonEta[1],GenBosonPhi[1],GenBosonE[1]);
+	if (WWTree->GenBosonNum==2) {
+	  temp.SetPtEtaPhiE(WWTree->GenBosonPt[0],WWTree->GenBosonEta[0],WWTree->GenBosonPhi[0],WWTree->GenBosonE[0]);
+	  temp2.SetPtEtaPhiE(WWTree->GenBosonPt[1],WWTree->GenBosonEta[1],WWTree->GenBosonPhi[1],WWTree->GenBosonE[1]);
 	  gen_GravMass=(temp+temp2).M();	
 	}
 
 	deltaPhiOld=100.;
-       	for (int i=0; i<GenNuNum; i++) {
-	  double deltaPhi = getDeltaPhi(GenNuPhi[i],v_phi);
+       	for (int i=0; i<WWTree->GenNuNum; i++) {
+	  double deltaPhi = getDeltaPhi(WWTree->GenNuPhi[i],v_phi);
 	  if (abs(deltaPhi)>abs(deltaPhiOld))   continue;	  
-	  temp.SetPtEtaPhiE(GenNuPt[i],GenNuEta[i],GenNuPhi[i],GenNuE[i]);
+	  temp.SetPtEtaPhiE(WWTree->GenNuPt[i],WWTree->GenNuEta[i],WWTree->GenNuPhi[i],WWTree->GenNuE[i]);
 	  nu_pz_gen=temp.Pz();	  
 	  deltaPhiOld = deltaPhi;
 	}		
@@ -370,7 +382,7 @@ int main (int argc, char** argv)
   }
 
   //--------close everything-------------
-  chain->Delete();
+  WWTree->fChain->Delete();
   outTree->Write();
   outROOT->Close();
 
