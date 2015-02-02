@@ -21,21 +21,10 @@ float jet_mass_pr;
 float jet_mass_tr;
 float jet_mass_fi;
 float jet_tau2tau1;
-/*int genBosonPdgId[10];
-float genBosonPt[10];
-float genBosonEta[10];
-float genBosonPhi[10];
-float genBosonE[10];
-int genLeptonPdgId[10];
-float genLeptonPt[10];
-float genLeptonEta[10];
-float genLeptonPhi[10];
-float genLeptonE[10];
-float genNuPt[10];
-float genNuEta[10];
-float genNuPhi[10];
-float genNuE[10];
-*/
+float W_pt_gen;
+float W_pz_gen;
+float gen_GravMass;
+float nu_pz_gen;
 float deltaR_lak8jet;
 float deltaphi_METak8jet;
 float deltaphi_Vak8jet;
@@ -75,6 +64,10 @@ void init()
   l_eta=-999;
   l_phi=-999;
   l_e=-999;
+  W_pt_gen=-999;
+  W_pz_gen=-999;
+  gen_GravMass=-999;
+  nu_pz_gen=-999;
   deltaR_lak8jet=-999;
   deltaphi_METak8jet=-999;
   deltaphi_Vak8jet=-999;
@@ -106,23 +99,6 @@ void init()
   vbf_maxpt_jj_eta=-999;
   vbf_maxpt_jj_phi=-999;
   vbf_maxpt_jj_m=-999;
-   /* for (int i=0; i<10; i++) {
-   genBosonPdgId[i]=-999;
-   genBosonPt[i]=-999;
-   genBosonEta[i]=-999;
-   genBosonPhi[i]=-999;
-   genBosonE[i]=-999;
-   genLeptonPdgId[i]=-999;
-   genLeptonPt[i]=-999;
-   genLeptonEta[i]=-999;
-   genLeptonPhi[i]=-999;
-   genLeptonE[i]=-999;
-   genNuPt[i]=-999;
-   genNuEta[i]=-999;
-   genNuPhi[i]=-999;
-   genNuE[i]=-999;
- }
-   */
 }
 
 void SetOutTree(TTree* outTree)
@@ -147,22 +123,10 @@ void SetOutTree(TTree* outTree)
   outTree->Branch("jet_mass_tr",&jet_mass_tr,"jet_mass_tr");
   outTree->Branch("jet_mass_fi",&jet_mass_fi,"jet_mass_fi");
   outTree->Branch("jet_tau2tau1",&jet_tau2tau1,"jet_tau2tau1");
-  /*  
-  outTree->Branch("genBosonPdgId",&genBosonPdgId,"genBosonPdgId[10]/I");
-  outTree->Branch("genBosonPt",&genBosonPt,"genBosonPt[10]/F");
-  outTree->Branch("genBosonEta",&genBosonEta,"genBosonEta[10]/F");
-  outTree->Branch("genBosonPhi",&genBosonPhi,"genBosonPhi[10]/F");
-  outTree->Branch("genBosonE",&genBosonE,"genBosonE[10]/F");
-  outTree->Branch("genLeptonPdgId",&genLeptonPdgId,"genLeptonPdgId[10]/I");
-  outTree->Branch("genLeptonPt",&genLeptonPt,"genLeptonPt[10]/F");
-  outTree->Branch("genLeptonEta",&genLeptonEta,"genLeptonEta[10]/F");
-  outTree->Branch("genLeptonPhi",&genLeptonPhi,"genLeptonPhi[10]/F");
-  outTree->Branch("genLeptonE",&genLeptonE,"genLeptonE[10]/F");
-  outTree->Branch("genNuPt",&genNuPt,"genNuPt[10]/F");
-  outTree->Branch("genNuEta",&genNuEta,"genNuEta[10]/F");
-  outTree->Branch("genNuPhi",&genNuPhi,"genNuPhi[10]/F");
-  outTree->Branch("genNuE",&genNuE,"genNuE[10]/F");
-  */
+  outTree->Branch("W_pt_gen",&W_pt_gen,"W_pt_gen");
+  outTree->Branch("W_pz_gen",&W_pz_gen,"W_pz_gen");
+  outTree->Branch("gen_GravMass",&gen_GravMass,"gen_GravMass");
+  outTree->Branch("nu_pz_gen",&nu_pz_gen,"nu_pz_gen");
   outTree->Branch("deltaR_lak8jet",&deltaR_lak8jet,"deltaR_lak8jet/F");
   outTree->Branch("deltaphi_METak8jet",&deltaphi_METak8jet,"deltaphi_METak8jet/F");
   outTree->Branch("deltaphi_Vak8jet",&deltaphi_Vak8jet,"deltaphi_Vak8jet/F");
