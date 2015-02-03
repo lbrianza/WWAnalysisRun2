@@ -12,4 +12,4 @@ cd WWAnalysisRun2/;
 
 make;
 
-python python/produceWWNtuples.py
+python python/produceWWNtuples.py -n ReducedSelection_RSGraviton4000.root -o RSGraviton4000.root -mc True
