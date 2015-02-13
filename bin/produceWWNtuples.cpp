@@ -42,6 +42,9 @@ int main (int argc, char** argv)
   std::string leptonName = argv[4];
   std::string inputTreeName = argv[5];
   std::string inputFile = argv[6];
+  std::string xSecWeight = argv[7];
+  std::string numberOfEntries = argv[8];
+  float weight = std::atof(xSecWeight.c_str())/std::atof(numberOfEntries.c_str());
   if (strcmp(leptonName.c_str(),"el")!=0 && strcmp(leptonName.c_str(),"mu")!=0) {
     std::cout<<"Error: wrong lepton category"<<std::endl;
     return(-1);
@@ -80,6 +83,8 @@ int main (int argc, char** argv)
       cout << "read entry: " << iEntry << endl;
 
     WWTree->initializeVariables(); //initialize all variables
+
+    WWTree->wSampleWeight = weight;
 
     //require exactly one lepton
     if ( strcmp(leptonName.c_str(),"el")==0 && ReducedTree->selectedIDIsoElectronsNum!=1) continue; 
