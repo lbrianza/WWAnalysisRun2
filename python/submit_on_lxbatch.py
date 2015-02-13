@@ -11,14 +11,16 @@ currentDir = os.getcwd();
 CMSSWDir = currentDir+"../";
 ReducedTreeDir = "";
 
-name = ["WJets","TTbar","RSGraviton1000"];
+name = ["WJets100", "WJets200", "WJets400", "WJets600", "TTbar","RSGraviton1000", "RSGraviton4000", "ZJets", "sch", "sch_bar", "tch", "tch_bar", "tWch", "tWch_bar"];
 category = ["mu","el"];
+xSecWeight = ["1817.", "471.6", "55.61", "18.81","831.76", "2.37","0.0002739", "1.000", "7.2", "4.16", "136.05", "80.97", "35.6", "35.6"];
+N = ["2350691.","2181725.","2413944.","4581825.","25446880.","27614.","28687.","1.","499999.","250000.","3990985.","1999793.","986096.","971797."];
 
 for a in range(len(category)):
     for i in range(len(name)):
         fn = "Job/Job_"+name[i]+"_"+category[a];
         outScript = open(fn+".sh","w");
-        command = "python python/produceWWNtuples.py -n ReducedSelection_"+name[i]+".root -o WWTree_"+name[i]+"_"+category[a]+".root -l "+category[a];
+        command = "python python/produceWWNtuples.py -n ReducedSelection_"+name[i]+".root -o WWTree_"+name[i]+".root -l "+category[a]+" -w "+xSecWeight[i]+" -no "+N[i];
         outScript.write('#!/bin/bash');
         outScript.write("\n"+'cd '+CMSSWDir);
         outScript.write("\n"+'eval `scram runtime -sh`');
@@ -26,5 +28,4 @@ for a in range(len(category)):
         outScript.write("\n"+"unbuffer "+command+" > "+fn+"_output.txt");
         outScript.close();
         os.system("chmod 777 "+currentDir+"/"+fn+".sh");
-    	os.system("bsub -q 8nh -cwd "+currentDir+" "+fn+".sh");
-
+        os.system("bsub -q 8nh -cwd "+currentDir+" "+fn+".sh");
