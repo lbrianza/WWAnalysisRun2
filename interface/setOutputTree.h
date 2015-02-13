@@ -14,6 +14,7 @@ class setOutputTree {
   int event;
   int njets;
   int nPV;
+  float wSampleWeight;
   float pfMET;
   float pfMET_Phi;
   float nu_pz_type0;
