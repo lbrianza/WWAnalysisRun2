@@ -15,6 +15,7 @@ void setOutputTree::initializeVariables()
   event=-999;
   njets=-999;
   nPV=-999;
+  wSampleWeight=-999;
   pfMET=-999;
   pfMET_Phi=-999;
   nu_pz_type0=-999;
@@ -66,6 +67,7 @@ void setOutputTree::setBranches()
   fTree->Branch("event",&event,"event/I");
   fTree->Branch("njets",&njets,"njets/I");
   fTree->Branch("nPV",&nPV,"nPV/I");
+  fTree->Branch("wSampleWeight",&wSampleWeight,"wSampleWeight/F");
   fTree->Branch("pfMET",&pfMET,"pfMET/F");
   fTree->Branch("pfMET_Phi",&pfMET_Phi,"pfMET_Phi/F");
   fTree->Branch("nu_pz_type0",&nu_pz_type0,"nu_pz_type0/F");
