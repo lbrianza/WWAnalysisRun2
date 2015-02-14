@@ -37,6 +37,9 @@ void setOutputTree::initializeVariables()
   v_mt=-999;
   mass_lvj_type0=-999;
   mass_lvj_type2=-999;
+  nBTagJet_loose=-999;
+  nBTagJet_medium=-999;
+  nBTagJet_tight=-999;
   ungroomed_jet_pt=-999;
   ungroomed_jet_eta=-999;
   ungroomed_jet_phi=-999;
@@ -97,6 +100,9 @@ void setOutputTree::setBranches()
   fTree->Branch("v_mt",&v_mt,"v_mt/F");
   fTree->Branch("mass_lvj_type0",&mass_lvj_type0,"mass_lvj_type0/F");
   fTree->Branch("mass_lvj_type2",&mass_lvj_type2,"mass_lvj_type2/F");
+  fTree->Branch("nBTagJet_loose",&nBTagJet_loose,"nBTagJet_loose/I");
+  fTree->Branch("nBTagJet_medium",&nBTagJet_medium,"nBTagJet_medium/I");
+  fTree->Branch("nBTagJet_tight",&nBTagJet_tight,"nBTagJet_tight/I");
   fTree->Branch("vbf_maxpt_j1_pt",&vbf_maxpt_j1_pt,"vbf_maxpt_j1_pt/F");
   fTree->Branch("vbf_maxpt_j1_eta",&vbf_maxpt_j1_eta,"vbf_maxpt_j1_eta/F");
   fTree->Branch("vbf_maxpt_j1_phi",&vbf_maxpt_j1_phi,"vbf_maxpt_j1_phi/F");
