@@ -44,6 +44,9 @@ class setOutputTree {
   float v_mt;
   float mass_lvj_type0;
   float mass_lvj_type2;
+  int nBTagJet_loose;
+  int nBTagJet_medium;
+  int nBTagJet_tight;
   float vbf_maxpt_j1_pt;
   float vbf_maxpt_j1_eta;
   float vbf_maxpt_j1_phi;
