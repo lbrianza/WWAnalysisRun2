@@ -96,7 +96,7 @@ int main (int argc, char** argv)
     if (ReducedTree->METPt < 50) continue;
 
     //lepton Pt selection
-    if ( strcmp(leptonName.c_str(),"el")==0 && ReducedTree->selectedIDIsoElectronsPt[0]<35) continue; 
+    if ( strcmp(leptonName.c_str(),"el")==0 && ReducedTree->selectedIDIsoElectronsPt[0]<30) continue; 
     if ( strcmp(leptonName.c_str(),"mu")==0 && ReducedTree->selectedIDIsoMuonsPt[0]<30) continue; 
     
     //save event variables
