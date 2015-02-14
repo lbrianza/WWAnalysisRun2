@@ -282,7 +282,7 @@ int main (int argc, char** argv)
 	tempPt = WWTree->ungroomed_jet_pt;
       }
 
-    /////////VBF PART
+    /////////VBF and b-tag section
     bool fillVBF = true;
 
     TLorentzVector *HADW = new TLorentzVector();
@@ -292,8 +292,17 @@ int main (int argc, char** argv)
     indexGoodJets.clear();
     if (indexGoodJets.size()!=0)  fillVBF=false;
 
+    WWTree->nBTagJet_loose=0;
+    WWTree->nBTagJet_medium=0;
+    WWTree->nBTagJet_tight=0;
+   
     for (unsigned int i=0; i<ReducedTree->JetsNum; i++) //loop on AK4 jet
       {
+	//fill B-Tag info
+	if (ReducedTree->Jets_bDiscriminator[i]>0.244)   WWTree->nBTagJet_loose++;
+	if (ReducedTree->Jets_bDiscriminator[i]>0.679)   WWTree->nBTagJet_medium++;
+	if (ReducedTree->Jets_bDiscriminator[i]>0.898)   WWTree->nBTagJet_tight++;
+
 	if (ReducedTree->JetsPt[i]<30 || ReducedTree->JetsEta[i]>4.7)  continue;
 	AK4->SetPtEtaPhiE(ReducedTree->JetsPt[i],ReducedTree->JetsEta[i],ReducedTree->JetsPhi[i],ReducedTree->JetsE[i]);
 	float deltaR = HADW->DeltaR(*AK4);
