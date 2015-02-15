@@ -85,6 +85,8 @@ int main (int argc, char** argv)
     WWTree->initializeVariables(); //initialize all variables
 
     WWTree->wSampleWeight = weight;
+    WWTree->totalEventWeight = 1.; //temporary value
+    WWTree->eff_and_pu_Weight = 1.; //temporary value
 
     //require exactly one lepton
     if ( strcmp(leptonName.c_str(),"el")==0 && ReducedTree->selectedIDIsoElectronsNum!=1) continue; 
@@ -250,6 +252,8 @@ int main (int argc, char** argv)
     WWTree->deltaR_lak8jet = JET->DeltaR(*LEP);
     WWTree->deltaphi_METak8jet = JET->DeltaPhi(*NU0);
     WWTree->deltaphi_Vak8jet = JET->DeltaPhi(*W);
+    if (WWTree->deltaR_lak8jet>(TMath::Pi()/2.0) && WWTree->deltaphi_METak8jet>2.0 && WWTree->deltaphi_Vak8jet>2.0)
+      WWTree->issignal=1;
 
     //FOUR-BODY INVARIANT MASS
     WWTree->mass_lvj_type0 = (*LEP + *NU0 + *JET).M();
@@ -378,7 +382,7 @@ int main (int argc, char** argv)
 	if (ReducedTree->GenBosonNum==2) {
 	  temp.SetPtEtaPhiE(ReducedTree->GenBosonPt[0],ReducedTree->GenBosonEta[0],ReducedTree->GenBosonPhi[0],ReducedTree->GenBosonE[0]);
 	  temp2.SetPtEtaPhiE(ReducedTree->GenBosonPt[1],ReducedTree->GenBosonEta[1],ReducedTree->GenBosonPhi[1],ReducedTree->GenBosonE[1]);
-	  WWTree->gen_GravMass=(temp+temp2).M();	
+	  WWTree->genGravMass=(temp+temp2).M();	
 	}
 
 	deltaPhiOld=100.;
