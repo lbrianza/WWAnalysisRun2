@@ -14,7 +14,10 @@ class setOutputTree {
   int event;
   int njets;
   int nPV;
+  int issignal;
   float wSampleWeight;
+  float totalEventWeight;
+  float eff_and_pu_Weight;
   float pfMET;
   float pfMET_Phi;
   float nu_pz_type0;
@@ -33,7 +36,7 @@ class setOutputTree {
   float jet_tau2tau1;
   float W_pt_gen;
   float W_pz_gen;
-  float gen_GravMass;
+  float genGravMass;
   float nu_pz_gen;
   float deltaR_lak8jet;
   float deltaphi_METak8jet;
