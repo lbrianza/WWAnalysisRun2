@@ -15,7 +15,10 @@ void setOutputTree::initializeVariables()
   event=-999;
   njets=-999;
   nPV=-999;
+  issignal=-999;
   wSampleWeight=-999;
+  totalEventWeight=-999;
+  eff_and_pu_Weight=-999;
   pfMET=-999;
   pfMET_Phi=-999;
   nu_pz_type0=-999;
@@ -26,7 +29,7 @@ void setOutputTree::initializeVariables()
   l_e=-999;
   W_pt_gen=-999;
   W_pz_gen=-999;
-  gen_GravMass=-999;
+  genGravMass=-999;
   nu_pz_gen=-999;
   deltaR_lak8jet=-999;
   deltaphi_METak8jet=-999;
@@ -70,7 +73,10 @@ void setOutputTree::setBranches()
   fTree->Branch("event",&event,"event/I");
   fTree->Branch("njets",&njets,"njets/I");
   fTree->Branch("nPV",&nPV,"nPV/I");
+  fTree->Branch("issignal",&issignal,"issignal/I");
   fTree->Branch("wSampleWeight",&wSampleWeight,"wSampleWeight/F");
+  fTree->Branch("totalEventWeight",&totalEventWeight,"totalEventWeight/F");
+  fTree->Branch("eff_and_pu_Weight",&eff_and_pu_Weight,"eff_and_pu_Weight/F");
   fTree->Branch("pfMET",&pfMET,"pfMET/F");
   fTree->Branch("pfMET_Phi",&pfMET_Phi,"pfMET_Phi/F");
   fTree->Branch("nu_pz_type0",&nu_pz_type0,"nu_pz_type0/F");
@@ -89,7 +95,7 @@ void setOutputTree::setBranches()
   fTree->Branch("jet_tau2tau1",&jet_tau2tau1,"jet_tau2tau1");
   fTree->Branch("W_pt_gen",&W_pt_gen,"W_pt_gen");
   fTree->Branch("W_pz_gen",&W_pz_gen,"W_pz_gen");
-  fTree->Branch("gen_GravMass",&gen_GravMass,"gen_GravMass");
+  fTree->Branch("genGravMass",&genGravMass,"genGravMass");
   fTree->Branch("nu_pz_gen",&nu_pz_gen,"nu_pz_gen");
   fTree->Branch("deltaR_lak8jet",&deltaR_lak8jet,"deltaR_lak8jet/F");
   fTree->Branch("deltaphi_METak8jet",&deltaphi_METak8jet,"deltaphi_METak8jet/F");
