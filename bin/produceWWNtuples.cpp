@@ -89,8 +89,8 @@ int main (int argc, char** argv)
     WWTree->eff_and_pu_Weight = 1.; //temporary value
 
     //require exactly one lepton
-    if ( strcmp(leptonName.c_str(),"el")==0 && ReducedTree->selectedIDIsoElectronsNum!=1) continue; 
-    if ( strcmp(leptonName.c_str(),"mu")==0 && ReducedTree->selectedIDIsoMuonsNum!=1) continue;      
+    if ( strcmp(leptonName.c_str(),"el")==0 && ReducedTree->ElectronsNum!=1) continue; 
+    //    if ( strcmp(leptonName.c_str(),"mu")==0 && ReducedTree->MuonsNum!=1) continue;      
     
     if (ReducedTree->AK8JetsNum < 1) continue; //at least one jet
 
@@ -98,8 +98,8 @@ int main (int argc, char** argv)
     if (ReducedTree->METPt < 50) continue;
 
     //lepton Pt selection
-    if ( strcmp(leptonName.c_str(),"el")==0 && ReducedTree->selectedIDIsoElectronsPt[0]<30) continue; 
-    if ( strcmp(leptonName.c_str(),"mu")==0 && ReducedTree->selectedIDIsoMuonsPt[0]<30) continue; 
+    if ( strcmp(leptonName.c_str(),"el")==0 && ReducedTree->ElectronsPt[0]<30) continue; 
+    if ( strcmp(leptonName.c_str(),"mu")==0 && ReducedTree->MuonsPt[0]<30) continue; 
     
     //save event variables
     WWTree->event_runNo   = ReducedTree->RunNum;
@@ -109,16 +109,18 @@ int main (int argc, char** argv)
     
     /////////////////LEPTON
     if (strcmp(leptonName.c_str(),"el")==0) {
-	WWTree->l_pt  = ReducedTree->selectedIDIsoElectronsPt[0];
-	WWTree->l_eta = ReducedTree->selectedIDIsoElectronsEta[0];
-	WWTree->l_phi = ReducedTree->selectedIDIsoElectronsPhi[0];	
-	WWTree->l_e = ReducedTree->selectedIDIsoElectronsE[0];	
+      if (ReducedTree->Electrons_isHEEP==false) continue;
+	WWTree->l_pt  = ReducedTree->ElectronsPt[0];
+	WWTree->l_eta = ReducedTree->ElectronsEta[0];
+	WWTree->l_phi = ReducedTree->ElectronsPhi[0];	
+	WWTree->l_e = ReducedTree->ElectronsE[0];	
       }
     else if (strcmp(leptonName.c_str(),"mu")==0) {
-	WWTree->l_pt  = ReducedTree->selectedIDIsoMuonsPt[0];
-	WWTree->l_eta = ReducedTree->selectedIDIsoMuonsEta[0];
-	WWTree->l_phi = ReducedTree->selectedIDIsoMuonsPhi[0];
-	WWTree->l_e = ReducedTree->selectedIDIsoMuonsE[0];
+      if (ReducedTree->Muons_isHighPt==false) continue;
+	WWTree->l_pt  = ReducedTree->MuonsPt[0];
+	WWTree->l_eta = ReducedTree->MuonsEta[0];
+	WWTree->l_phi = ReducedTree->MuonsPhi[0];
+	WWTree->l_e = ReducedTree->MuonsE[0];
       }
 
     //////////////MET
