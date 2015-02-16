@@ -29,7 +29,6 @@ public :
    UInt_t          EvtNum;
    Int_t           NJets;
    Int_t           BTags;
-   Int_t           Leptons;
    Int_t           NVtx;
    Float_t         Weight;
    Float_t         MHT;
@@ -39,111 +38,124 @@ public :
    Float_t         DeltaPhi1;
    Float_t         DeltaPhi2;
    Float_t         DeltaPhi3;
-   UShort_t        selectedIDIsoMuonsNum;
-   Float_t         selectedIDIsoMuonsPt[4];   //[selectedIDIsoMuonsNum]
-   Float_t         selectedIDIsoMuonsEta[4];   //[selectedIDIsoMuonsNum]
-   Float_t         selectedIDIsoMuonsPhi[4];   //[selectedIDIsoMuonsNum]
-   Float_t         selectedIDIsoMuonsE[4];   //[selectedIDIsoMuonsNum]
-   Float_t         selectedIDIsoMuonsTLorentzVector[4];   //[selectedIDIsoMuonsNum]
-   UShort_t        selectedIDIsoElectronsNum;
-   Float_t         selectedIDIsoElectronsPt[5];   //[selectedIDIsoElectronsNum]
-   Float_t         selectedIDIsoElectronsEta[5];   //[selectedIDIsoElectronsNum]
-   Float_t         selectedIDIsoElectronsPhi[5];   //[selectedIDIsoElectronsNum]
-   Float_t         selectedIDIsoElectronsE[5];   //[selectedIDIsoElectronsNum]
-   Float_t         selectedIDIsoElectronsTLorentzVector[5];   //[selectedIDIsoElectronsNum]
    UShort_t        IsolatedTracksNum;
-   Float_t         IsolatedTracksPt[5];   //[IsolatedTracksNum]
-   Float_t         IsolatedTracksEta[5];   //[IsolatedTracksNum]
-   Float_t         IsolatedTracksPhi[5];   //[IsolatedTracksNum]
-   Float_t         IsolatedTracksE[5];   //[IsolatedTracksNum]
-   Float_t         IsolatedTracksTLorentzVector[5];   //[IsolatedTracksNum]
-   UShort_t        selectedIDMuonsNum;
-   Float_t         selectedIDMuonsPt[6];   //[selectedIDMuonsNum]
-   Float_t         selectedIDMuonsEta[6];   //[selectedIDMuonsNum]
-   Float_t         selectedIDMuonsPhi[6];   //[selectedIDMuonsNum]
-   Float_t         selectedIDMuonsE[6];   //[selectedIDMuonsNum]
-   Float_t         selectedIDMuonsTLorentzVector[6];   //[selectedIDMuonsNum]
-   UShort_t        selectedIDElectronsNum;
-   Float_t         selectedIDElectronsPt[8];   //[selectedIDElectronsNum]
-   Float_t         selectedIDElectronsEta[8];   //[selectedIDElectronsNum]
-   Float_t         selectedIDElectronsPhi[8];   //[selectedIDElectronsNum]
-   Float_t         selectedIDElectronsE[8];   //[selectedIDElectronsNum]
-   Float_t         selectedIDElectronsTLorentzVector[8];   //[selectedIDElectronsNum]
+   Float_t         IsolatedTracksPt[3];   //[IsolatedTracksNum]
+   Float_t         IsolatedTracksEta[3];   //[IsolatedTracksNum]
+   Float_t         IsolatedTracksPhi[3];   //[IsolatedTracksNum]
+   Float_t         IsolatedTracksE[3];   //[IsolatedTracksNum]
+   Float_t         IsolatedTracksTLorentzVector[3];   //[IsolatedTracksNum]
    UShort_t        GenBosonNum;
-   Float_t         GenBosonPt[3];   //[GenBosonNum]
-   Float_t         GenBosonEta[3];   //[GenBosonNum]
-   Float_t         GenBosonPhi[3];   //[GenBosonNum]
-   Float_t         GenBosonE[3];   //[GenBosonNum]
-   Float_t         GenBosonTLorentzVector[3];   //[GenBosonNum]
-   Int_t           GenBoson_GenBosonPDGId[3];   //[GenBosonNum]
+   Float_t         GenBosonPt[2];   //[GenBosonNum]
+   Float_t         GenBosonEta[2];   //[GenBosonNum]
+   Float_t         GenBosonPhi[2];   //[GenBosonNum]
+   Float_t         GenBosonE[2];   //[GenBosonNum]
+   Float_t         GenBosonTLorentzVector[2];   //[GenBosonNum]
+   Int_t           GenBoson_GenBosonPDGId[2];   //[GenBosonNum]
    UShort_t        GenMuNum;
-   Float_t         GenMuPt[3];   //[GenMuNum]
-   Float_t         GenMuEta[3];   //[GenMuNum]
-   Float_t         GenMuPhi[3];   //[GenMuNum]
-   Float_t         GenMuE[3];   //[GenMuNum]
-   Float_t         GenMuTLorentzVector[3];   //[GenMuNum]
-   Int_t           GenMu_GenMuFromTau[3];   //[GenMuNum]
+   Float_t         GenMuPt[2];   //[GenMuNum]
+   Float_t         GenMuEta[2];   //[GenMuNum]
+   Float_t         GenMuPhi[2];   //[GenMuNum]
+   Float_t         GenMuE[2];   //[GenMuNum]
+   Float_t         GenMuTLorentzVector[2];   //[GenMuNum]
+   Int_t           GenMu_GenMuFromTau[2];   //[GenMuNum]
    UShort_t        GenElecNum;
-   Float_t         GenElecPt[3];   //[GenElecNum]
-   Float_t         GenElecEta[3];   //[GenElecNum]
-   Float_t         GenElecPhi[3];   //[GenElecNum]
-   Float_t         GenElecE[3];   //[GenElecNum]
-   Float_t         GenElecTLorentzVector[3];   //[GenElecNum]
-   Int_t           GenElec_GenElecFromTau[3];   //[GenElecNum]
+   Float_t         GenElecPt[2];   //[GenElecNum]
+   Float_t         GenElecEta[2];   //[GenElecNum]
+   Float_t         GenElecPhi[2];   //[GenElecNum]
+   Float_t         GenElecE[2];   //[GenElecNum]
+   Float_t         GenElecTLorentzVector[2];   //[GenElecNum]
+   Int_t           GenElec_GenElecFromTau[2];   //[GenElecNum]
    UShort_t        GenTauNum;
-   Float_t         GenTauPt[3];   //[GenTauNum]
-   Float_t         GenTauEta[3];   //[GenTauNum]
-   Float_t         GenTauPhi[3];   //[GenTauNum]
-   Float_t         GenTauE[3];   //[GenTauNum]
-   Float_t         GenTauTLorentzVector[3];   //[GenTauNum]
-   Int_t           GenTau_GenTauHad[3];   //[GenTauNum]
+   Float_t         GenTauPt[2];   //[GenTauNum]
+   Float_t         GenTauEta[2];   //[GenTauNum]
+   Float_t         GenTauPhi[2];   //[GenTauNum]
+   Float_t         GenTauE[2];   //[GenTauNum]
+   Float_t         GenTauTLorentzVector[2];   //[GenTauNum]
+   Int_t           GenTau_GenTauHad[2];   //[GenTauNum]
    UShort_t        GenNuNum;
-   Float_t         GenNuPt[3];   //[GenNuNum]
-   Float_t         GenNuEta[3];   //[GenNuNum]
-   Float_t         GenNuPhi[3];   //[GenNuNum]
-   Float_t         GenNuE[3];   //[GenNuNum]
-   Float_t         GenNuTLorentzVector[3];   //[GenNuNum]
+   Float_t         GenNuPt[2];   //[GenNuNum]
+   Float_t         GenNuEta[2];   //[GenNuNum]
+   Float_t         GenNuPhi[2];   //[GenNuNum]
+   Float_t         GenNuE[2];   //[GenNuNum]
+   Float_t         GenNuTLorentzVector[2];   //[GenNuNum]
    UShort_t        JetsNum;
-   Float_t         JetsPt[36];   //[JetsNum]
-   Float_t         JetsEta[36];   //[JetsNum]
-   Float_t         JetsPhi[36];   //[JetsNum]
-   Float_t         JetsE[36];   //[JetsNum]
-   Float_t         JetsTLorentzVector[36];   //[JetsNum]
-   Float_t         Jets_bDiscriminator[36];   //[JetsNum]
-   Float_t         Jets_chargedEmEnergyFraction[36];   //[JetsNum]
-   Float_t         Jets_chargedHadronEnergyFraction[36];   //[JetsNum]
-   Int_t           Jets_chargedHadronMultiplicity[36];   //[JetsNum]
-   Int_t           Jets_electronMultiplicity[36];   //[JetsNum]
-   Float_t         Jets_jetArea[36];   //[JetsNum]
-   Float_t         Jets_muonEnergyFraction[36];   //[JetsNum]
-   Int_t           Jets_muonMultiplicity[36];   //[JetsNum]
-   Float_t         Jets_neutralEmEnergyFraction[36];   //[JetsNum]
-   Int_t           Jets_neutralHadronMultiplicity[36];   //[JetsNum]
-   Float_t         Jets_photonEnergyFraction[36];   //[JetsNum]
-   Int_t           Jets_photonMultiplicity[36];   //[JetsNum]
+   Float_t         JetsPt[26];   //[JetsNum]
+   Float_t         JetsEta[26];   //[JetsNum]
+   Float_t         JetsPhi[26];   //[JetsNum]
+   Float_t         JetsE[26];   //[JetsNum]
+   Float_t         JetsTLorentzVector[26];   //[JetsNum]
+   Float_t         Jets_bDiscriminator[26];   //[JetsNum]
+   Float_t         Jets_chargedEmEnergyFraction[26];   //[JetsNum]
+   Float_t         Jets_chargedHadronEnergyFraction[26];   //[JetsNum]
+   Int_t           Jets_chargedHadronMultiplicity[26];   //[JetsNum]
+   Int_t           Jets_electronMultiplicity[26];   //[JetsNum]
+   Float_t         Jets_jetArea[26];   //[JetsNum]
+   Float_t         Jets_muonEnergyFraction[26];   //[JetsNum]
+   Int_t           Jets_muonMultiplicity[26];   //[JetsNum]
+   Float_t         Jets_neutralEmEnergyFraction[26];   //[JetsNum]
+   Int_t           Jets_neutralHadronMultiplicity[26];   //[JetsNum]
+   Float_t         Jets_photonEnergyFraction[26];   //[JetsNum]
+   Int_t           Jets_photonMultiplicity[26];   //[JetsNum]
+   UChar_t         Jets_isLooseJetId[26];   //[JetsNum]
    UShort_t        AK8JetsNum;
-   Float_t         AK8JetsPt[9];   //[AK8JetsNum]
-   Float_t         AK8JetsEta[9];   //[AK8JetsNum]
-   Float_t         AK8JetsPhi[9];   //[AK8JetsNum]
-   Float_t         AK8JetsE[9];   //[AK8JetsNum]
-   Float_t         AK8JetsTLorentzVector[9];   //[AK8JetsNum]
-   Float_t         AK8Jets_chargedEmEnergyFraction[9];   //[AK8JetsNum]
-   Float_t         AK8Jets_chargedHadronEnergyFraction[9];   //[AK8JetsNum]
-   Int_t           AK8Jets_chargedHadronMultiplicity[9];   //[AK8JetsNum]
-   Int_t           AK8Jets_electronMultiplicity[9];   //[AK8JetsNum]
-   Float_t         AK8Jets_jetArea[9];   //[AK8JetsNum]
-   Float_t         AK8Jets_muonEnergyFraction[9];   //[AK8JetsNum]
-   Int_t           AK8Jets_muonMultiplicity[9];   //[AK8JetsNum]
-   Float_t         AK8Jets_neutralEmEnergyFraction[9];   //[AK8JetsNum]
-   Int_t           AK8Jets_neutralHadronMultiplicity[9];   //[AK8JetsNum]
-   Float_t         AK8Jets_photonEnergyFraction[9];   //[AK8JetsNum]
-   Int_t           AK8Jets_photonMultiplicity[9];   //[AK8JetsNum]
-   Float_t         AK8Jets_prunedMass[9];   //[AK8JetsNum]
-   Float_t         AK8Jets_trimmedMass[9];   //[AK8JetsNum]
-   Float_t         AK8Jets_filteredMass[9];   //[AK8JetsNum]
-   Float_t         AK8Jets_tau1[9];   //[AK8JetsNum]
-   Float_t         AK8Jets_tau2[9];   //[AK8JetsNum]
-   Float_t         AK8Jets_tau3[9];   //[AK8JetsNum]
+   Float_t         AK8JetsPt[7];   //[AK8JetsNum]
+   Float_t         AK8JetsEta[7];   //[AK8JetsNum]
+   Float_t         AK8JetsPhi[7];   //[AK8JetsNum]
+   Float_t         AK8JetsE[7];   //[AK8JetsNum]
+   Float_t         AK8JetsTLorentzVector[7];   //[AK8JetsNum]
+   Float_t         AK8Jets_chargedEmEnergyFraction[7];   //[AK8JetsNum]
+   Float_t         AK8Jets_chargedHadronEnergyFraction[7];   //[AK8JetsNum]
+   Int_t           AK8Jets_chargedHadronMultiplicity[7];   //[AK8JetsNum]
+   Int_t           AK8Jets_electronMultiplicity[7];   //[AK8JetsNum]
+   Float_t         AK8Jets_jetArea[7];   //[AK8JetsNum]
+   Float_t         AK8Jets_muonEnergyFraction[7];   //[AK8JetsNum]
+   Int_t           AK8Jets_muonMultiplicity[7];   //[AK8JetsNum]
+   Float_t         AK8Jets_neutralEmEnergyFraction[7];   //[AK8JetsNum]
+   Int_t           AK8Jets_neutralHadronMultiplicity[7];   //[AK8JetsNum]
+   Float_t         AK8Jets_photonEnergyFraction[7];   //[AK8JetsNum]
+   Int_t           AK8Jets_photonMultiplicity[7];   //[AK8JetsNum]
+   Float_t         AK8Jets_prunedMass[7];   //[AK8JetsNum]
+   Float_t         AK8Jets_trimmedMass[7];   //[AK8JetsNum]
+   Float_t         AK8Jets_filteredMass[7];   //[AK8JetsNum]
+   Float_t         AK8Jets_tau1[7];   //[AK8JetsNum]
+   Float_t         AK8Jets_tau2[7];   //[AK8JetsNum]
+   Float_t         AK8Jets_tau3[7];   //[AK8JetsNum]
+   UChar_t         AK8Jets_AK8isLooseJetId[7];   //[AK8JetsNum]
+   UShort_t        ElectronsNum;
+   Float_t         ElectronsPt[7];   //[ElectronsNum]
+   Float_t         ElectronsEta[7];   //[ElectronsNum]
+   Float_t         ElectronsPhi[7];   //[ElectronsNum]
+   Float_t         ElectronsE[7];   //[ElectronsNum]
+   Float_t         ElectronsTLorentzVector[7];   //[ElectronsNum]
+   Int_t           Electrons_charge[7];   //[ElectronsNum]
+   UChar_t         Electrons_isHEEP[7];   //[ElectronsNum]
+   UChar_t         Electrons_isHEEPv50[7];   //[ElectronsNum]
+   Int_t           Electrons_type[7];   //[ElectronsNum]
+   Float_t         Electrons_mass[7];   //[ElectronsNum]
+   Float_t         Electrons_pfDeltaCorrRelIso[7];   //[ElectronsNum]
+   Float_t         Electrons_pfRhoCorrRelIso04[7];   //[ElectronsNum]
+   Float_t         Electrons_pfRhoCorrRelIso03[7];   //[ElectronsNum]
+   Float_t         Electrons_pfRelIso[7];   //[ElectronsNum]
+   Float_t         Electrons_photonIso[7];   //[ElectronsNum]
+   Float_t         Electrons_neutralHadIso[7];   //[ElectronsNum]
+   Float_t         Electrons_chargedHadIso[7];   //[ElectronsNum]
+   Float_t         Electrons_trackIso[7];   //[ElectronsNum]
+   UShort_t        MuonsNum;
+   Float_t         MuonsPt[33];   //[MuonsNum]
+   Float_t         MuonsEta[33];   //[MuonsNum]
+   Float_t         MuonsPhi[33];   //[MuonsNum]
+   Float_t         MuonsE[33];   //[MuonsNum]
+   Float_t         MuonsTLorentzVector[33];   //[MuonsNum]
+   Int_t           Muons_charge[33];   //[MuonsNum]
+   UChar_t         Muons_isHighPt[33];   //[MuonsNum]
+   Int_t           Muons_type[33];   //[MuonsNum]
+   Float_t         Muons_mass[33];   //[MuonsNum]
+   Float_t         Muons_pfDeltaCorrRelIso[33];   //[MuonsNum]
+   Float_t         Muons_pfRelIso[33];   //[MuonsNum]
+   Float_t         Muons_photonIso[33];   //[MuonsNum]
+   Float_t         Muons_neutralHadIso[33];   //[MuonsNum]
+   Float_t         Muons_chargedHadIso[33];   //[MuonsNum]
+   Float_t         Muons_trackIso[33];   //[MuonsNum]
 
    // List of branches
    TBranch        *b_RunNum;   //!
@@ -151,7 +163,6 @@ public :
    TBranch        *b_EvtNum;   //!
    TBranch        *b_NJets;   //!
    TBranch        *b_BTags;   //!
-   TBranch        *b_Leptons;   //!
    TBranch        *b_NVtx;   //!
    TBranch        *b_Weight;   //!
    TBranch        *b_MHT;   //!
@@ -161,36 +172,12 @@ public :
    TBranch        *b_DeltaPhi1;   //!
    TBranch        *b_DeltaPhi2;   //!
    TBranch        *b_DeltaPhi3;   //!
-   TBranch        *b_selectedIDIsoMuonsNum;   //!
-   TBranch        *b_selectedIDIsoMuonsPt;   //!
-   TBranch        *b_selectedIDIsoMuonsEta;   //!
-   TBranch        *b_selectedIDIsoMuonsPhi;   //!
-   TBranch        *b_selectedIDIsoMuonsE;   //!
-   TBranch        *b_selectedIDIsoMuonsTLorentzVector;   //!
-   TBranch        *b_selectedIDIsoElectronsNum;   //!
-   TBranch        *b_selectedIDIsoElectronsPt;   //!
-   TBranch        *b_selectedIDIsoElectronsEta;   //!
-   TBranch        *b_selectedIDIsoElectronsPhi;   //!
-   TBranch        *b_selectedIDIsoElectronsE;   //!
-   TBranch        *b_selectedIDIsoElectronsTLorentzVector;   //!
    TBranch        *b_IsolatedTracksNum;   //!
    TBranch        *b_IsolatedTracksPt;   //!
    TBranch        *b_IsolatedTracksEta;   //!
    TBranch        *b_IsolatedTracksPhi;   //!
    TBranch        *b_IsolatedTracksE;   //!
    TBranch        *b_IsolatedTracksTLorentzVector;   //!
-   TBranch        *b_selectedIDMuonsNum;   //!
-   TBranch        *b_selectedIDMuonsPt;   //!
-   TBranch        *b_selectedIDMuonsEta;   //!
-   TBranch        *b_selectedIDMuonsPhi;   //!
-   TBranch        *b_selectedIDMuonsE;   //!
-   TBranch        *b_selectedIDMuonsTLorentzVector;   //!
-   TBranch        *b_selectedIDElectronsNum;   //!
-   TBranch        *b_selectedIDElectronsPt;   //!
-   TBranch        *b_selectedIDElectronsEta;   //!
-   TBranch        *b_selectedIDElectronsPhi;   //!
-   TBranch        *b_selectedIDElectronsE;   //!
-   TBranch        *b_selectedIDElectronsTLorentzVector;   //!
    TBranch        *b_GenBosonNum;   //!
    TBranch        *b_GenBosonPt;   //!
    TBranch        *b_GenBosonEta;   //!
@@ -243,6 +230,7 @@ public :
    TBranch        *b_Jets_neutralHadronMultiplicity;   //!
    TBranch        *b_Jets_photonEnergyFraction;   //!
    TBranch        *b_Jets_photonMultiplicity;   //!
+   TBranch        *b_Jets_isLooseJetId;   //!
    TBranch        *b_AK8JetsNum;   //!
    TBranch        *b_AK8JetsPt;   //!
    TBranch        *b_AK8JetsEta;   //!
@@ -266,6 +254,42 @@ public :
    TBranch        *b_AK8Jets_tau1;   //!
    TBranch        *b_AK8Jets_tau2;   //!
    TBranch        *b_AK8Jets_tau3;   //!
+   TBranch        *b_AK8Jets_AK8isLooseJetId;   //!
+   TBranch        *b_ElectronsNum;   //!
+   TBranch        *b_ElectronsPt;   //!
+   TBranch        *b_ElectronsEta;   //!
+   TBranch        *b_ElectronsPhi;   //!
+   TBranch        *b_ElectronsE;   //!
+   TBranch        *b_ElectronsTLorentzVector;   //!
+   TBranch        *b_Electrons_charge;   //!
+   TBranch        *b_Electrons_isHEEP;   //!
+   TBranch        *b_Electrons_isHEEPv50;   //!
+   TBranch        *b_Electrons_type;   //!
+   TBranch        *b_Electrons_mass;   //!
+   TBranch        *b_Electrons_pfDeltaCorrRelIso;   //!
+   TBranch        *b_Electrons_pfRhoCorrRelIso04;   //!
+   TBranch        *b_Electrons_pfRhoCorrRelIso03;   //!
+   TBranch        *b_Electrons_pfRelIso;   //!
+   TBranch        *b_Electrons_photonIso;   //!
+   TBranch        *b_Electrons_neutralHadIso;   //!
+   TBranch        *b_Electrons_chargedHadIso;   //!
+   TBranch        *b_Electrons_trackIso;   //!
+   TBranch        *b_MuonsNum;   //!
+   TBranch        *b_MuonsPt;   //!
+   TBranch        *b_MuonsEta;   //!
+   TBranch        *b_MuonsPhi;   //!
+   TBranch        *b_MuonsE;   //!
+   TBranch        *b_MuonsTLorentzVector;   //!
+   TBranch        *b_Muons_charge;   //!
+   TBranch        *b_Muons_isHighPt;   //!
+   TBranch        *b_Muons_type;   //!
+   TBranch        *b_Muons_mass;   //!
+   TBranch        *b_Muons_pfDeltaCorrRelIso;   //!
+   TBranch        *b_Muons_pfRelIso;   //!
+   TBranch        *b_Muons_photonIso;   //!
+   TBranch        *b_Muons_neutralHadIso;   //!
+   TBranch        *b_Muons_chargedHadIso;   //!
+   TBranch        *b_Muons_trackIso;   //!
 
    setInputTree(TFile* inputFile, std::string inputTree);
    virtual ~setInputTree();
