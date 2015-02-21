@@ -84,7 +84,8 @@ public :
    Float_t         JetsPhi[26];   //[JetsNum]
    Float_t         JetsE[26];   //[JetsNum]
    Float_t         JetsTLorentzVector[26];   //[JetsNum]
-   Float_t         Jets_bDiscriminator[26];   //[JetsNum]
+   Float_t         Jets_bDiscriminatorICSV[26];   //[JetsNum]
+   Float_t         Jets_bDiscriminatorCSV[26];   //[JetsNum]
    Float_t         Jets_chargedEmEnergyFraction[26];   //[JetsNum]
    Float_t         Jets_chargedHadronEnergyFraction[26];   //[JetsNum]
    Int_t           Jets_chargedHadronMultiplicity[26];   //[JetsNum]
@@ -103,6 +104,8 @@ public :
    Float_t         AK8JetsPhi[7];   //[AK8JetsNum]
    Float_t         AK8JetsE[7];   //[AK8JetsNum]
    Float_t         AK8JetsTLorentzVector[7];   //[AK8JetsNum]
+   Float_t         AK8Jets_bDiscriminatorICSV[26];   //[JetsNum]
+   Float_t         AK8Jets_bDiscriminatorCSV[26];   //[JetsNum]
    Float_t         AK8Jets_chargedEmEnergyFraction[7];   //[AK8JetsNum]
    Float_t         AK8Jets_chargedHadronEnergyFraction[7];   //[AK8JetsNum]
    Int_t           AK8Jets_chargedHadronMultiplicity[7];   //[AK8JetsNum]
@@ -115,6 +118,7 @@ public :
    Float_t         AK8Jets_photonEnergyFraction[7];   //[AK8JetsNum]
    Int_t           AK8Jets_photonMultiplicity[7];   //[AK8JetsNum]
    Float_t         AK8Jets_prunedMass[7];   //[AK8JetsNum]
+   Float_t         AK8Jets_softDropMass[7];   //[AK8JetsNum]
    Float_t         AK8Jets_trimmedMass[7];   //[AK8JetsNum]
    Float_t         AK8Jets_filteredMass[7];   //[AK8JetsNum]
    Float_t         AK8Jets_tau1[7];   //[AK8JetsNum]
@@ -140,6 +144,7 @@ public :
    Float_t         Electrons_neutralHadIso[7];   //[ElectronsNum]
    Float_t         Electrons_chargedHadIso[7];   //[ElectronsNum]
    Float_t         Electrons_trackIso[7];   //[ElectronsNum]
+   UChar_t         Electrons_isLoose[7];   //[ElectronsNum]
    UShort_t        MuonsNum;
    Float_t         MuonsPt[33];   //[MuonsNum]
    Float_t         MuonsEta[33];   //[MuonsNum]
@@ -156,6 +161,7 @@ public :
    Float_t         Muons_neutralHadIso[33];   //[MuonsNum]
    Float_t         Muons_chargedHadIso[33];   //[MuonsNum]
    Float_t         Muons_trackIso[33];   //[MuonsNum]
+   UChar_t         Muons_isLoose[33];   //[MuonsNum]
 
    // List of branches
    TBranch        *b_RunNum;   //!
@@ -218,7 +224,8 @@ public :
    TBranch        *b_JetsPhi;   //!
    TBranch        *b_JetsE;   //!
    TBranch        *b_JetsTLorentzVector;   //!
-   TBranch        *b_Jets_bDiscriminator;   //!
+   TBranch        *b_Jets_bDiscriminatorICSV;   //!
+   TBranch        *b_Jets_bDiscriminatorCSV;   //!
    TBranch        *b_Jets_chargedEmEnergyFraction;   //!
    TBranch        *b_Jets_chargedHadronEnergyFraction;   //!
    TBranch        *b_Jets_chargedHadronMultiplicity;   //!
@@ -237,6 +244,8 @@ public :
    TBranch        *b_AK8JetsPhi;   //!
    TBranch        *b_AK8JetsE;   //!
    TBranch        *b_AK8JetsTLorentzVector;   //!
+   TBranch        *b_AK8Jets_bDiscriminatorICSV;   //!
+   TBranch        *b_AK8Jets_bDiscriminatorCSV;   //!
    TBranch        *b_AK8Jets_chargedEmEnergyFraction;   //!
    TBranch        *b_AK8Jets_chargedHadronEnergyFraction;   //!
    TBranch        *b_AK8Jets_chargedHadronMultiplicity;   //!
@@ -274,6 +283,7 @@ public :
    TBranch        *b_Electrons_neutralHadIso;   //!
    TBranch        *b_Electrons_chargedHadIso;   //!
    TBranch        *b_Electrons_trackIso;   //!
+   TBranch        *b_Electrons_isLoose;   //!
    TBranch        *b_MuonsNum;   //!
    TBranch        *b_MuonsPt;   //!
    TBranch        *b_MuonsEta;   //!
@@ -290,6 +300,7 @@ public :
    TBranch        *b_Muons_neutralHadIso;   //!
    TBranch        *b_Muons_chargedHadIso;   //!
    TBranch        *b_Muons_trackIso;   //!
+   TBranch        *b_Muons_isLoose;   //!
 
    setInputTree(TFile* inputFile, std::string inputTree);
    virtual ~setInputTree();

@@ -10,8 +10,9 @@ class setOutputTree {
 
   TTree* fTree;
   
-  int event_runNo;
+  int run;
   int event;
+  int lumi;
   int njets;
   int nPV;
   int issignal;
