@@ -115,7 +115,8 @@ void setInputTree::Init()
    fChain->SetBranchAddress("JetsPhi", JetsPhi, &b_JetsPhi);
    fChain->SetBranchAddress("JetsE", JetsE, &b_JetsE);
    fChain->SetBranchAddress("JetsTLorentzVector", JetsTLorentzVector, &b_JetsTLorentzVector);
-   fChain->SetBranchAddress("Jets_bDiscriminator", Jets_bDiscriminator, &b_Jets_bDiscriminator);
+   fChain->SetBranchAddress("Jets_bDiscriminatorICSV", Jets_bDiscriminatorICSV, &b_Jets_bDiscriminatorICSV);
+   fChain->SetBranchAddress("Jets_bDiscriminatorCSV", Jets_bDiscriminatorCSV, &b_Jets_bDiscriminatorCSV);
    fChain->SetBranchAddress("Jets_chargedEmEnergyFraction", Jets_chargedEmEnergyFraction, &b_Jets_chargedEmEnergyFraction);
    fChain->SetBranchAddress("Jets_chargedHadronEnergyFraction", Jets_chargedHadronEnergyFraction, &b_Jets_chargedHadronEnergyFraction);
    fChain->SetBranchAddress("Jets_chargedHadronMultiplicity", Jets_chargedHadronMultiplicity, &b_Jets_chargedHadronMultiplicity);
@@ -134,6 +135,8 @@ void setInputTree::Init()
    fChain->SetBranchAddress("AK8JetsPhi", AK8JetsPhi, &b_AK8JetsPhi);
    fChain->SetBranchAddress("AK8JetsE", AK8JetsE, &b_AK8JetsE);
    fChain->SetBranchAddress("AK8JetsTLorentzVector", AK8JetsTLorentzVector, &b_AK8JetsTLorentzVector);
+   fChain->SetBranchAddress("AK8Jets_bDiscriminatorICSV", AK8Jets_bDiscriminatorICSV, &b_AK8Jets_bDiscriminatorICSV);
+   fChain->SetBranchAddress("AK8Jets_bDiscriminatorCSV", AK8Jets_bDiscriminatorCSV, &b_AK8Jets_bDiscriminatorCSV);
    fChain->SetBranchAddress("AK8Jets_chargedEmEnergyFraction", AK8Jets_chargedEmEnergyFraction, &b_AK8Jets_chargedEmEnergyFraction);
    fChain->SetBranchAddress("AK8Jets_chargedHadronEnergyFraction", AK8Jets_chargedHadronEnergyFraction, &b_AK8Jets_chargedHadronEnergyFraction);
    fChain->SetBranchAddress("AK8Jets_chargedHadronMultiplicity", AK8Jets_chargedHadronMultiplicity, &b_AK8Jets_chargedHadronMultiplicity);
@@ -171,6 +174,7 @@ void setInputTree::Init()
    fChain->SetBranchAddress("Electrons_neutralHadIso", Electrons_neutralHadIso, &b_Electrons_neutralHadIso);
    fChain->SetBranchAddress("Electrons_chargedHadIso", Electrons_chargedHadIso, &b_Electrons_chargedHadIso);
    fChain->SetBranchAddress("Electrons_trackIso", Electrons_trackIso, &b_Electrons_trackIso);
+   fChain->SetBranchAddress("Electrons_isLoose", Electrons_isLoose, &b_Electrons_isLoose);
    fChain->SetBranchAddress("MuonsNum", &MuonsNum, &b_MuonsNum);
    fChain->SetBranchAddress("MuonsPt", MuonsPt, &b_MuonsPt);
    fChain->SetBranchAddress("MuonsEta", MuonsEta, &b_MuonsEta);
@@ -187,6 +191,7 @@ void setInputTree::Init()
    fChain->SetBranchAddress("Muons_neutralHadIso", Muons_neutralHadIso, &b_Muons_neutralHadIso);
    fChain->SetBranchAddress("Muons_chargedHadIso", Muons_chargedHadIso, &b_Muons_chargedHadIso);
    fChain->SetBranchAddress("Muons_trackIso", Muons_trackIso, &b_Muons_trackIso);
+   fChain->SetBranchAddress("Muons_isLoose", Muons_isLoose, &b_Muons_isLoose);
    //   Notify();
 }
 

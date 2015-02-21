@@ -11,8 +11,9 @@ setOutputTree::~setOutputTree(){
 
 void setOutputTree::initializeVariables()
 {
-  event_runNo=-999;
+  run=-999;
   event=-999;
+  lumi=-999;
   njets=-999;
   nPV=-999;
   issignal=-999;
@@ -69,8 +70,9 @@ void setOutputTree::initializeVariables()
 
 void setOutputTree::setBranches()
 {
-  fTree->Branch("event_runNo",&event_runNo,"event_runNo/I");
+  fTree->Branch("run",&run,"run/I");
   fTree->Branch("event",&event,"event/I");
+  fTree->Branch("lumi",&lumi,"lumi/I");
   fTree->Branch("njets",&njets,"njets/I");
   fTree->Branch("nPV",&nPV,"nPV/I");
   fTree->Branch("issignal",&issignal,"issignal/I");
