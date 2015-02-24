@@ -183,7 +183,6 @@ int main (int argc, char** argv)
       {
 	bool isCleanedJet = true;
 
-	if (ReducedTree->JetsPt[i]<=WWTree->jet3_pt) continue;
 	if (ReducedTree->Jets_isLooseJetId[i]==false) continue;
 
 	//CLEANING
@@ -209,6 +208,8 @@ int main (int argc, char** argv)
 
 	WWTree->njets++;
 	if (ReducedTree->Jets_bDiscriminatorICSV[i]>0.679)   WWTree->nbtag++;
+
+	if (ReducedTree->JetsPt[i]<WWTree->jet3_pt) continue;
 
 	if (ReducedTree->JetsPt[i]>=WWTree->jet3_pt) {
 	  if (ReducedTree->JetsPt[i]>=WWTree->jet2_pt) {
