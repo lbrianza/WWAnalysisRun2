@@ -32,6 +32,7 @@ class setOutputTree {
   float ungroomed_jet_phi;
   float ungroomed_jet_e;
   float jet_mass_pr;
+  float jet_mass_so;
   float jet_mass_tr;
   float jet_mass_fi;
   float jet_tau2tau1;
