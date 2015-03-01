@@ -286,7 +286,7 @@ int main (int argc, char** argv)
 	nGoodAK8jets++;
       }
     if (nGoodAK8jets==0) continue; //not found a good hadronic W candidate
-
+    if (WWTree->ungroomed_jet_pt<150) continue;
 
     /////////////////THE LEPTONIC W
     TLorentzVector *W = new TLorentzVector();
