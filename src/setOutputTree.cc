@@ -49,6 +49,7 @@ void setOutputTree::initializeVariables()
   ungroomed_jet_phi=-999;
   ungroomed_jet_e=-999;
   jet_mass_pr=-999;
+  jet_mass_so=-999;
   jet_mass_tr=-999;
   jet_mass_fi=-999;
   jet_tau2tau1=-999;
@@ -92,6 +93,7 @@ void setOutputTree::setBranches()
   fTree->Branch("ungroomed_jet_phi",&ungroomed_jet_phi,"ungroomed_jet_phi/F");
   fTree->Branch("ungroomed_jet_e",&ungroomed_jet_e,"ungroomed_jet_e/F");
   fTree->Branch("jet_mass_pr",&jet_mass_pr,"jet_mass_pr");
+  fTree->Branch("jet_mass_so",&jet_mass_so,"jet_mass_so");
   fTree->Branch("jet_mass_tr",&jet_mass_tr,"jet_mass_tr");
   fTree->Branch("jet_mass_fi",&jet_mass_fi,"jet_mass_fi");
   fTree->Branch("jet_tau2tau1",&jet_tau2tau1,"jet_tau2tau1");
