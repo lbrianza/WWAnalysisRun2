@@ -49,7 +49,8 @@ int main (int argc, char** argv)
     std::cout<<"Error: wrong lepton category"<<std::endl;
     return(-1);
   }
-    
+
+  int event=22702;
   //--------input tree-----------
   //  TChain* chain = new TChain("TreeMaker2/PreSelection");
   //  TChain* chain = new TChain(inputTreeName.c_str());
@@ -89,7 +90,7 @@ int main (int argc, char** argv)
     if (ReducedTree->AK8JetsNum<1) continue;
     //    if (ReducedTree->AK8JetsNum < 1 || ReducedTree->AK8Jets_AK8isLooseJetId[0]==false) continue; //at least one jet
 
-    //    if (ReducedTree->AK8JetsPt[0] < 150) continue; 
+    //    if (ReducedTree->AK8Jets_PtCorr[0] < 150) continue; 
     //    if (ReducedTree->METPt < 50) continue; //50!
 
     //lepton Pt preselection
@@ -101,7 +102,7 @@ int main (int argc, char** argv)
     WWTree->event = ReducedTree->EvtNum;
     WWTree->lumi = ReducedTree->LumiBlockNum;
     WWTree->nPV  = ReducedTree->NVtx;
-    
+
     /////////////////LEPTON
     WWTree->nLooseEle=0;
     WWTree->nLooseMu=0;
@@ -110,14 +111,15 @@ int main (int argc, char** argv)
     float jet_e=0.;
 
     for (int i=0; i<ReducedTree->ElectronsNum; i++) 
-      if (ReducedTree->Electrons_isLoose[i]==true) WWTree->nLooseEle++;
+      if (ReducedTree->Electrons_isHEEP[i]==true && ReducedTree->ElectronsPt[i]>35) WWTree->nLooseEle++;
     for (int i=0; i<ReducedTree->MuonsNum; i++) 
-      if (ReducedTree->Muons_isLoose[i]==true) WWTree->nLooseMu++;
+      if (ReducedTree->Muons_isHighPt[i]==true && (ReducedTree->Muons_trackIso[i]/ReducedTree->MuonsPt[i])<0.1 && ReducedTree->MuonsPt[i]>20 && fabs(ReducedTree->MuonsEta[i])<2.4) WWTree->nLooseMu++;
 
     if (strcmp(leptonName.c_str(),"el")==0) {
       float tempPt=0.;
       for (int i=0; i<ReducedTree->ElectronsNum; i++) {
 	if (ReducedTree->Electrons_isHEEP[i]==false) continue;       
+	if (ReducedTree->ElectronsPt[i]<=90) continue;       
 	if (ReducedTree->ElectronsPt[i]<tempPt) continue;
 	WWTree->l_pt  = ReducedTree->ElectronsPt[i];
 	WWTree->l_eta = ReducedTree->ElectronsEta[i];
@@ -130,6 +132,9 @@ int main (int argc, char** argv)
       float tempPt=0.;
       for (int i=0; i<ReducedTree->MuonsNum; i++) {
 	if (ReducedTree->Muons_isHighPt[i]==false) continue;
+    if ((ReducedTree->Muons_trackIso[i]/ReducedTree->MuonsPt[i])>=0.1) continue;
+	if (ReducedTree->MuonsPt[i]<40) continue;
+	if (fabs(ReducedTree->MuonsEta[i])>=2.4) continue;
 	if (ReducedTree->MuonsPt[i]<tempPt) continue;
 	WWTree->l_pt  = ReducedTree->MuonsPt[i];
 	WWTree->l_eta = ReducedTree->MuonsEta[i];
@@ -145,30 +150,38 @@ int main (int argc, char** argv)
     for (unsigned int i=0; i<ReducedTree->AK8JetsNum; i++)
       {
 	bool isCleanedJet = true;
-	//	if (ReducedTree->AK8JetsPt[i]<30 || ReducedTree->AK8JetsEta[i]>4.7)  continue;
-	if (ReducedTree->AK8JetsPt[i]<=tempPt) continue; //save the jet with largest pt
+
+	//	if (ReducedTree->AK8Jets_PtCorr[i]<30 || ReducedTree->AK8JetsEta[i]>4.7)  continue;
+	if (ReducedTree->AK8Jets_PtCorr[i]<=tempPt) continue; //save the jet with largest pt
 	if (ReducedTree->AK8Jets_AK8isLooseJetId[i]==false) continue;
 
 	//CLEANING FROM LEPTONS
 	for (int j=0; j<ReducedTree->ElectronsNum; j++) {
 	  if (ReducedTree->Electrons_isHEEP[j]==false) continue;       
+	  if (ReducedTree->ElectronsPt[j]<=90) continue;       
 	  if (deltaR(ReducedTree->ElectronsEta[j], ReducedTree->ElectronsPhi[j],
 		     ReducedTree->AK8JetsEta[i],   ReducedTree->AK8JetsPhi[i]) <1.0)
 	    isCleanedJet = false;
 	}
+	
 	for (int j=0; j<ReducedTree->MuonsNum; j++) {
 	  if (ReducedTree->Muons_isHighPt[j]==false) continue;       
+	  if ((ReducedTree->Muons_trackIso[j]/ReducedTree->MuonsPt[j])>=0.1) continue;
+	  if (ReducedTree->MuonsPt[j]<40) continue;
+	  if (fabs(ReducedTree->MuonsEta[j])>=2.4) continue;
 	  if (deltaR(ReducedTree->MuonsEta[j], ReducedTree->MuonsPhi[j],
-		     ReducedTree->AK8JetsEta[i],   ReducedTree->AK8JetsPhi[i]) <1.0)
+		     ReducedTree->AK8JetsEta[i],   ReducedTree->AK8JetsPhi[i]) <1.0) {
 	    isCleanedJet = false;
+	  }
 	}
+
 
 	if (isCleanedJet==false) continue; //jet is overlapped with a lepton
 
-	WWTree->jet_pt  = ReducedTree->AK8JetsPt[i];
+	WWTree->jet_pt  = ReducedTree->AK8Jets_PtCorr[i];
 	WWTree->jet_eta = ReducedTree->AK8JetsEta[i];
 	WWTree->jet_phi = ReducedTree->AK8JetsPhi[i];
-	jet_e = ReducedTree->AK8JetsE[i];
+	jet_e = ReducedTree->AK8Jets_ECorr[i];
         WWTree->jet_mass_pruned   = ReducedTree->AK8Jets_prunedMass[i];
         WWTree->jet_mass_softdrop   = ReducedTree->AK8Jets_softDropMass[i];
         WWTree->jet_tau2tau1   = ReducedTree->AK8Jets_tau2[i]/ReducedTree->AK8Jets_tau1[i];
@@ -184,23 +197,29 @@ int main (int argc, char** argv)
 	bool isCleanedJet = true;
 
 	if (ReducedTree->Jets_isLooseJetId[i]==false) continue;
+	if (ReducedTree->Jets_PtCorr[i]<=30) continue;
+	if (fabs(ReducedTree->JetsEta[i])>=2.4) continue;
 
 	//CLEANING
 	if (deltaR(WWTree->jet_eta, WWTree->jet_phi,
-		       ReducedTree->JetsEta[i],   ReducedTree->JetsPhi[i]) <1.0)
+		       ReducedTree->JetsEta[i],   ReducedTree->JetsPhi[i]) <0.8)
 	  isCleanedJet = false;
 
 	//CLEANING FROM LEPTONS
 	for (int j=0; j<ReducedTree->ElectronsNum; j++) {
 	  if (ReducedTree->Electrons_isHEEP[j]==false) continue;       
+	  if (ReducedTree->ElectronsPt[j]<=90) continue;       
 	  if (deltaR(ReducedTree->ElectronsEta[j], ReducedTree->ElectronsPhi[j],
-		     ReducedTree->JetsEta[i],   ReducedTree->JetsPhi[i]) <1.0)
+		     ReducedTree->JetsEta[i],   ReducedTree->JetsPhi[i]) <0.3)
 	    isCleanedJet = false;
 	}      
 	for (int j=0; j<ReducedTree->MuonsNum; j++) {
 	  if (ReducedTree->Muons_isHighPt[j]==false) continue;       
+	  if ((ReducedTree->Muons_trackIso[j]/ReducedTree->MuonsPt[j])>=0.1) continue;
+	  if (ReducedTree->MuonsPt[j]<40) continue;
+	  if (fabs(ReducedTree->MuonsEta[j])>=2.4) continue;
 	  if (deltaR(ReducedTree->MuonsEta[j], ReducedTree->MuonsPhi[j],
-		     ReducedTree->JetsEta[i],   ReducedTree->JetsPhi[i]) <1.0)
+		     ReducedTree->JetsEta[i],   ReducedTree->JetsPhi[i]) <0.3)
 	    isCleanedJet = false;
 	}
 
@@ -209,21 +228,21 @@ int main (int argc, char** argv)
 	WWTree->njets++;
 	if (ReducedTree->Jets_bDiscriminatorICSV[i]>0.679)   WWTree->nbtag++;
 
-	if (ReducedTree->JetsPt[i]<WWTree->jet3_pt) continue;
+	if (ReducedTree->Jets_PtCorr[i]<WWTree->jet3_pt) continue;
 
-	if (ReducedTree->JetsPt[i]>=WWTree->jet3_pt) {
-	  if (ReducedTree->JetsPt[i]>=WWTree->jet2_pt) {
+	if (ReducedTree->Jets_PtCorr[i]>=WWTree->jet3_pt) {
+	  if (ReducedTree->Jets_PtCorr[i]>=WWTree->jet2_pt) {
 	    WWTree->jet3_pt = WWTree->jet2_pt;
 	    WWTree->jet3_eta = WWTree->jet2_eta;
 	    WWTree->jet3_phi = WWTree->jet2_phi;
 	    WWTree->jet3_btag = WWTree->jet2_btag;
-	    WWTree->jet2_pt = ReducedTree->JetsPt[i];
+	    WWTree->jet2_pt = ReducedTree->Jets_PtCorr[i];
 	    WWTree->jet2_eta = ReducedTree->JetsEta[i];
 	    WWTree->jet2_phi = ReducedTree->JetsPhi[i];
 	    WWTree->jet2_btag = ReducedTree->Jets_bDiscriminatorICSV[i];
 	  }
 	  else {
-	    WWTree->jet3_pt = ReducedTree->JetsPt[i];
+	    WWTree->jet3_pt = ReducedTree->Jets_PtCorr[i];
 	    WWTree->jet3_eta = ReducedTree->JetsEta[i];
 	    WWTree->jet3_phi = ReducedTree->JetsPhi[i];
 	    WWTree->jet3_btag = ReducedTree->Jets_bDiscriminatorICSV[i];
@@ -321,7 +340,7 @@ int main (int argc, char** argv)
     TLorentzVector W_neutrino_type2; 
     W_neutrino_type2.SetPxPyPzE(W_Met.Px(),W_Met.Py(),pz1_type2,sqrt(W_Met.Pt()*W_Met.Pt()+pz1_type2*pz1_type2));
 
-    if (NeutrinoPz_type2.IsComplex()) {// if this is a complix, change MET
+    /*    if (NeutrinoPz_type2.IsComplex()) {// if this is a complix, change MET
       double nu_pt1 = NeutrinoPz_type2.getPtneutrino(1);
       double nu_pt2 = NeutrinoPz_type2.getPtneutrino(2);
       TLorentzVector W_neutrino_1;
@@ -334,7 +353,7 @@ int main (int argc, char** argv)
       if ( fabs((W_mu+W_neutrino_1).M()-Wmass) < fabs((W_mu+W_neutrino_2).M()-Wmass) ) W_neutrino_type2 = W_neutrino_1;
       else W_neutrino_type2 = W_neutrino_2;
     }
-
+    */
     //    W_mass_type2 = (W_mu+W_neutrino_type2).M();
     //    W_pz_type2 = (W_mu+W_neutrino_type2).Pz();
     //    W_nu1_pz_type2 = pz1_type2;
@@ -344,8 +363,8 @@ int main (int argc, char** argv)
     
     LEP->SetPtEtaPhiE(WWTree->l_pt,WWTree->l_eta,WWTree->l_phi,l_e);
     NU0->SetPxPyPzE(ReducedTree->METPt*TMath::Cos(ReducedTree->METPhi),ReducedTree->METPt*TMath::Sin(ReducedTree->METPhi),pz1_type0,WWTree->pfMET);
-    NU2->SetPxPyPzE(ReducedTree->METPt*TMath::Cos(ReducedTree->METPhi),ReducedTree->METPt*TMath::Sin(ReducedTree->METPhi),pz1_type2,WWTree->pfMET);
-    *W = *LEP + *NU0;
+    NU2->SetPxPyPzE(ReducedTree->METPt*TMath::Cos(ReducedTree->METPhi),ReducedTree->METPt*TMath::Sin(ReducedTree->METPhi),pz1_type2,TMath::Sqrt(ReducedTree->METPt*TMath::Cos(ReducedTree->METPhi)*ReducedTree->METPt*TMath::Cos(ReducedTree->METPhi)+ReducedTree->METPt*TMath::Sin(ReducedTree->METPhi)*ReducedTree->METPt*TMath::Sin(ReducedTree->METPhi)+pz1_type2*pz1_type2));
+    *W = *LEP + *NU2;
 
     WWTree->W_pt = W->Pt();
     WWTree->W_eta = W->Eta();
@@ -368,7 +387,7 @@ int main (int argc, char** argv)
 
     //FOUR-BODY INVARIANT MASS
     if (WWTree->jet_pt>=0 && WWTree->l_pt>=0) {
-      WWTree->m_lvj = (*LEP + *NU0 + *JET).M();
+      WWTree->m_lvj = (*LEP + *NU2 + *JET).M();
     }
     //    WWTree->mass_lvj_type2 = (*LEP + *NU2 + *JET).M();
 
