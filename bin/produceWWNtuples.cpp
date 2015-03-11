@@ -116,6 +116,7 @@ int main (int argc, char** argv)
       float tempPt=0.;
       for (int i=0; i<ReducedTree->ElectronsNum; i++) {
 	if (ReducedTree->Electrons_isHEEP[i]==false) continue;       
+        if (ReducedTree->ElectronsPt[i]<=90) continue;
 	if (ReducedTree->ElectronsPt[i]<tempPt) continue;
 	WWTree->l_pt  = ReducedTree->ElectronsPt[i];
 	WWTree->l_eta = ReducedTree->ElectronsEta[i];
@@ -129,6 +130,9 @@ int main (int argc, char** argv)
       float tempPt=0.;
       for (int i=0; i<ReducedTree->MuonsNum; i++) {
 	if (ReducedTree->Muons_isHighPt[i]==false) continue;
+        if ((ReducedTree->Muons_trackIso[i]/ReducedTree->MuonsPt[i])>=0.1) continue;
+        if (ReducedTree->MuonsPt[i]<40) continue;
+        if (fabs(ReducedTree->MuonsEta[i])>=2.4) continue;
 	if (ReducedTree->MuonsPt[i]<tempPt) continue;
 	WWTree->l_pt  = ReducedTree->MuonsPt[i];
 	WWTree->l_eta = ReducedTree->MuonsEta[i];
@@ -253,19 +257,24 @@ int main (int argc, char** argv)
     for (unsigned int i=0; i<ReducedTree->AK8JetsNum; i++)
       {
 	bool isCleanedJet = true;
-	if (ReducedTree->AK8JetsPt[i]<30 || ReducedTree->AK8JetsEta[i]>4.7)  continue;
+	if (ReducedTree->AK8JetsPt[i]<30 || ReducedTree->AK8JetsEta[i]>2.4)  continue;
 	if (ReducedTree->AK8JetsPt[i]<=tempPt) continue; //save the jet with the largest pt
 	if (ReducedTree->AK8Jets_AK8isLooseJetId[i]==false) continue; //fat jet must satisfy loose ID
 
 	//CLEANING FROM LEPTONS
 	for (int j=0; j<ReducedTree->ElectronsNum; j++) {
-	  if (ReducedTree->Electrons_isHEEP[j]==false) continue;       
+	  if (ReducedTree->Electrons_isHEEP[j]==false) continue;     
+          if (ReducedTree->ElectronsPt[j]<=90) continue;  
 	  if (deltaR(ReducedTree->ElectronsEta[j], ReducedTree->ElectronsPhi[j],
 		     ReducedTree->AK8JetsEta[i],   ReducedTree->AK8JetsPhi[i]) <1.0)
 	    isCleanedJet = false;
 	}
 	for (int j=0; j<ReducedTree->MuonsNum; j++) {
 	  if (ReducedTree->Muons_isHighPt[j]==false) continue;       
+          if ((ReducedTree->Muons_trackIso[j]/ReducedTree->MuonsPt[j])>=0.1) continue;
+          if (ReducedTree->MuonsPt[j]<40) continue;
+          if (fabs(ReducedTree->MuonsEta[j])>=2.4) continue;
+
 	  if (deltaR(ReducedTree->MuonsEta[j], ReducedTree->MuonsPhi[j],
 		     ReducedTree->AK8JetsEta[i],   ReducedTree->AK8JetsPhi[i]) <1.0)
 	    isCleanedJet = false;
@@ -297,19 +306,19 @@ int main (int argc, char** argv)
     LEP->SetPtEtaPhiE(WWTree->l_pt,WWTree->l_eta,WWTree->l_phi,WWTree->l_e);
     NU0->SetPxPyPzE(ReducedTree->METPt*TMath::Cos(ReducedTree->METPhi),ReducedTree->METPt*TMath::Sin(ReducedTree->METPhi),WWTree->nu_pz_type0,WWTree->pfMET);
     NU2->SetPxPyPzE(ReducedTree->METPt*TMath::Cos(ReducedTree->METPhi),ReducedTree->METPt*TMath::Sin(ReducedTree->METPhi),WWTree->nu_pz_type2,WWTree->pfMET);
-    *W = *LEP + *NU0;
+    *W = *LEP + *NU2;
     
     WWTree->v_pt = W->Pt();
     WWTree->v_eta = W->Eta();
     WWTree->v_phi = W->Phi();
-    WWTree->v_mt = TMath::Sqrt(2*LEP->Et()*NU0->Et()*(1-TMath::Cos(LEP->DeltaPhi(*NU0))));
+    WWTree->v_mt = TMath::Sqrt(2*LEP->Et()*NU2->Et()*(1-TMath::Cos(LEP->DeltaPhi(*NU2))));
     //    W_mt = W->Mt();
 
     //////////////////ANGULAR VARIABLES
     TLorentzVector *JET = new TLorentzVector();
     JET->SetPtEtaPhiE(WWTree->ungroomed_jet_pt,WWTree->ungroomed_jet_eta,WWTree->ungroomed_jet_phi,WWTree->ungroomed_jet_e);
     WWTree->deltaR_lak8jet = JET->DeltaR(*LEP);
-    WWTree->deltaphi_METak8jet = JET->DeltaPhi(*NU0);
+    WWTree->deltaphi_METak8jet = JET->DeltaPhi(*NU2);
     WWTree->deltaphi_Vak8jet = JET->DeltaPhi(*W);
     if (WWTree->deltaR_lak8jet>(TMath::Pi()/2.0) && WWTree->deltaphi_METak8jet>2.0 && WWTree->deltaphi_Vak8jet>2.0)
       WWTree->issignal=1;
@@ -347,25 +356,29 @@ int main (int argc, char** argv)
     for (unsigned int i=0; i<ReducedTree->JetsNum; i++) //loop on AK4 jet
       {
 	bool isCleanedJet = true;
-	if (ReducedTree->JetsPt[i]<30 || ReducedTree->JetsEta[i]>4.7)  continue;
+	if (ReducedTree->JetsPt[i]<30 || ReducedTree->JetsEta[i]>=2.4)  continue;
 	if (ReducedTree->Jets_isLooseJetId[i]==false) continue;
 
 	//CLEANING
 	if (deltaR(WWTree->ungroomed_jet_eta, WWTree->ungroomed_jet_phi,
-		       ReducedTree->JetsEta[i],   ReducedTree->JetsPhi[i]) <1.0)
+		       ReducedTree->JetsEta[i],   ReducedTree->JetsPhi[i]) <0.8)
 	  isCleanedJet = false;
 
 	//CLEANING FROM LEPTONS
 	for (int j=0; j<ReducedTree->ElectronsNum; j++) {
 	  if (ReducedTree->Electrons_isHEEP[j]==false) continue;       
+          if (ReducedTree->ElectronsPt[j]<=90) continue;
 	  if (deltaR(ReducedTree->ElectronsEta[j], ReducedTree->ElectronsPhi[j],
-		     ReducedTree->JetsEta[i],   ReducedTree->JetsPhi[i]) <1.0)
+		     ReducedTree->JetsEta[i],   ReducedTree->JetsPhi[i]) <0.3)
 	    isCleanedJet = false;
 	}      
 	for (int j=0; j<ReducedTree->MuonsNum; j++) {
-	  if (ReducedTree->Muons_isHighPt[j]==false) continue;       
-	  if (deltaR(ReducedTree->MuonsEta[j], ReducedTree->MuonsPhi[j],
-		     ReducedTree->JetsEta[i],   ReducedTree->JetsPhi[i]) <1.0)
+	  if (ReducedTree->Muons_isHighPt[j]==false) continue;    
+          if ((ReducedTree->Muons_trackIso[j]/ReducedTree->MuonsPt[j])>=0.1) continue;
+          if (ReducedTree->MuonsPt[j]<40) continue;
+          if (fabs(ReducedTree->MuonsEta[j])>=2.4) continue;
+   	  if (deltaR(ReducedTree->MuonsEta[j], ReducedTree->MuonsPhi[j],
+		     ReducedTree->JetsEta[i],   ReducedTree->JetsPhi[i]) <0.3)
 	    isCleanedJet = false;
 	}
 
