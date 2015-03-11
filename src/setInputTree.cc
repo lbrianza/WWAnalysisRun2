@@ -65,6 +65,8 @@ void setInputTree::Init()
    fChain->SetBranchAddress("MHT", &MHT, &b_MHT);
    fChain->SetBranchAddress("METPt", &METPt, &b_METPt);
    fChain->SetBranchAddress("METPhi", &METPhi, &b_METPhi);
+   fChain->SetBranchAddress("METPtRaw", &METPtRaw, &b_METPtRaw);
+   fChain->SetBranchAddress("METPhiRaw", &METPhiRaw, &b_METPhiRaw);
    fChain->SetBranchAddress("HT", &HT, &b_HT);
    fChain->SetBranchAddress("DeltaPhi1", &DeltaPhi1, &b_DeltaPhi1);
    fChain->SetBranchAddress("DeltaPhi2", &DeltaPhi2, &b_DeltaPhi2);
@@ -129,6 +131,10 @@ void setInputTree::Init()
    fChain->SetBranchAddress("Jets_photonEnergyFraction", Jets_photonEnergyFraction, &b_Jets_photonEnergyFraction);
    fChain->SetBranchAddress("Jets_photonMultiplicity", Jets_photonMultiplicity, &b_Jets_photonMultiplicity);
    fChain->SetBranchAddress("Jets_isLooseJetId", Jets_isLooseJetId, &b_Jets_isLooseJetId);
+   fChain->SetBranchAddress("Jets_PtCorr", Jets_PtCorr, &b_Jets_PtCorr);
+   fChain->SetBranchAddress("Jets_EtaCorr", Jets_EtaCorr, &b_Jets_EtaCorr);
+   fChain->SetBranchAddress("Jets_PhiCorr", Jets_PhiCorr, &b_Jets_PhiCorr);
+   fChain->SetBranchAddress("Jets_ECorr", Jets_ECorr, &b_Jets_ECorr);
    fChain->SetBranchAddress("AK8JetsNum", &AK8JetsNum, &b_AK8JetsNum);
    fChain->SetBranchAddress("AK8JetsPt", AK8JetsPt, &b_AK8JetsPt);
    fChain->SetBranchAddress("AK8JetsEta", AK8JetsEta, &b_AK8JetsEta);
@@ -149,12 +155,17 @@ void setInputTree::Init()
    fChain->SetBranchAddress("AK8Jets_photonEnergyFraction", AK8Jets_photonEnergyFraction, &b_AK8Jets_photonEnergyFraction);
    fChain->SetBranchAddress("AK8Jets_photonMultiplicity", AK8Jets_photonMultiplicity, &b_AK8Jets_photonMultiplicity);
    fChain->SetBranchAddress("AK8Jets_prunedMass", AK8Jets_prunedMass, &b_AK8Jets_prunedMass);
+   fChain->SetBranchAddress("AK8Jets_softDropMass", AK8Jets_softDropMass, &b_AK8Jets_softDropMass);
    fChain->SetBranchAddress("AK8Jets_trimmedMass", AK8Jets_trimmedMass, &b_AK8Jets_trimmedMass);
    fChain->SetBranchAddress("AK8Jets_filteredMass", AK8Jets_filteredMass, &b_AK8Jets_filteredMass);
    fChain->SetBranchAddress("AK8Jets_tau1", AK8Jets_tau1, &b_AK8Jets_tau1);
    fChain->SetBranchAddress("AK8Jets_tau2", AK8Jets_tau2, &b_AK8Jets_tau2);
    fChain->SetBranchAddress("AK8Jets_tau3", AK8Jets_tau3, &b_AK8Jets_tau3);
    fChain->SetBranchAddress("AK8Jets_AK8isLooseJetId", AK8Jets_AK8isLooseJetId, &b_AK8Jets_AK8isLooseJetId);
+   fChain->SetBranchAddress("AK8Jets_PtCorr", AK8Jets_PtCorr, &b_AK8Jets_PtCorr);
+   fChain->SetBranchAddress("AK8Jets_EtaCorr", AK8Jets_EtaCorr, &b_AK8Jets_EtaCorr);
+   fChain->SetBranchAddress("AK8Jets_PhiCorr", AK8Jets_PhiCorr, &b_AK8Jets_PhiCorr);
+   fChain->SetBranchAddress("AK8Jets_ECorr", AK8Jets_ECorr, &b_AK8Jets_ECorr);
    fChain->SetBranchAddress("ElectronsNum", &ElectronsNum, &b_ElectronsNum);
    fChain->SetBranchAddress("ElectronsPt", ElectronsPt, &b_ElectronsPt);
    fChain->SetBranchAddress("ElectronsEta", ElectronsEta, &b_ElectronsEta);
