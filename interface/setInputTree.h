@@ -34,6 +34,8 @@ public :
    Float_t         MHT;
    Float_t         METPt;
    Float_t         METPhi;
+   Float_t         METPtRaw;
+   Float_t         METPhiRaw;
    Float_t         HT;
    Float_t         DeltaPhi1;
    Float_t         DeltaPhi2;
@@ -98,6 +100,10 @@ public :
    Float_t         Jets_photonEnergyFraction[26];   //[JetsNum]
    Int_t           Jets_photonMultiplicity[26];   //[JetsNum]
    UChar_t         Jets_isLooseJetId[26];   //[JetsNum]
+   Float_t         Jets_PtCorr[26];   //[JetsNum]
+   Float_t         Jets_EtaCorr[26];   //[JetsNum]
+   Float_t         Jets_PhiCorr[26];   //[JetsNum]
+   Float_t         Jets_ECorr[26];   //[JetsNum]
    UShort_t        AK8JetsNum;
    Float_t         AK8JetsPt[7];   //[AK8JetsNum]
    Float_t         AK8JetsEta[7];   //[AK8JetsNum]
@@ -125,6 +131,10 @@ public :
    Float_t         AK8Jets_tau2[7];   //[AK8JetsNum]
    Float_t         AK8Jets_tau3[7];   //[AK8JetsNum]
    UChar_t         AK8Jets_AK8isLooseJetId[7];   //[AK8JetsNum]
+   Float_t         AK8Jets_PtCorr[7];   //[AK8JetsNum]
+   Float_t         AK8Jets_EtaCorr[7];   //[AK8JetsNum]
+   Float_t         AK8Jets_PhiCorr[7];   //[AK8JetsNum]
+   Float_t         AK8Jets_ECorr[7];   //[AK8JetsNum]
    UShort_t        ElectronsNum;
    Float_t         ElectronsPt[7];   //[ElectronsNum]
    Float_t         ElectronsEta[7];   //[ElectronsNum]
@@ -174,6 +184,8 @@ public :
    TBranch        *b_MHT;   //!
    TBranch        *b_METPt;   //!
    TBranch        *b_METPhi;   //!
+   TBranch        *b_METPtRaw;   //!
+   TBranch        *b_METPhiRaw;   //!
    TBranch        *b_HT;   //!
    TBranch        *b_DeltaPhi1;   //!
    TBranch        *b_DeltaPhi2;   //!
@@ -238,6 +250,10 @@ public :
    TBranch        *b_Jets_photonEnergyFraction;   //!
    TBranch        *b_Jets_photonMultiplicity;   //!
    TBranch        *b_Jets_isLooseJetId;   //!
+   TBranch        *b_Jets_PtCorr;   //!
+   TBranch        *b_Jets_EtaCorr;   //!
+   TBranch        *b_Jets_PhiCorr;   //!
+   TBranch        *b_Jets_ECorr;   //!
    TBranch        *b_AK8JetsNum;   //!
    TBranch        *b_AK8JetsPt;   //!
    TBranch        *b_AK8JetsEta;   //!
@@ -258,12 +274,17 @@ public :
    TBranch        *b_AK8Jets_photonEnergyFraction;   //!
    TBranch        *b_AK8Jets_photonMultiplicity;   //!
    TBranch        *b_AK8Jets_prunedMass;   //!
+   TBranch        *b_AK8Jets_softDropMass;   //!
    TBranch        *b_AK8Jets_trimmedMass;   //!
    TBranch        *b_AK8Jets_filteredMass;   //!
    TBranch        *b_AK8Jets_tau1;   //!
    TBranch        *b_AK8Jets_tau2;   //!
    TBranch        *b_AK8Jets_tau3;   //!
    TBranch        *b_AK8Jets_AK8isLooseJetId;   //!
+   TBranch        *b_AK8Jets_PtCorr;   //!
+   TBranch        *b_AK8Jets_EtaCorr;   //!
+   TBranch        *b_AK8Jets_PhiCorr;   //!
+   TBranch        *b_AK8Jets_ECorr;   //!
    TBranch        *b_ElectronsNum;   //!
    TBranch        *b_ElectronsPt;   //!
    TBranch        *b_ElectronsEta;   //!
