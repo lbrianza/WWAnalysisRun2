@@ -95,7 +95,7 @@ int main (int argc, char** argv)
     if (ReducedTree->AK8JetsNum < 1 ) continue; 
 
     //preselection on jet pt and met
-    if (ReducedTree->AK8JetsPt[0] < 150) continue; 
+    if (ReducedTree->AK8Jets_PtCorr[0] < 150) continue; 
     if (ReducedTree->METPt < 50) continue; 
 
     //lepton Pt preselection
@@ -257,8 +257,8 @@ int main (int argc, char** argv)
     for (unsigned int i=0; i<ReducedTree->AK8JetsNum; i++)
       {
 	bool isCleanedJet = true;
-	if (ReducedTree->AK8JetsPt[i]<30 || ReducedTree->AK8JetsEta[i]>2.4)  continue;
-	if (ReducedTree->AK8JetsPt[i]<=tempPt) continue; //save the jet with the largest pt
+	if (ReducedTree->AK8Jets_PtCorr[i]<30 || ReducedTree->AK8JetsEta[i]>2.4)  continue;
+	if (ReducedTree->AK8Jets_PtCorr[i]<=tempPt) continue; //save the jet with the largest pt
 	if (ReducedTree->AK8Jets_AK8isLooseJetId[i]==false) continue; //fat jet must satisfy loose ID
 
 	//CLEANING FROM LEPTONS
@@ -282,10 +282,10 @@ int main (int argc, char** argv)
 
 	if (isCleanedJet==false) continue; //jet is overlapped with a lepton
 
-	WWTree->ungroomed_jet_pt  = ReducedTree->AK8JetsPt[i];
+	WWTree->ungroomed_jet_pt  = ReducedTree->AK8Jets_PtCorr[i];
 	WWTree->ungroomed_jet_eta = ReducedTree->AK8JetsEta[i];
 	WWTree->ungroomed_jet_phi = ReducedTree->AK8JetsPhi[i];
-	WWTree->ungroomed_jet_e   = ReducedTree->AK8JetsE[i];
+	WWTree->ungroomed_jet_e   = ReducedTree->AK8Jets_ECorr[i];
 	WWTree->jet_mass_pr   = ReducedTree->AK8Jets_prunedMass[i];
         WWTree->jet_mass_so   = ReducedTree->AK8Jets_softDropMass[i];
 	WWTree->jet_mass_tr   = ReducedTree->AK8Jets_trimmedMass[i];
@@ -356,7 +356,7 @@ int main (int argc, char** argv)
     for (unsigned int i=0; i<ReducedTree->JetsNum; i++) //loop on AK4 jet
       {
 	bool isCleanedJet = true;
-	if (ReducedTree->JetsPt[i]<30 || ReducedTree->JetsEta[i]>=2.4)  continue;
+	if (ReducedTree->Jets_PtCorr[i]<30 || ReducedTree->JetsEta[i]>=2.4)  continue;
 	if (ReducedTree->Jets_isLooseJetId[i]==false) continue;
 
 	//CLEANING
@@ -390,7 +390,7 @@ int main (int argc, char** argv)
 	if (ReducedTree->Jets_bDiscriminatorICSV[i]>0.679)   WWTree->nBTagJet_medium++;
 	if (ReducedTree->Jets_bDiscriminatorICSV[i]>0.898)   WWTree->nBTagJet_tight++;
 
-	AK4->SetPtEtaPhiE(ReducedTree->JetsPt[i],ReducedTree->JetsEta[i],ReducedTree->JetsPhi[i],ReducedTree->JetsE[i]);
+	AK4->SetPtEtaPhiE(ReducedTree->Jets_PtCorr[i],ReducedTree->JetsEta[i],ReducedTree->JetsPhi[i],ReducedTree->Jets_ECorr[i]);
 	float deltaR = HADW->DeltaR(*AK4);
 	if (deltaR<0.8) continue; //the vbf jets must be outside the had W cone
 	indexGoodJets.push_back(i); //save index of the "good" vbf jets candidate
@@ -409,8 +409,8 @@ int main (int argc, char** argv)
     
 	for (unsigned int i=0; i<indexGoodJets.size()-1; i++) {
 	  for (unsigned int ii=i+1; ii<indexGoodJets.size(); ii++) {
-	    VBF1->SetPtEtaPhiE(ReducedTree->JetsPt[indexGoodJets.at(i)],ReducedTree->JetsEta[indexGoodJets.at(i)],ReducedTree->JetsPhi[indexGoodJets.at(i)],ReducedTree->JetsE[indexGoodJets.at(i)]);
-	    VBF2->SetPtEtaPhiE(ReducedTree->JetsPt[indexGoodJets.at(ii)],ReducedTree->JetsEta[indexGoodJets.at(ii)],ReducedTree->JetsPhi[indexGoodJets.at(ii)],ReducedTree->JetsE[indexGoodJets.at(ii)]);
+	    VBF1->SetPtEtaPhiE(ReducedTree->Jets_PtCorr[indexGoodJets.at(i)],ReducedTree->JetsEta[indexGoodJets.at(i)],ReducedTree->JetsPhi[indexGoodJets.at(i)],ReducedTree->Jets_ECorr[indexGoodJets.at(i)]);
+	    VBF2->SetPtEtaPhiE(ReducedTree->Jets_PtCorr[indexGoodJets.at(ii)],ReducedTree->JetsEta[indexGoodJets.at(ii)],ReducedTree->JetsPhi[indexGoodJets.at(ii)],ReducedTree->Jets_ECorr[indexGoodJets.at(ii)]);
 	    *TOT = *VBF1 + *VBF2;
 	    if (TOT->Pt() < tempPtMax) continue;
 	    tempPtMax = TOT->Pt(); //take the jet pair with largest Pt
@@ -421,19 +421,19 @@ int main (int argc, char** argv)
 	
 	if (nVBF1!=-1 && nVBF2!=-1) //save infos for vbf jet pair
 	  {
-	    VBF1->SetPtEtaPhiE(ReducedTree->JetsPt[nVBF1],ReducedTree->JetsEta[nVBF1],ReducedTree->JetsPhi[nVBF1],ReducedTree->JetsE[nVBF1]);
-	    VBF2->SetPtEtaPhiE(ReducedTree->JetsPt[nVBF2],ReducedTree->JetsEta[nVBF2],ReducedTree->JetsPhi[nVBF2],ReducedTree->JetsE[nVBF2]);
+	    VBF1->SetPtEtaPhiE(ReducedTree->Jets_PtCorr[nVBF1],ReducedTree->JetsEta[nVBF1],ReducedTree->JetsPhi[nVBF1],ReducedTree->Jets_ECorr[nVBF1]);
+	    VBF2->SetPtEtaPhiE(ReducedTree->Jets_PtCorr[nVBF2],ReducedTree->JetsEta[nVBF2],ReducedTree->JetsPhi[nVBF2],ReducedTree->Jets_ECorr[nVBF2]);
 	    *TOT = *VBF1 + *VBF2;
 	    
-	    WWTree->vbf_maxpt_j1_pt = ReducedTree->JetsPt[nVBF1];
+	    WWTree->vbf_maxpt_j1_pt = ReducedTree->Jets_PtCorr[nVBF1];
 	    WWTree->vbf_maxpt_j1_eta = ReducedTree->JetsEta[nVBF1];
 	    WWTree->vbf_maxpt_j1_phi = ReducedTree->JetsPhi[nVBF1];
-	    WWTree->vbf_maxpt_j1_e = ReducedTree->JetsE[nVBF1];
+	    WWTree->vbf_maxpt_j1_e = ReducedTree->Jets_ECorr[nVBF1];
 	    WWTree->vbf_maxpt_j1_bDiscriminatorCSV = ReducedTree->Jets_bDiscriminatorICSV[nVBF1];
-	    WWTree->vbf_maxpt_j2_pt = ReducedTree->JetsPt[nVBF2];
+	    WWTree->vbf_maxpt_j2_pt = ReducedTree->Jets_PtCorr[nVBF2];
 	    WWTree->vbf_maxpt_j2_eta = ReducedTree->JetsEta[nVBF2];
 	    WWTree->vbf_maxpt_j2_phi = ReducedTree->JetsPhi[nVBF2];
-	    WWTree->vbf_maxpt_j2_e = ReducedTree->JetsE[nVBF2];
+	    WWTree->vbf_maxpt_j2_e = ReducedTree->Jets_ECorr[nVBF2];
 	    WWTree->vbf_maxpt_j2_bDiscriminatorCSV = ReducedTree->Jets_bDiscriminatorICSV[nVBF2];
 	    WWTree->vbf_maxpt_jj_pt = TOT->Pt();
 	    WWTree->vbf_maxpt_jj_eta = TOT->Eta();
