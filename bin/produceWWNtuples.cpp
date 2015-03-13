@@ -56,7 +56,9 @@ int main (int argc, char** argv)
   //  InitTree(chain);
   //  chain->Add((inputFolder+inputFile).c_str());
 
-  TFile *MyFile = new TFile((inputFolder+inputFile).c_str(),"READ");
+  std::cout<<"file: "<<(inputFolder+inputFile).c_str()<<std::endl;
+  //  TFile *MyFile = new TFile((inputFolder+inputFile).c_str(),"READ");
+  TFile *MyFile = TFile::Open((inputFolder+inputFile).c_str());
   setInputTree *ReducedTree = new setInputTree (MyFile, inputTreeName.c_str());
   if (ReducedTree->fChain == 0) return (-1);
   ReducedTree->Init();
