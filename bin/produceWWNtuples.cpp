@@ -28,6 +28,7 @@
 #include "../interface/setInputTree.h"
 #include "../interface/setOutputTree.h"
 #include "../interface/METzCalculator.h"
+#include "../interface/METzCalculator_Run2.h"
 #include "../interface/analysisUtils.h"
 
 using namespace std;
@@ -56,7 +57,6 @@ int main (int argc, char** argv)
   //  InitTree(chain);
   //  chain->Add((inputFolder+inputFile).c_str());
 
-  std::cout<<"file: "<<(inputFolder+inputFile).c_str()<<std::endl;
   //  TFile *MyFile = new TFile((inputFolder+inputFile).c_str(),"READ");
   TFile *MyFile = TFile::Open((inputFolder+inputFile).c_str());
   setInputTree *ReducedTree = new setInputTree (MyFile, inputTreeName.c_str());
@@ -168,12 +168,19 @@ int main (int argc, char** argv)
 
     // type0 calculation of neutrino pZ
     METzCalculator NeutrinoPz_type0;
+    METzCalculator_Run2 NeutrinoPz_run2;
     NeutrinoPz_type0.SetMET(W_Met);
     NeutrinoPz_type0.SetLepton(W_mu);
     NeutrinoPz_type0.SetLeptonType(leptonName.c_str());
 
+    NeutrinoPz_run2.SetMET(W_Met);
+    NeutrinoPz_run2.SetLepton(W_mu);
+    NeutrinoPz_run2.SetLeptonType(leptonName.c_str());
+
     double pz1_type0 = NeutrinoPz_type0.Calculate(); // Default one -> according to type0
     double pz2_type0 = NeutrinoPz_type0.getOther(); // Default one
+
+    double pz1_run2 = NeutrinoPz_run2.Calculate(); 
 
     // don't touch the neutrino pT
     TLorentzVector W_neutrino_type0_met; 
@@ -251,7 +258,10 @@ int main (int argc, char** argv)
     WWTree->pfMET_Phi = ReducedTree->METPhi;
     WWTree->nu_pz_type0 = pz1_type0;
     WWTree->nu_pz_type2 = pz1_type2;
-
+    WWTree->nu_pz_run2 = pz1_run2;
+    WWTree->nu_pz_isre = 1-NeutrinoPz_run2.IsComplex();
+    WWTree->nu_pz_run2_oth = NeutrinoPz_run2.getOther();
+    WWTree->nu_pz_run2_type = NeutrinoPz_run2.getType();
 
     ///////////THE FAT JET
     float tempPt=0.;
@@ -304,10 +314,12 @@ int main (int argc, char** argv)
     TLorentzVector *LEP = new TLorentzVector();
     TLorentzVector *NU0  = new TLorentzVector();
     TLorentzVector *NU2  = new TLorentzVector();
+    TLorentzVector *NU1  = new TLorentzVector();
     
     LEP->SetPtEtaPhiE(WWTree->l_pt,WWTree->l_eta,WWTree->l_phi,WWTree->l_e);
-    NU0->SetPxPyPzE(ReducedTree->METPt*TMath::Cos(ReducedTree->METPhi),ReducedTree->METPt*TMath::Sin(ReducedTree->METPhi),WWTree->nu_pz_type0,WWTree->pfMET);
-    NU2->SetPxPyPzE(ReducedTree->METPt*TMath::Cos(ReducedTree->METPhi),ReducedTree->METPt*TMath::Sin(ReducedTree->METPhi),WWTree->nu_pz_type2,WWTree->pfMET);
+    NU0->SetPxPyPzE(ReducedTree->METPt*TMath::Cos(ReducedTree->METPhi),ReducedTree->METPt*TMath::Sin(ReducedTree->METPhi),WWTree->nu_pz_type0,TMath::Sqrt(WWTree->pfMET*WWTree->pfMET+WWTree->nu_pz_type0*WWTree->nu_pz_type0));
+    NU2->SetPxPyPzE(ReducedTree->METPt*TMath::Cos(ReducedTree->METPhi),ReducedTree->METPt*TMath::Sin(ReducedTree->METPhi),WWTree->nu_pz_type2,TMath::Sqrt(WWTree->pfMET*WWTree->pfMET+WWTree->nu_pz_type2*WWTree->nu_pz_type2));
+    NU1->SetPxPyPzE(ReducedTree->METPt*TMath::Cos(ReducedTree->METPhi),ReducedTree->METPt*TMath::Sin(ReducedTree->METPhi),WWTree->nu_pz_run2,TMath::Sqrt(WWTree->pfMET*WWTree->pfMET+WWTree->nu_pz_run2*WWTree->nu_pz_run2));
     *W = *LEP + *NU2;
     
     WWTree->v_pt = W->Pt();
@@ -328,6 +340,7 @@ int main (int argc, char** argv)
     //FOUR-BODY INVARIANT MASS
     WWTree->mass_lvj_type0 = (*LEP + *NU0 + *JET).M();
     WWTree->mass_lvj_type2 = (*LEP + *NU2 + *JET).M();
+    WWTree->mass_lvj_run2  = (*LEP + *NU1 + *JET).M();
 
     //delete all the TLorentzVector before a new selection
     delete W;
@@ -461,6 +474,7 @@ int main (int argc, char** argv)
 	  temp.SetPtEtaPhiE(ReducedTree->GenBosonPt[i],ReducedTree->GenBosonEta[i],ReducedTree->GenBosonPhi[i],ReducedTree->GenBosonE[i]);
 	  WWTree->W_pt_gen = ReducedTree->GenBosonPt[i];
 	  WWTree->W_pz_gen = temp.Pz();
+	  WWTree->W_rap_gen = temp.Rapidity();
 	  deltaPhiOld = deltaPhi;
 	}	
 	if (ReducedTree->GenBosonNum==2) {
@@ -475,6 +489,9 @@ int main (int argc, char** argv)
 	  if (abs(deltaPhi)>abs(deltaPhiOld))   continue;	  
 	  temp.SetPtEtaPhiE(ReducedTree->GenNuPt[i],ReducedTree->GenNuEta[i],ReducedTree->GenNuPhi[i],ReducedTree->GenNuE[i]);
 	  WWTree->nu_pz_gen=temp.Pz();	  
+	  WWTree->nu_pt_gen=temp.Pt();	  
+	  WWTree->nu_phi_gen=temp.Phi();	  
+	  WWTree->nu_eta_gen=temp.Eta();
 	  deltaPhiOld = deltaPhi;
 	}		
       }
