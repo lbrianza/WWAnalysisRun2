@@ -23,6 +23,10 @@ class setOutputTree {
   float pfMET_Phi;
   float nu_pz_type0;
   float nu_pz_type2;
+  float nu_pz_run2;
+  float nu_pz_run2_oth;
+  int nu_pz_run2_type;
+  int nu_pz_isre;
   float l_pt;
   float l_eta;
   float l_phi;
@@ -38,8 +42,12 @@ class setOutputTree {
   float jet_tau2tau1;
   float W_pt_gen;
   float W_pz_gen;
+  float W_rap_gen;
   float genGravMass;
   float nu_pz_gen;
+  float nu_pt_gen;
+  float nu_phi_gen;
+  float nu_eta_gen;
   float deltaR_lak8jet;
   float deltaphi_METak8jet;
   float deltaphi_Vak8jet;
@@ -49,6 +57,7 @@ class setOutputTree {
   float v_mt;
   float mass_lvj_type0;
   float mass_lvj_type2;
+  float mass_lvj_run2;
   int nBTagJet_loose;
   int nBTagJet_medium;
   int nBTagJet_tight;
