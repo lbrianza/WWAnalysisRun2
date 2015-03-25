@@ -92,18 +92,26 @@ int main (int argc, char** argv)
     WWTree->totalEventWeight = 1.; //temporary value
     WWTree->eff_and_pu_Weight = 1.; //temporary value
 
+    
+
     //require at least one lepton and one jet
     if ( strcmp(leptonName.c_str(),"el")==0 && ReducedTree->ElectronsNum==0) continue; 
     if ( strcmp(leptonName.c_str(),"mu")==0 && ReducedTree->MuonsNum==0) continue;      
+
+    
     if (ReducedTree->AK8JetsNum < 1 ) continue; 
 
+    
     //preselection on jet pt and met
     if (ReducedTree->AK8Jets_PtCorr[0] < 150) continue; 
-    if (ReducedTree->METPt < 50) continue; 
+    
+    if (ReducedTree->METPt < 30) continue; 
 
+    
     //lepton Pt preselection
     if ( strcmp(leptonName.c_str(),"el")==0 && ReducedTree->ElectronsPt[0]<30) continue; 
     if ( strcmp(leptonName.c_str(),"mu")==0 && ReducedTree->MuonsPt[0]<30) continue; 
+    
     
     //save event variables
     WWTree->run   = ReducedTree->RunNum;
@@ -112,7 +120,6 @@ int main (int argc, char** argv)
    // WWTree->njets = ReducedTree->NJets;
     WWTree->nPV  = ReducedTree->NVtx;
     
-
     /////////////////THE SELECTED LEPTON
     int nGoodLepton=0;
     if (strcmp(leptonName.c_str(),"el")==0) {
@@ -147,7 +154,6 @@ int main (int argc, char** argv)
     }
     if (nGoodLepton==0) continue; //no leptons with required ID
 
-
     //////////////THE MET
 
     // Calculate Neutrino Pz using all the possible choices : 
@@ -165,7 +171,6 @@ int main (int argc, char** argv)
     W_Met.SetPxPyPzE(ReducedTree->METPt * TMath::Cos(ReducedTree->METPhi), ReducedTree->METPt * TMath::Sin(ReducedTree->METPhi), 0., sqrt(ReducedTree->METPt*ReducedTree->METPt));
 
     if(W_mu.Pt()<=0 || W_Met.Pt() <= 0 ){ std::cerr<<" Negative Lepton - Neutrino Pt "<<std::endl; continue ; }
-
 
     // type0 calculation of neutrino pZ
     METzCalculator NeutrinoPz_type0;
@@ -270,7 +275,7 @@ int main (int argc, char** argv)
     for (unsigned int i=0; i<ReducedTree->AK8JetsNum; i++)
       {
 	bool isCleanedJet = true;
-	if (ReducedTree->AK8Jets_PtCorr[i]<30 || ReducedTree->AK8JetsEta[i]>2.4)  continue;
+	//	if (ReducedTree->AK8Jets_PtCorr[i]<30 || ReducedTree->AK8JetsEta[i]>2.4)  continue;
 	if (ReducedTree->AK8Jets_PtCorr[i]<=tempPt) continue; //save the jet with the largest pt
 	if (ReducedTree->AK8Jets_AK8isLooseJetId[i]==false) continue; //fat jet must satisfy loose ID
 
@@ -309,6 +314,7 @@ int main (int argc, char** argv)
       }
     if (nGoodAK8jets==0) continue; //not found a good hadronic W candidate
     if (WWTree->ungroomed_jet_pt<150) continue;
+
 
     /////////////////THE LEPTONIC W
     TLorentzVector *W = new TLorentzVector();
@@ -369,11 +375,11 @@ int main (int argc, char** argv)
     WWTree->nBTagJet_loose=0;
     WWTree->nBTagJet_medium=0;
     WWTree->nBTagJet_tight=0;
-   
+
     for (unsigned int i=0; i<ReducedTree->JetsNum; i++) //loop on AK4 jet
       {
 	bool isCleanedJet = true;
-	if (ReducedTree->Jets_PtCorr[i]<30 || ReducedTree->JetsEta[i]>=2.4)  continue;
+	if (ReducedTree->Jets_PtCorr[i]<=30 || fabs(ReducedTree->JetsEta[i])>=2.4)  continue;
 	if (ReducedTree->Jets_isLooseJetId[i]==false) continue;
 
 	//CLEANING
