@@ -50,7 +50,7 @@ int main (int argc, char** argv)
     return(-1);
   }
 
-  int event=22702;
+  int event=10000000;
   //--------input tree-----------
   //  TChain* chain = new TChain("TreeMaker2/PreSelection");
   //  TChain* chain = new TChain(inputTreeName.c_str());
