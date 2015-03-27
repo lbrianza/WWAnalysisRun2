@@ -58,6 +58,8 @@ class setOutputTree {
   float mass_lvj_type0;
   float mass_lvj_type2;
   float mass_lvj_run2;
+  float mass_leptonic_closerjet;
+  float mass_ungroomedjet_closerjet;
   int nBTagJet_loose;
   int nBTagJet_medium;
   int nBTagJet_tight;
@@ -75,6 +77,7 @@ class setOutputTree {
   float vbf_maxpt_jj_eta;
   float vbf_maxpt_jj_phi;
   float vbf_maxpt_jj_m;
+
 
   setOutputTree(TTree* outputTree);
   //  setOutputTree(TTree *outputTree=0);
