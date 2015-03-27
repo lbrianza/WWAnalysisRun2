@@ -376,6 +376,19 @@ int main (int argc, char** argv)
     WWTree->nBTagJet_medium=0;
     WWTree->nBTagJet_tight=0;
 
+    float oldDeltaR = 1000.;
+    float oldDeltaRLep = 1000.;
+    int indexCloserJet = -1;
+    int indexCloserJetLep = -1;
+
+    TLorentzVector *Wn = new TLorentzVector();
+    TLorentzVector *LEPn = new TLorentzVector();
+    TLorentzVector *NUn  = new TLorentzVector();
+
+    LEPn->SetPtEtaPhiE(WWTree->l_pt,WWTree->l_eta,WWTree->l_phi,WWTree->l_e);
+    NUn->SetPxPyPzE(ReducedTree->METPt*TMath::Cos(ReducedTree->METPhi),ReducedTree->METPt*TMath::Sin(ReducedTree->METPhi),WWTree->nu_pz_type2,TMath::Sqrt(WWTree->pfMET*WWTree->pfMET+WWTree->nu_pz_type2*WWTree->nu_pz_type2));
+    *Wn = *LEPn + *NUn;
+
     for (unsigned int i=0; i<ReducedTree->JetsNum; i++) //loop on AK4 jet
       {
 	bool isCleanedJet = true;
@@ -414,11 +427,29 @@ int main (int argc, char** argv)
 	if (ReducedTree->Jets_bDiscriminatorICSV[i]>0.898)   WWTree->nBTagJet_tight++;
 
 	AK4->SetPtEtaPhiE(ReducedTree->Jets_PtCorr[i],ReducedTree->JetsEta[i],ReducedTree->JetsPhi[i],ReducedTree->Jets_ECorr[i]);
+
+	float deltaRlep = Wn->DeltaR(*AK4);
+	if (deltaRlep<oldDeltaRLep) indexCloserJetLep = i;
+
 	float deltaR = HADW->DeltaR(*AK4);
 	if (deltaR<0.8) continue; //the vbf jets must be outside the had W cone
+	if (deltaR<oldDeltaR)  indexCloserJet = i; //index of the closest jet to the AK8
 	indexGoodJets.push_back(i); //save index of the "good" vbf jets candidate
       }
     if (indexGoodJets.size()<2)  fillVBF=false; //check if at least 2 jets are inside the collection
+
+    if (indexCloserJet>=0) { //fill hadronic top mass
+      AK4->SetPtEtaPhiE(ReducedTree->Jets_PtCorr[indexCloserJet],ReducedTree->JetsEta[indexCloserJet],ReducedTree->JetsPhi[indexCloserJet],ReducedTree->Jets_ECorr[indexCloserJet]);
+      WWTree->mass_ungroomedjet_closerjet  = (*HADW + *AK4).M();
+    }
+    if (indexCloserJetLep>=0) { //fill leptonic top mass
+      AK4->SetPtEtaPhiE(ReducedTree->Jets_PtCorr[indexCloserJetLep],ReducedTree->JetsEta[indexCloserJetLep],ReducedTree->JetsPhi[indexCloserJetLep],ReducedTree->Jets_ECorr[indexCloserJetLep]);
+      WWTree->mass_leptonic_closerjet  = (*Wn + *AK4).M();
+    }
+
+    delete LEPn;
+    delete NUn;
+    delete Wn;
     delete HADW;
     delete AK4;
 
