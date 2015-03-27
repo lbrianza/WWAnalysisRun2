@@ -62,6 +62,8 @@ void setOutputTree::initializeVariables()
   jet_mass_tr=-999;
   jet_mass_fi=-999;
   jet_tau2tau1=-999;
+  mass_leptonic_closerjet=-999;
+  mass_ungroomedjet_closerjet=-999;
   vbf_maxpt_j1_pt=-999;
   vbf_maxpt_j1_eta=-999;
   vbf_maxpt_j1_phi=-999;
@@ -131,6 +133,8 @@ void setOutputTree::setBranches()
   fTree->Branch("nBTagJet_loose",&nBTagJet_loose,"nBTagJet_loose/I");
   fTree->Branch("nBTagJet_medium",&nBTagJet_medium,"nBTagJet_medium/I");
   fTree->Branch("nBTagJet_tight",&nBTagJet_tight,"nBTagJet_tight/I");
+  fTree->Branch("mass_leptonic_closerjet",&mass_leptonic_closerjet,"mass_leptonic_closerjet/F");
+  fTree->Branch("mass_ungroomedjet_closerjet",&mass_ungroomedjet_closerjet,"mass_ungroomedjet_closerjet/F");
   fTree->Branch("vbf_maxpt_j1_pt",&vbf_maxpt_j1_pt,"vbf_maxpt_j1_pt/F");
   fTree->Branch("vbf_maxpt_j1_eta",&vbf_maxpt_j1_eta,"vbf_maxpt_j1_eta/F");
   fTree->Branch("vbf_maxpt_j1_phi",&vbf_maxpt_j1_phi,"vbf_maxpt_j1_phi/F");
