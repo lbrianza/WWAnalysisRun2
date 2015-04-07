@@ -323,16 +323,11 @@ int main (int argc, char** argv)
     WWTree->v_mt = TMath::Sqrt(2*LEP.Et()*NU2.Et()*(1-TMath::Cos(LEP.DeltaPhi(NU2))));
     //    W_mt = W.Mt();
 
-    //FOUR-BODY INVARIANT MASS
-    WWTree->mass_lvj_type0 = (LEP + NU0 + JET).M();
-    WWTree->mass_lvj_type2 = (LEP + NU2 + JET).M();
-    WWTree->mass_lvj_run2  = (LEP + NU1 + JET).M();
 
-    //PARTE DI CONTROLLO!!! DA TOGLIERE!!!
-    NU2.SetPtEtaPhiE(ReducedTree->METPt,0.,ReducedTree->METPhi,0.);
+    //FOR THE SYNCHORNIZATION!!! REMOVE IT FOR THE REAL ANALYSIS!!!!
+    //    NU2.SetPtEtaPhiE(ReducedTree->METPt,0.,ReducedTree->METPhi,0.);
+    //    W = NU2+LEP; 
     ////
-
-    W = NU2+LEP; 
 
     if (W.Pt()<200) continue;
     cutEff[2]++;
@@ -413,6 +408,10 @@ int main (int argc, char** argv)
     if (WWTree->deltaR_lak8jet>(TMath::Pi()/2.0) && fabs(WWTree->deltaphi_METak8jet)>2.0 && fabs(WWTree->deltaphi_Vak8jet)>2.0)
       WWTree->issignal=1;
 
+    //FOUR-BODY INVARIANT MASS
+    WWTree->mass_lvj_type0 = (LEP + NU0 + JET).M();
+    WWTree->mass_lvj_type2 = (LEP + NU2 + JET).M();
+    WWTree->mass_lvj_run2  = (LEP + NU1 + JET).M();
 
     /////////VBF and b-tag section
     bool fillVBF = true;
