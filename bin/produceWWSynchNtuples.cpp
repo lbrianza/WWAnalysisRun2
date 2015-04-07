@@ -50,7 +50,6 @@ int main (int argc, char** argv)
     return(-1);
   }
 
-  int event=10000000;
   //--------input tree-----------
   //  TChain* chain = new TChain("TreeMaker2/PreSelection");
   //  TChain* chain = new TChain(inputTreeName.c_str());
@@ -386,6 +385,7 @@ int main (int argc, char** argv)
       //      WWTree->issignal=1;
 
     //FOUR-BODY INVARIANT MASS
+
     if (WWTree->jet_pt>=0 && WWTree->l_pt>=0) {
       WWTree->m_lvj = (*LEP + *NU2 + *JET).M();
     }
