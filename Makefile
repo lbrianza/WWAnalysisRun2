@@ -17,6 +17,9 @@ all: produceWWNtuples.exe produceWWSynchNtuples.exe
 produceWWNtuples.exe: bin/produceWWNtuples.cpp $(DEPS_OBJ)
 	g++ $(CFLAGS) -o $@ $^ $(ROOT_LIB) $(ROOT_FLAGS)
 
+produceWWNtuples_finalSynch.exe: bin/produceWWNtuples_finalSynch.cpp $(DEPS_OBJ)
+	g++ $(CFLAGS) -o $@ $^ $(ROOT_LIB) $(ROOT_FLAGS)
+
 produceWWSynchNtuples.exe: bin/produceWWSynchNtuples.cpp $(DEPS_OBJ)
 	g++ $(CFLAGS) -o $@ $^ $(ROOT_LIB) $(ROOT_FLAGS)
 
