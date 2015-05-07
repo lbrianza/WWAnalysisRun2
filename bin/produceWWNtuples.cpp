@@ -439,7 +439,7 @@ int main (int argc, char** argv)
     for (unsigned int i=0; i<ReducedTree->JetsNum; i++) //loop on AK4 jet
       {
 	bool isCleanedJet = true;
-	if (ReducedTree->Jets_PtCorr[i]<=30 || ReducedTree->JetsPt[i]<=30 || fabs(ReducedTree->JetsEta[i])>=2.4)  continue;
+	if (ReducedTree->Jets_PtCorr[i]<=30 || ReducedTree->JetsPt[i]<=20 || fabs(ReducedTree->JetsEta[i])>=2.4)  continue;
 	if (ReducedTree->Jets_isLooseJetId[i]==false) continue;
 
 	//CLEANING
