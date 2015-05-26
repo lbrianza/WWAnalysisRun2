@@ -172,6 +172,7 @@ public :
    Float_t         Muons_chargedHadIso[33];   //[MuonsNum]
    Float_t         Muons_trackIso[33];   //[MuonsNum]
    UChar_t         Muons_isLoose[33];   //[MuonsNum]
+   UChar_t         Muons_isPFMuon[33];   //[MuonsNum]
 
    // List of branches
    TBranch        *b_RunNum;   //!
@@ -322,6 +323,7 @@ public :
    TBranch        *b_Muons_chargedHadIso;   //!
    TBranch        *b_Muons_trackIso;   //!
    TBranch        *b_Muons_isLoose;   //!
+   TBranch        *b_Muons_isPFMuon;   //!
 
    setInputTree(TFile* inputFile, std::string inputTree);
    virtual ~setInputTree();
