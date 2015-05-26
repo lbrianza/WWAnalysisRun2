@@ -51,7 +51,7 @@ int main (int argc, char** argv)
     return(-1);
   }
 
-  int evento=2874714;
+  int evento=161316;
 
   TLorentzVector W,MET,LEP;
   TLorentzVector NU0,NU1,NU2;
@@ -613,7 +613,7 @@ int main (int argc, char** argv)
       }
     
     //fill the tree
-    /*    if(WWTree->event==evento) { std::cout<<"debug: "<<std::endl;
+    if(WWTree->event==evento) { std::cout<<"debug: "<<std::endl;
     std::cout<<WWTree->issignal <<" "<< 
       WWTree->W_pt <<" "<<
       WWTree->pfMET <<" "<<
@@ -622,7 +622,7 @@ int main (int argc, char** argv)
       WWTree->nbtag <<" "<< 
       WWTree->jet_mass_pruned << " "<< 
       WWTree->jet_tau2tau1<<std::endl;
-      }*/
+      }
     
     if(strcmp(leptonName.c_str(),"mu")==0 && WWTree->issignal==1 && WWTree->W_pt>200 && WWTree->pfMET>40 && WWTree->l_pt>50 && WWTree->jet_pt>200 && WWTree->nbtag <1 && WWTree->jet_mass_pruned > 40 && WWTree->jet_mass_pruned < 130 && WWTree->jet_tau2tau1<0.5) {
       outTree->Fill();
