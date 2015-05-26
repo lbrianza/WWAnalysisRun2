@@ -203,6 +203,7 @@ void setInputTree::Init()
    fChain->SetBranchAddress("Muons_chargedHadIso", Muons_chargedHadIso, &b_Muons_chargedHadIso);
    fChain->SetBranchAddress("Muons_trackIso", Muons_trackIso, &b_Muons_trackIso);
    fChain->SetBranchAddress("Muons_isLoose", Muons_isLoose, &b_Muons_isLoose);
+   fChain->SetBranchAddress("Muons_isPFMuon", Muons_isPFMuon, &b_Muons_isPFMuon);
    //   Notify();
 }
 
