@@ -99,7 +99,8 @@ int main (int argc, char** argv)
     WWTree->ungroomed_jet_pt  = ReducedTree->jet_pt;
     WWTree->ungroomed_jet_eta = ReducedTree->jet_eta;
     WWTree->ungroomed_jet_phi = ReducedTree->jet_phi;
-    WWTree->jet_mass_pr   = ReducedTree->jet_mass_pruned;
+    //    WWTree->jet_mass_pr   = ReducedTree->jet_mass_pruned;
+    WWTree->jet_mass_pr   = ReducedTree->massVhad;
     WWTree->jet_mass_so   = ReducedTree->jet_mass_softdrop;
     WWTree->jet_tau2tau1   = ReducedTree->jet_tau2tau1;
 
