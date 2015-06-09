@@ -40,6 +40,11 @@ void setOutputTree::initializeVariables()
   nu_pt_gen=-999;
   nu_phi_gen=-999;
   nu_eta_gen=-999;
+  hadW_pt_gen=-999;
+  hadW_eta_gen=-999;
+  hadW_phi_gen=-999;
+  hadW_e_gen=-999;
+  hadW_m_gen=-999;
   deltaR_lak8jet=-999;
   deltaphi_METak8jet=-999;
   deltaphi_Vak8jet=-999;
@@ -120,6 +125,11 @@ void setOutputTree::setBranches()
   fTree->Branch("nu_pt_gen",&nu_pt_gen,"nu_pt_gen");
   fTree->Branch("nu_phi_gen",&nu_phi_gen,"nu_phi_gen");
   fTree->Branch("nu_eta_gen",&nu_eta_gen,"nu_eta_gen");
+  fTree->Branch("hadW_pt_gen",&hadW_pt_gen,"hadW_pt_gen");
+  fTree->Branch("hadW_eta_gen",&hadW_eta_gen,"hadW_eta_gen");
+  fTree->Branch("hadW_phi_gen",&hadW_phi_gen,"hadW_phi_gen");
+  fTree->Branch("hadW_e_gen",&hadW_e_gen,"hadW_e_gen");
+  fTree->Branch("hadW_m_gen",&hadW_m_gen,"hadW_m_gen");
   fTree->Branch("deltaR_lak8jet",&deltaR_lak8jet,"deltaR_lak8jet/F");
   fTree->Branch("deltaphi_METak8jet",&deltaphi_METak8jet,"deltaphi_METak8jet/F");
   fTree->Branch("deltaphi_Vak8jet",&deltaphi_Vak8jet,"deltaphi_Vak8jet/F");
