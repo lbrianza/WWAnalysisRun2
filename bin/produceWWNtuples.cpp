@@ -50,6 +50,7 @@ int main (int argc, char** argv)
     std::cout<<"Error: wrong lepton category"<<std::endl;
     return(-1);
   }
+  float genMass = atof(argv[9]);
 
   TLorentzVector W,MET,LEP;
   TLorentzVector NU0,NU1,NU2;
@@ -143,6 +144,7 @@ int main (int argc, char** argv)
       float tempPt=0.;
       for (int i=0; i<ReducedTree->MuonsNum; i++) {
 	if (ReducedTree->Muons_isHighPt[i]==false) continue;
+	if (ReducedTree->Muons_isPFMuon[i]==false) continue; //not in the synch ntuple!!
         if ((ReducedTree->Muons_trackIso[i]/ReducedTree->MuonsPt[i])>=0.1) continue;
         if (ReducedTree->MuonsPt[i]<50) continue;
         if (fabs(ReducedTree->MuonsEta[i])>=2.1) continue;
@@ -551,23 +553,47 @@ int main (int argc, char** argv)
     /////////////////MC Infos
     if (isMC)
       {
-	TLorentzVector temp, temp2;
+	TLorentzVector hadW, lepW, temp;
 	//	std::cout<<"entry: "<<iEntry<<" "<<GenNuNum<<std::endl;
 	double deltaPhiOld=100.;
+	WWTree->genGravMass=100.;	
+	int posWhad =-1, posWlep =-1;
+
 	for (int i=0; i<ReducedTree->GenBosonNum; i++) {
-	  double deltaPhi = getDeltaPhi(ReducedTree->GenBosonPhi[i],WWTree->v_phi);
-	  if (abs(deltaPhi)>abs(deltaPhiOld))   continue;
-	  //	  std::cout<<"bosone: "<<i<<" "<<ReducedTree->GenBosonPhi[i]<<" "<<v_phi<<std::endl;
-	  temp.SetPtEtaPhiE(ReducedTree->GenBosonPt[i],ReducedTree->GenBosonEta[i],ReducedTree->GenBosonPhi[i],ReducedTree->GenBosonE[i]);
-	  WWTree->W_pt_gen = ReducedTree->GenBosonPt[i];
-	  WWTree->W_pz_gen = temp.Pz();
-	  WWTree->W_rap_gen = temp.Rapidity();
-	  deltaPhiOld = deltaPhi;
-	}	
-	if (ReducedTree->GenBosonNum==2) {
-	  temp.SetPtEtaPhiE(ReducedTree->GenBosonPt[0],ReducedTree->GenBosonEta[0],ReducedTree->GenBosonPhi[0],ReducedTree->GenBosonE[0]);
-	  temp2.SetPtEtaPhiE(ReducedTree->GenBosonPt[1],ReducedTree->GenBosonEta[1],ReducedTree->GenBosonPhi[1],ReducedTree->GenBosonE[1]);
-	  WWTree->genGravMass=(temp+temp2).M();	
+	  for (int j=i+1; j<ReducedTree->GenBosonNum; j++) {
+
+	    hadW.SetPtEtaPhiE(ReducedTree->GenBosonPt[i],ReducedTree->GenBosonEta[i],ReducedTree->GenBosonPhi[i],ReducedTree->GenBosonE[i]);
+	    lepW.SetPtEtaPhiE(ReducedTree->GenBosonPt[j],ReducedTree->GenBosonEta[j],ReducedTree->GenBosonPhi[j],ReducedTree->GenBosonE[j]);
+
+	    if (fabs((hadW+lepW).M()-genMass)< fabs(WWTree->genGravMass-genMass)) {
+	      WWTree->genGravMass=(hadW+lepW).M();	
+	      if (deltaR(ReducedTree->GenBosonEta[i], ReducedTree->GenBosonPhi[i],
+			 WWTree->ungroomed_jet_eta, WWTree->ungroomed_jet_phi)<
+		  deltaR(ReducedTree->GenBosonEta[j], ReducedTree->GenBosonPhi[j],
+			 WWTree->ungroomed_jet_eta, WWTree->ungroomed_jet_phi) ) {
+		posWhad = i;		posWlep = j;		
+	      }
+	      else {
+		posWhad = j;		posWlep = i;		
+	      }
+	    }
+
+	  }	
+	}
+
+	if (posWhad!=-1 && posWlep!=-1) {
+	  hadW.SetPtEtaPhiE(ReducedTree->GenBosonPt[posWhad],ReducedTree->GenBosonEta[posWhad],ReducedTree->GenBosonPhi[posWhad],ReducedTree->GenBosonE[posWhad]);
+	  lepW.SetPtEtaPhiE(ReducedTree->GenBosonPt[posWlep],ReducedTree->GenBosonEta[posWlep],ReducedTree->GenBosonPhi[posWlep],ReducedTree->GenBosonE[posWlep]);
+
+	  WWTree->W_pt_gen = ReducedTree->GenBosonPt[posWlep];
+	  WWTree->W_pz_gen = lepW.Pz();
+	  WWTree->W_rap_gen = lepW.Rapidity();
+	  
+	  WWTree->hadW_pt_gen = ReducedTree->GenBosonPt[posWhad];
+	  WWTree->hadW_eta_gen = ReducedTree->GenBosonEta[posWhad];
+	  WWTree->hadW_phi_gen = ReducedTree->GenBosonPhi[posWhad];
+	  WWTree->hadW_e_gen = ReducedTree->GenBosonE[posWhad];
+	  WWTree->hadW_m_gen = hadW.M();
 	}
 
 	deltaPhiOld=100.;
