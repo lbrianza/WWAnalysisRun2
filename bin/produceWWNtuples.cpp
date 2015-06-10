@@ -63,6 +63,8 @@ int main (int argc, char** argv)
   std::vector<TLorentzVector> tightEle;
   std::vector<TLorentzVector> looseEle;
 
+  int ok=0, total=0;
+	
   //--------input tree-----------
   //  TChain* chain = new TChain("TreeMaker2/PreSelection");
   //  TChain* chain = new TChain(inputTreeName.c_str());
@@ -503,6 +505,10 @@ int main (int argc, char** argv)
     if (indexCloserJet>=0) { //fill hadronic top mass
       AK4.SetPtEtaPhiE(ReducedTree->Jets_PtCorr[indexCloserJet],ReducedTree->JetsEta[indexCloserJet],ReducedTree->JetsPhi[indexCloserJet],ReducedTree->Jets_ECorr[indexCloserJet]);
       WWTree->mass_ungroomedjet_closerjet  = (HADW + AK4).M();
+      WWTree->AK8_closerjet_pt = AK4.Pt();
+      WWTree->AK8_closerjet_eta = AK4.Eta();
+      WWTree->AK8_closerjet_phi = AK4.Phi();
+      WWTree->AK8_closerjet_e = AK4.E();
     }
     if (indexCloserJetLep>=0) { //fill leptonic top mass
       AK4.SetPtEtaPhiE(ReducedTree->Jets_PtCorr[indexCloserJetLep],ReducedTree->JetsEta[indexCloserJetLep],ReducedTree->JetsPhi[indexCloserJetLep],ReducedTree->Jets_ECorr[indexCloserJetLep]);
@@ -594,6 +600,10 @@ int main (int argc, char** argv)
 	  WWTree->hadW_phi_gen = ReducedTree->GenBosonPhi[posWhad];
 	  WWTree->hadW_e_gen = ReducedTree->GenBosonE[posWhad];
 	  WWTree->hadW_m_gen = hadW.M();
+
+          if (deltaR(ReducedTree->GenBosonEta[posWhad], ReducedTree->GenBosonPhi[posWhad],
+                     WWTree->ungroomed_jet_eta, WWTree->ungroomed_jet_phi)<0.1)     ok++;
+          total++;
 	}
 
 	deltaPhiOld=100.;
@@ -612,6 +622,8 @@ int main (int argc, char** argv)
     //fill the tree
     outTree->Fill();
   }
+
+  std::cout<<"matching: "<<(float)ok/(float)total<<std::endl;
 
   std::cout<<"lepton eff: "<<cutEff[0]<<std::endl
 	   <<"met eff:    "<<cutEff[1]<<std::endl
