@@ -65,6 +65,10 @@ class setOutputTree {
   float mass_lvj_run2;
   float mass_leptonic_closerjet;
   float mass_ungroomedjet_closerjet;
+  float AK8_closerjet_pt;
+  float AK8_closerjet_eta;
+  float AK8_closerjet_phi;
+  float AK8_closerjet_e;
   int nBTagJet_loose;
   int nBTagJet_medium;
   int nBTagJet_tight;
