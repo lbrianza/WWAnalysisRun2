@@ -29,7 +29,7 @@ for a in range(len(category)):
     for i in range(len(name)):
         fn = "Job/Job_"+name[i]+"_"+category[a];
         outScript = open(fn+".sh","w");
-        command = "python python/produceWWNtuples.py -i /gwteray/users/brianza/WWNtupleRun2/ReducedTree_MC74x/ -n ReducedSelection_"+name[i]+".root -o WWTree_"+name[i]+".root -l "+category[a]+" -w "+xSecWeight[i]+" -no "+N[i]+" -mass "+mass[i];
+        command = "python python/produceWWNtuples.py -i /gwteray/users/brianza/WWNtupleRun2/ReducedTree_MC74x_puppi/ -n ReducedSelection_"+name[i]+".root -o WWTree_"+name[i]+".root -l "+category[a]+" -w "+xSecWeight[i]+" -no "+N[i]+" -mass "+mass[i];
         print command;
         outScript.write('#!/bin/bash');
         outScript.write("\n"+'cd '+CMSSWDir);
