@@ -146,6 +146,7 @@ int main (int argc, char** argv)
       float tempPt=0.;
       for (int i=0; i<ReducedTree->MuonsNum; i++) {
 	if (ReducedTree->Muons_isHighPt[i]==false) continue;
+        if (ReducedTree->Muons_isPFMuon[i]==false) continue; 
         if ((ReducedTree->Muons_trackIso[i]/ReducedTree->MuonsPt[i])>=0.1) continue;
         if (ReducedTree->MuonsPt[i]<50) continue;
         if (fabs(ReducedTree->MuonsEta[i])>=2.1) continue;
