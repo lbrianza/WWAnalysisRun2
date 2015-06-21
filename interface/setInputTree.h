@@ -53,6 +53,23 @@ public :
    Float_t         GenBosonE[2];   //[GenBosonNum]
    Float_t         GenBosonTLorentzVector[2];   //[GenBosonNum]
    Int_t           GenBoson_GenBosonPDGId[2];   //[GenBosonNum]
+   UShort_t        GenJetsNum;
+   Float_t         GenJetsPt[27];   //[GenJetsNum]
+   Float_t         GenJetsEta[27];   //[GenJetsNum]
+   Float_t         GenJetsPhi[27];   //[GenJetsNum]
+   Float_t         GenJetsE[27];   //[GenJetsNum]
+   Float_t         GenJetsTLorentzVector[27];   //[GenJetsNum]
+   UShort_t        GenJetsAK8Num;
+   Float_t         GenJetsAK8Pt[27];   //[GenJetsNum]
+   Float_t         GenJetsAK8Eta[27];   //[GenJetsNum]
+   Float_t         GenJetsAK8Phi[27];   //[GenJetsNum]
+   Float_t         GenJetsAK8E[27];   //[GenJetsNum]
+   Float_t         GenJetsAK8TLorentzVector[27];   //[GenJetsNum]
+   Float_t         GenJetsAK8_prunedMass[27];   //[GenJetsNum]
+   Float_t         GenJetsAK8_softdropMass[27];   //[GenJetsNum]
+   Float_t         GenJetsAK8_tau1[27];   //[GenJetsNum]
+   Float_t         GenJetsAK8_tau2[27];   //[GenJetsNum]
+   Float_t         GenJetsAK8_tau3[27];   //[GenJetsNum]
    UShort_t        GenMuNum;
    Float_t         GenMuPt[2];   //[GenMuNum]
    Float_t         GenMuEta[2];   //[GenMuNum]
@@ -204,6 +221,23 @@ public :
    TBranch        *b_GenBosonE;   //!
    TBranch        *b_GenBosonTLorentzVector;   //!
    TBranch        *b_GenBoson_GenBosonPDGId;   //!
+   TBranch        *b_GenJetsNum;   //!
+   TBranch        *b_GenJetsPt;   //!
+   TBranch        *b_GenJetsEta;   //!
+   TBranch        *b_GenJetsPhi;   //!
+   TBranch        *b_GenJetsE;   //!
+   TBranch        *b_GenJetsTLorentzVector;   //!
+   TBranch        *b_GenJetsAK8Num;   //!
+   TBranch        *b_GenJetsAK8Pt;   //!
+   TBranch        *b_GenJetsAK8Eta;   //!
+   TBranch        *b_GenJetsAK8Phi;   //!
+   TBranch        *b_GenJetsAK8E;   //!
+   TBranch        *b_GenJetsAK8TLorentzVector;   //!
+   TBranch        *b_GenJetsAK8_prunedMass;   //!
+   TBranch        *b_GenJetsAK8_softdropMass;   //!
+   TBranch        *b_GenJetsAK8_tau1;   //!
+   TBranch        *b_GenJetsAK8_tau2;   //!
+   TBranch        *b_GenJetsAK8_tau3;   //!
    TBranch        *b_GenMuNum;   //!
    TBranch        *b_GenMuPt;   //!
    TBranch        *b_GenMuEta;   //!
