@@ -560,10 +560,10 @@ int main (int argc, char** argv)
     if (isMC)
       {
 	TLorentzVector hadW, lepW, temp;
+	int posWhad =-1, posWlep =-1, posTemp=-1, posGenJet=-1;
 	//	std::cout<<"entry: "<<iEntry<<" "<<GenNuNum<<std::endl;
 	double deltaPhiOld=100.;
 	WWTree->genGravMass=100.;	
-	int posWhad =-1, posWlep =-1;
 
 	for (int i=0; i<ReducedTree->GenBosonNum; i++) {
 	  for (int j=i+1; j<ReducedTree->GenBosonNum; j++) {
@@ -571,23 +571,50 @@ int main (int argc, char** argv)
 	    hadW.SetPtEtaPhiE(ReducedTree->GenBosonPt[i],ReducedTree->GenBosonEta[i],ReducedTree->GenBosonPhi[i],ReducedTree->GenBosonE[i]);
 	    lepW.SetPtEtaPhiE(ReducedTree->GenBosonPt[j],ReducedTree->GenBosonEta[j],ReducedTree->GenBosonPhi[j],ReducedTree->GenBosonE[j]);
 
-	    if (fabs((hadW+lepW).M()-genMass)< fabs(WWTree->genGravMass-genMass)) {
+
+	    if (fabs((hadW+lepW).M()-genMass)< fabs(WWTree->genGravMass-genMass)) { //found the gen graviton
 	      WWTree->genGravMass=(hadW+lepW).M();	
-	      if (deltaR(ReducedTree->GenBosonEta[i], ReducedTree->GenBosonPhi[i],
-			 WWTree->ungroomed_jet_eta, WWTree->ungroomed_jet_phi)<
-		  deltaR(ReducedTree->GenBosonEta[j], ReducedTree->GenBosonPhi[j],
-			 WWTree->ungroomed_jet_eta, WWTree->ungroomed_jet_phi) ) {
-		posWhad = i;		posWlep = j;		
-	      }
-	      else {
-		posWhad = j;		posWlep = i;		
-	      }
+	      posWhad=i; //save positions of the two W's in random order, will fix them later in the code
+	      posWlep=j;
+
 	    }
 
 	  }	
 	}
 
 	if (posWhad!=-1 && posWlep!=-1) {
+
+	  float oldDR=100.;
+	  bool isWhadOk=true;
+
+	  if(WWTree->event==91) std::cout<<"debug: "<<std::endl;
+
+	  for (int i=0; i<ReducedTree->GenJetsAK8Num; i++) {
+	      if (deltaR(ReducedTree->GenBosonEta[posWhad], ReducedTree->GenBosonPhi[posWhad],
+			 ReducedTree->GenJetsAK8Eta[i], ReducedTree->GenJetsAK8Phi[i])< oldDR ) 
+		{
+		  posGenJet=i;		
+		  oldDR = deltaR(ReducedTree->GenBosonEta[posWhad], ReducedTree->GenBosonPhi[posWhad],ReducedTree->GenJetsAK8Eta[i], ReducedTree->GenJetsAK8Phi[i]);
+		  isWhadOk = true;
+		  if(WWTree->event==91) std::cout<<"debug: had "<<ReducedTree->GenJetsAK8Phi[i]<<" "<<ReducedTree->GenBosonPhi[posWhad]<<" "<<oldDR<<std::endl;
+		}
+	      if (deltaR(ReducedTree->GenBosonEta[posWlep], ReducedTree->GenBosonPhi[posWlep],
+			 ReducedTree->GenJetsAK8Eta[i], ReducedTree->GenJetsAK8Phi[i])< oldDR ) 
+		{
+		  posGenJet=i;
+		  oldDR = deltaR(ReducedTree->GenBosonEta[posWlep], ReducedTree->GenBosonPhi[posWlep],ReducedTree->GenJetsAK8Eta[i], ReducedTree->GenJetsAK8Phi[i]);
+		  isWhadOk = false;
+		  if(WWTree->event==91) std::cout<<"debug: lep "<<ReducedTree->GenJetsAK8Phi[i]<<" "<<ReducedTree->GenBosonPhi[posWlep]<<" "<<oldDR<<std::endl;
+         	}      
+	  }
+	  if(WWTree->event==91) std::cout<<ReducedTree->GenJetsAK8Phi[posGenJet]<<std::endl;
+	  if (isWhadOk==false) //wrong W's positions saved, switch them
+	    {
+	      posTemp = posWhad;
+	      posWhad = posWlep;
+	      posWlep = posTemp;
+	    }
+
 	  hadW.SetPtEtaPhiE(ReducedTree->GenBosonPt[posWhad],ReducedTree->GenBosonEta[posWhad],ReducedTree->GenBosonPhi[posWhad],ReducedTree->GenBosonE[posWhad]);
 	  lepW.SetPtEtaPhiE(ReducedTree->GenBosonPt[posWlep],ReducedTree->GenBosonEta[posWlep],ReducedTree->GenBosonPhi[posWlep],ReducedTree->GenBosonE[posWlep]);
 
@@ -600,6 +627,19 @@ int main (int argc, char** argv)
 	  WWTree->hadW_phi_gen = ReducedTree->GenBosonPhi[posWhad];
 	  WWTree->hadW_e_gen = ReducedTree->GenBosonE[posWhad];
 	  WWTree->hadW_m_gen = hadW.M();
+
+	  WWTree->lepW_pt_gen = ReducedTree->GenBosonPt[posWlep];
+	  WWTree->lepW_eta_gen = ReducedTree->GenBosonEta[posWlep];
+	  WWTree->lepW_phi_gen = ReducedTree->GenBosonPhi[posWlep];
+	  WWTree->lepW_e_gen = ReducedTree->GenBosonE[posWlep];
+	  WWTree->lepW_m_gen = lepW.M();
+
+	  WWTree->AK8_pt_gen = ReducedTree->GenJetsAK8Pt[posGenJet];
+	  WWTree->AK8_eta_gen = ReducedTree->GenJetsAK8Eta[posGenJet];
+	  WWTree->AK8_phi_gen = ReducedTree->GenJetsAK8Phi[posGenJet];
+	  WWTree->AK8_e_gen = ReducedTree->GenJetsAK8E[posGenJet];
+	  WWTree->AK8_pruned_mass_gen = ReducedTree->GenJetsAK8_prunedMass[posGenJet];
+	  WWTree->AK8_softdrop_mass_gen = ReducedTree->GenJetsAK8_softdropMass[posGenJet];
 
           if (deltaR(ReducedTree->GenBosonEta[posWhad], ReducedTree->GenBosonPhi[posWhad],
                      WWTree->ungroomed_jet_eta, WWTree->ungroomed_jet_phi)<0.1)     ok++;
