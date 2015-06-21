@@ -53,6 +53,17 @@ class setOutputTree {
   float hadW_phi_gen;
   float hadW_e_gen;
   float hadW_m_gen;
+  float lepW_pt_gen;
+  float lepW_eta_gen;
+  float lepW_phi_gen;
+  float lepW_e_gen;
+  float lepW_m_gen;
+  float AK8_pt_gen;
+  float AK8_eta_gen;
+  float AK8_phi_gen;
+  float AK8_e_gen;
+  float AK8_pruned_mass_gen;
+  float AK8_softdrop_mass_gen;
   float deltaR_lak8jet;
   float deltaphi_METak8jet;
   float deltaphi_Vak8jet;
