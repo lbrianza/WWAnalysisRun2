@@ -4,13 +4,15 @@
 #include <TChain.h>
 #include <TFile.h>
 
-setInputTree::setInputTree(TFile* inputFile, std::string inputTreeName)
+setInputTree::setInputTree(std::string inputTreeName)
 {
-  if(inputFile == 0) {
+  /*  if(inputFile == 0) {
     TFile* f = new TFile("/gwteray/users/brianza/WWNtupleRun2/ReducedTree/ReducedSelection_TTbar.root");
     fChain = (TTree*) f -> Get("WJet");
   }
   else fChain = (TTree*) inputFile -> Get(inputTreeName.c_str());
+  */
+  fChain = new TChain(inputTreeName.c_str());
   Init();
 }
 
