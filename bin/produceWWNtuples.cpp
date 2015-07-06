@@ -65,25 +65,33 @@ int main (int argc, char** argv)
 
   int ok=0, total=0;
 	
-  //--------input tree-----------
-  //  TChain* chain = new TChain("TreeMaker2/PreSelection");
-  //  TChain* chain = new TChain(inputTreeName.c_str());
-  //  InitTree(chain);
-  //  chain->Add((inputFolder+inputFile).c_str());
-
-  std::cout<<"file: "<<(inputFolder+inputFile).c_str()<<std::endl;
-  //  TFile *MyFile = new TFile((inputFolder+inputFile).c_str(),"READ");
-  TFile *MyFile = TFile::Open((inputFolder+inputFile).c_str());
-  setInputTree *ReducedTree = new setInputTree (MyFile, inputTreeName.c_str());
-  if (ReducedTree->fChain == 0) return (-1);
+  setInputTree *ReducedTree = new setInputTree (inputTreeName.c_str());
   ReducedTree->Init();
-  //  TTree *chain = (TTree *) MyFile->Get(inputTreeName.c_str());
-  //  setInputTree(chain);
+
+
+  char command1[3000];
+  sprintf(command1, "xrd eoscms dirlist %s/%s/  | awk '{print \"root://eoscms.cern.ch/\"$5}' > listTemp_%s.txt", (inputFolder).c_str(), (inputFile).c_str(), outputFile.c_str());
+  std::cout<<command1<<std::endl;
+  system(command1);
+  char list1[2000];
+  sprintf (list1, "listTemp_%s.txt", outputFile.c_str());
+  ifstream rootList (list1);
+
+  while (!rootList.eof())
+    {
+      char iRun_tW[700];
+      rootList >> iRun_tW;
+      ReducedTree->fChain->Add(iRun_tW);
+    }
+
+  char command3[300];
+  sprintf(command3, "rm listTemp_%s.txt", outputFile.c_str());
+  system(command3);
 
   int cutEff[20]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
   //---------output tree----------------
-  TFile* outROOT = TFile::Open((std::string("output/output_")+leptonName+std::string("/")+outputFile).c_str(),"recreate");
+  TFile* outROOT = TFile::Open((std::string("output/output_")+leptonName+std::string("/")+outputFile+(".root")).c_str(),"recreate");
   outROOT->cd();
   TTree* outTree = new TTree("otree", "otree");
   outTree->SetDirectory(0);
