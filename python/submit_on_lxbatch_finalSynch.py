@@ -32,13 +32,13 @@ for a in range(len(category)):
     for i in range(len(name)):
         fn = "Job/Job_"+name[i]+"_"+category[a];
         outScript = open(fn+".sh","w");
-        command = "python python/produceWWNtuples_finalSynch.py -i root://eoscms//eos/cms/store/caf/user/lbrianza/WWReducedTree_MC74x/ -n ReducedSelection_"+name[i]+".root -o WWTree_"+name[i]+"_synch.root -l "+category[a]+" -w "+xSecWeight[i]+" -no "+N[i];
+        command = "python python/produceWWNtuples_finalSynch.py -n "+name[i]+" -o WWTree_"+name[i]+" -l "+category[a]+" -w "+xSecWeight[i]+" -no "+N[i]+" -mass "+mass[i];
         print command;
         outScript.write('#!/bin/bash');
         outScript.write("\n"+'cd '+CMSSWDir);
         outScript.write("\n"+'eval `scram runtime -sh`');
         outScript.write("\n"+'cd '+currentDir);
-        outScript.write("\n"+"unbuffer "+command);
+        outScript.write("\n"+command);
         outScript.close();
         os.system("chmod 777 "+currentDir+"/"+fn+".sh");
         command2 = "bsub -q 8nh -cwd "+currentDir+" "+currentDir+"/"+fn+".sh";
