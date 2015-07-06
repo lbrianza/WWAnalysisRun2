@@ -20,7 +20,7 @@
 
 class setInputTree {
 public :
-   TTree          *fChain;   //!pointer to the analyzed TTree or TChain
+   TChain          *fChain;   //!pointer to the analyzed TTree or TChain
    Int_t           fCurrent; //!current Tree number in a TChain
 
    // Declaration of leaf types
@@ -359,7 +359,7 @@ public :
    TBranch        *b_Muons_isLoose;   //!
    TBranch        *b_Muons_isPFMuon;   //!
 
-   setInputTree(TFile* inputFile, std::string inputTree);
+   setInputTree(std::string inputTree);
    virtual ~setInputTree();
    Int_t    Cut(Long64_t entry);
    Int_t    GetEntry(Long64_t entry);
