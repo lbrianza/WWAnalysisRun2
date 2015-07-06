@@ -494,9 +494,9 @@ int main (int argc, char** argv)
 
 	WWTree->njets++;
 	//fill B-Tag info
-	if (ReducedTree->Jets_bDiscriminatorICSV[i]>0.423)   WWTree->nBTagJet_loose++;
-	if (ReducedTree->Jets_bDiscriminatorICSV[i]>0.814)   WWTree->nBTagJet_medium++;
-	if (ReducedTree->Jets_bDiscriminatorICSV[i]>0.941)   WWTree->nBTagJet_tight++;
+	if (ReducedTree->Jets_bDiscriminatorICSV[i]>0.605)   WWTree->nBTagJet_loose++;
+	if (ReducedTree->Jets_bDiscriminatorICSV[i]>0.890)   WWTree->nBTagJet_medium++;
+	if (ReducedTree->Jets_bDiscriminatorICSV[i]>0.970)   WWTree->nBTagJet_tight++;
 
 	AK4.SetPtEtaPhiE(ReducedTree->Jets_PtCorr[i],ReducedTree->JetsEta[i],ReducedTree->JetsPhi[i],ReducedTree->Jets_ECorr[i]);
 
