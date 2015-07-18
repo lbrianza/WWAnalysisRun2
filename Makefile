@@ -3,8 +3,8 @@ ROOT_LIB:=`root-config --libs --glibs`
 ROOT_FLAGS:=`root-config --cflags --ldflags`
 ROOT_INCLUDE:=`root-config --incdir`
 
-DEPS= interface/setOutputTree.h interface/setOutputTreeSynch.h interface/METzCalculator.h interface/analysisUtils.h interface/setInputTree.h interface/METzCalculator_Run2.h interface/pseudodataNtuple.h interface/setInputPseudodata.h
-DEPS_OBJ= lib/setOutputTree.o lib/setOutputTreeSynch.o lib/METzCalculator.o lib/analysisUtils.o lib/setInputTree.o lib/METzCalculator_Run2.o lib/pseudodataNtuple.o lib/setInputPseudodata.o
+DEPS= interface/setOutputTree.h interface/setOutputTreeSynch.h interface/METzCalculator.h interface/analysisUtils.h interface/setInputTree.h interface/METzCalculator_Run2.h interface/pseudodataNtuple.h interface/setInputPseudodata.h interface/PUWeight.h
+DEPS_OBJ= lib/setOutputTree.o lib/setOutputTreeSynch.o lib/METzCalculator.o lib/analysisUtils.o lib/setInputTree.o lib/METzCalculator_Run2.o lib/pseudodataNtuple.o lib/setInputPseudodata.o lib/PUWeight.o
 
 CC = g++
 CFLAGS = -Wall
