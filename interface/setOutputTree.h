@@ -40,6 +40,16 @@ class setOutputTree {
   float jet_mass_tr;
   float jet_mass_fi;
   float jet_tau2tau1;
+  float ttb_ungroomed_jet_pt;
+  float ttb_ungroomed_jet_eta;
+  float ttb_ungroomed_jet_phi;
+  float ttb_ungroomed_jet_e;
+  float ttb_jet_mass_pr;
+  float ttb_jet_mass_so;
+  float ttb_jet_mass_tr;
+  float ttb_jet_mass_fi;
+  float ttb_jet_tau2tau1;
+  float ttb_deltaeta_lak8jet;
   float W_pt_gen;
   float W_pz_gen;
   float W_rap_gen;

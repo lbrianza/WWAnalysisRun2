@@ -349,13 +349,22 @@ int main (int argc, char** argv)
 //    if (WWTree->deltaR_lak8jet < (TMath::Pi()/2.0))   continue;
 
     ///////////THE FAT JET
-    float tempPt=0.;
+    float tempPt=0., tempMass=0.;
     int nGoodAK8jets=0;
+    int ttb_jet_position=-1; //position of AK8 jet in ttbar-topology
     if (ReducedTree->AK8JetsNum < 1 ) continue; 
+
     for (unsigned int i=0; i<ReducedTree->AK8JetsNum; i++)
       {
 	bool isCleanedJet = true;
 	if (ReducedTree->AK8Jets_PtCorr[i]<200 || fabs(ReducedTree->AK8JetsEta[i])>2.4)  continue; //be careful: this is not inside the synchntuple code
+	if (ReducedTree->AK8Jets_prunedMass[i]>tempMass) {
+	  if ( (ReducedTree->AK8JetsEta[i]>0 && WWTree->l_eta<0) || 
+	       (ReducedTree->AK8JetsEta[i]<0 && WWTree->l_eta>0)) { //jet and lepton in opposite hemisphere for ttb
+	    ttb_jet_position=i; //save AK8 jet in ttbar topology
+	    tempMass=ReducedTree->AK8Jets_prunedMass[i];
+	  }
+	}
 	if (ReducedTree->AK8Jets_PtCorr[i]<=tempPt) continue; //save the jet with the largest pt
 	if (ReducedTree->AK8Jets_AK8isLooseJetId[i]==false) continue; //fat jet must satisfy loose ID
 
@@ -404,13 +413,11 @@ int main (int argc, char** argv)
 	nGoodAK8jets++;
       }
 
-
     if (nGoodAK8jets==0) continue; //not found a good hadronic W candidate
     cutEff[3]++;
 
     if (WWTree->ungroomed_jet_pt<200) continue;
     cutEff[4]++;
-
 
     //////////////////ANGULAR VARIABLES
     JET.SetPtEtaPhiE(WWTree->ungroomed_jet_pt,WWTree->ungroomed_jet_eta,WWTree->ungroomed_jet_phi,WWTree->ungroomed_jet_e);
@@ -424,6 +431,22 @@ int main (int argc, char** argv)
     WWTree->mass_lvj_type0 = (LEP + NU0 + JET).M();
     WWTree->mass_lvj_type2 = (LEP + NU2 + JET).M();
     WWTree->mass_lvj_run2  = (LEP + NU1 + JET).M();
+
+    //--- ttbar topology ------
+    if (ttb_jet_position>=0) {
+      WWTree->ttb_ungroomed_jet_pt  = ReducedTree->AK8Jets_PtCorr[ttb_jet_position];
+      WWTree->ttb_ungroomed_jet_eta = ReducedTree->AK8JetsEta[ttb_jet_position];
+      WWTree->ttb_ungroomed_jet_phi = ReducedTree->AK8JetsPhi[ttb_jet_position];
+      WWTree->ttb_ungroomed_jet_e   = ReducedTree->AK8Jets_ECorr[ttb_jet_position];
+      WWTree->ttb_jet_mass_pr   = ReducedTree->AK8Jets_prunedMass[ttb_jet_position];
+      WWTree->ttb_jet_mass_so   = ReducedTree->AK8Jets_softDropMass[ttb_jet_position];
+      WWTree->ttb_jet_mass_tr   = ReducedTree->AK8Jets_trimmedMass[ttb_jet_position];
+      WWTree->ttb_jet_mass_fi   = ReducedTree->AK8Jets_filteredMass[ttb_jet_position];
+      WWTree->ttb_jet_tau2tau1   = ReducedTree->AK8Jets_tau2[ttb_jet_position]/ReducedTree->AK8Jets_tau1[ttb_jet_position];
+
+      WWTree->ttb_deltaeta_lak8jet = deltaEta(WWTree->ttb_ungroomed_jet_eta,WWTree->l_eta);
+    }
+
 
     /////////VBF and b-tag section
     bool fillVBF = true;
