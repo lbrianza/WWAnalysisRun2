@@ -90,7 +90,7 @@ int main (int argc, char** argv)
   int cutEff[20]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
   //---------output tree----------------
-  TFile* outROOT = TFile::Open((std::string("output/output_")+leptonName+std::string("/")+outputFile+(".root")).c_str(),"recreate");
+  TFile* outROOT = TFile::Open((std::string("output/output_synch_")+leptonName+std::string("/")+outputFile+(".root")).c_str(),"recreate");
   outROOT->cd();
   TTree* outTree = new TTree("otree", "otree");
   outTree->SetDirectory(0);
