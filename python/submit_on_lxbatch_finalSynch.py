@@ -51,9 +51,9 @@ nameData = ["data_mu","data_el"];
 #MC
 for a in range(len(category)):
     for i in range(len(name)):
-        fn = "Job/Job_"+name[i]+"_"+category[a];
+        fn = "Job_synch/Job_"+name[i]+"_"+category[a];
         outScript = open(fn+".sh","w");
-        command = "python python/produceWWNtuples_finalSynch.py -n "+name[i]+" -o WWTree_"+name[i]+" -l "+category[a]+" -w "+xSecWeight[i]+" -no "+N[i]+" -mass "+mass[i]+" --ismc True";
+        command = "python python/produceWWNtuples_finalSynch.py -n "+name[i]+" -o WWTree_"+name[i]+" -l "+category[a]+" -w "+xSecWeight[i]+" -no "+N[i]+" --ismc True";
         print command;
         outScript.write('#!/bin/bash');
         outScript.write("\n"+'cd '+CMSSWDir);
@@ -70,9 +70,9 @@ for a in range(len(category)):
 #data
 for a in range(len(category)):
     for i in range(len(nameData)):
-        fn = "Job/Job_"+nameData[i]+"_"+category[a];
+        fn = "Job_synch/Job_"+nameData[i]+"_"+category[a];
         outScript = open(fn+".sh","w");
-        command = "python python/produceWWNtuples_finalSynch.py -n "+nameData[i]+" -o WWTree_"+nameData[i]+" -l "+category[a]+" -w 1. -no 1. -mass 0 --ismc False";
+        command = "python python/produceWWNtuples_finalSynch.py -n "+nameData[i]+" -o WWTree_"+nameData[i]+" -l "+category[a]+" -w 1. -no 1. --ismc False";
         print command;
         outScript.write('#!/bin/bash');
         outScript.write("\n"+'cd '+CMSSWDir);
