@@ -33,6 +33,87 @@
 
 using namespace std;
 
+//*****PU WEIGHT***************
+
+vector<double> generate_weights(TH1* data_npu_estimated){
+  // see SimGeneral/MixingModule/python/mix_E7TeV_FlatDist10_2011EarlyData_inTimeOnly_cfi.py; copy and paste from there:
+  const double npu_probs[60] = {
+   2.560E-06,
+ 5.239E-06,
+ 1.420E-05,
+ 5.005E-05,
+ 1.001E-04,
+ 2.705E-04,
+ 1.999E-03,
+ 6.097E-03,
+ 1.046E-02,
+ 1.383E-02,
+ 1.685E-02,
+ 2.055E-02,
+ 2.572E-02,
+ 3.262E-02,
+ 4.121E-02,
+ 4.977E-02,
+ 5.539E-02,
+ 5.725E-02,
+ 5.607E-02,
+ 5.312E-02,
+ 5.008E-02,
+ 4.763E-02,
+ 4.558E-02,
+ 4.363E-02,
+ 4.159E-02,
+ 3.933E-02,
+ 3.681E-02,
+ 3.406E-02,
+ 3.116E-02,
+ 2.818E-02,
+ 2.519E-02,
+ 2.226E-02,
+ 1.946E-02,
+ 1.682E-02,
+ 1.437E-02,
+ 1.215E-02,
+ 1.016E-02,
+ 8.400E-03,
+ 6.873E-03,
+ 5.564E-03,
+ 4.457E-03,
+ 3.533E-03,
+ 2.772E-03,
+ 2.154E-03,
+ 1.656E-03,
+ 1.261E-03,
+ 9.513E-04,
+ 7.107E-04,
+ 5.259E-04,
+ 3.856E-04,
+ 2.801E-04,
+ 2.017E-04,
+ 1.439E-04,
+ 1.017E-04,
+ 7.126E-05,
+ 4.948E-05,
+ 3.405E-05,
+ 2.322E-05,
+ 1.570E-05,
+ 5.005E-06
+};
+  vector<double> result(60);
+  double s = 0.0;
+  for(int npu=0; npu<60; ++npu){
+    double npu_estimated = data_npu_estimated->GetBinContent(data_npu_estimated->GetXaxis()->FindBin(npu));                              
+    result[npu] = npu_estimated / npu_probs[npu];
+    s += npu_estimated;
+  }
+  // normalize weights such that the total sum of weights over thw whole sample is 1.0, i.e., sum_i  result[i] * npu_probs[i] should be 1.0 (!)
+  for(int npu=0; npu<60; ++npu){
+    result[npu] /= s;
+  }
+  return result;
+}
+
+
 //*******MAIN*******************************************************************
 
 int main (int argc, char** argv)
@@ -90,6 +171,15 @@ int main (int argc, char** argv)
 
   int cutEff[20]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
+  //--------pile up file -----------------
+  TFile* pileupFile = TFile::Open("190456-208686-13Julv2_Prompt_Moriond2013.69400.observed.root");  
+  TH1F *pileupHisto = (TH1F*)pileupFile->Get("pileup");
+
+  std::vector<double> weights;
+
+  weights = generate_weights(pileupHisto);
+  pileupFile->Close();
+
   //---------output tree----------------
   TFile* outROOT = TFile::Open((std::string("output/output_")+leptonName+std::string("/")+outputFile+(".root")).c_str(),"recreate");
   outROOT->cd();
@@ -120,7 +210,20 @@ int main (int argc, char** argv)
     WWTree->wSampleWeight = weight; //xsec/numberOfEntries
     WWTree->totalEventWeight = 1.; //temporary value
     WWTree->eff_and_pu_Weight = 1.; //temporary value
-    
+
+    //PILE-UP WEIGHT
+    if (isMC) {
+      if(ReducedTree->NVtx<weights.size()){
+	WWTree->eff_and_pu_Weight = weights[ReducedTree->NVtx];
+	WWTree->totalEventWeight*=weights[ReducedTree->NVtx];
+      }
+      else{ //should not happen as we have a weight for all simulated n_pu multiplicities!
+	std::cout<<"Warning! n_pu too big"<<std::endl;
+	//	throw logic_error("n_pu too big");
+        WWTree->eff_and_pu_Weight = 0.;
+	WWTree->totalEventWeight*=0.;
+      }    
+    }    
     //require at least one lepton and one jet
     //    if ( strcmp(leptonName.c_str(),"el")==0 && ReducedTree->ElectronsNum==0) continue; 
     //    if ( strcmp(leptonName.c_str(),"mu")==0 && ReducedTree->MuonsNum==0) continue;      
@@ -131,7 +234,7 @@ int main (int argc, char** argv)
     WWTree->lumi = ReducedTree->LumiBlockNum;
    // WWTree->njets = ReducedTree->NJets;
     WWTree->nPV  = ReducedTree->NVtx;
-    
+
     /////////////////THE SELECTED LEPTON
     int nTightLepton=0;
     if (strcmp(leptonName.c_str(),"el")==0) {
