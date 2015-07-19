@@ -8,7 +8,7 @@ import argparse
 import string
 if __name__ == '__main__':
     parser = argparse.ArgumentParser (description = 'produce synch ntuples with WW semileptonic final state')
-    parser.add_argument ('-i', '--inputFolder' , default = '/eos/cms/store/caf/user/lbrianza/WWReducedTree_MC74x' , help='input folder with the reduced trees')
+    parser.add_argument ('-i', '--inputFolder' , default = '/eos/cms/store/caf/user/lbrianza/WWReducedTree_run2' , help='input folder with the reduced trees')
     parser.add_argument ('-o', '--output' , default = 'RSGraviton1000Synch', help='output file')
     parser.add_argument ('-mc', '--ismc' , default = 'False', help='is MC or not')
     parser.add_argument ('-l', '--lepton' , default = 'mu', help='lepton category (mu or el)')
