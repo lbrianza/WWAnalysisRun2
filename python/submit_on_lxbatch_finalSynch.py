@@ -53,7 +53,7 @@ for a in range(len(category)):
     for i in range(len(name)):
         fn = "Job/Job_"+name[i]+"_"+category[a];
         outScript = open(fn+".sh","w");
-        command = "python python/produceWWNtuples_finalSynch.py -n "+name[i]+" -o WWTree_"+name[i]+" -l "+category[a]+" -w "+xSecWeight[i]+" -no "+N[i]+" -mass "+mass[i]+" --ismc True";;
+        command = "python python/produceWWNtuples_finalSynch.py -n "+name[i]+" -o WWTree_"+name[i]+" -l "+category[a]+" -w "+xSecWeight[i]+" -no "+N[i]+" -mass "+mass[i]+" --ismc True";
         print command;
         outScript.write('#!/bin/bash');
         outScript.write("\n"+'cd '+CMSSWDir);
