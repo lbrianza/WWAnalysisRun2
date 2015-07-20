@@ -76,12 +76,20 @@ int main (int argc, char** argv)
   sprintf (list1, "listTemp_%s.txt", outputFile.c_str());
   ifstream rootList (list1);
 
+  int fileCounter=0;
+  Long64_t totalEntries=0;
+
   while (!rootList.eof())
     {
       char iRun_tW[700];
       rootList >> iRun_tW;
       ReducedTree->fChain->Add(iRun_tW);
+      fileCounter++;
     }
+
+  std::cout<<"number of files found: "<<fileCounter-2<<std::endl;
+  std::cout<<"total entries: "<<ReducedTree->fChain->GetEntries()<<std::endl;
+  totalEntries=ReducedTree->fChain->GetEntries();
 
   char command3[300];
   sprintf(command3, "rm listTemp_%s.txt", outputFile.c_str());
@@ -97,7 +105,8 @@ int main (int argc, char** argv)
   setOutputTreeSynch *WWTree = new setOutputTreeSynch(outTree);
 
   //---------start loop on events------------
-  for (Long64_t jentry=0; jentry<ReducedTree->fChain->GetEntries();jentry++) {
+  Long64_t jentry2=0;
+  for (Long64_t jentry=0; jentry<ReducedTree->fChain->GetEntries();jentry++,jentry2++) {
 
     Long64_t iEntry = ReducedTree->LoadTree(jentry);
     if (iEntry < 0) break;
@@ -109,8 +118,8 @@ int main (int argc, char** argv)
     looseMuon.clear();
     looseEle.clear();
 
-    if(iEntry % 1000 == 0)    
-      cout << "read entry: " << iEntry << endl;
+    if(jentry2 % 1000 == 0)
+      std::cout << "read entry: " << jentry2 <<"/"<<totalEntries<<std:: endl;
 
     WWTree->initializeVariables(); //initialize all variables
     
