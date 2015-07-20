@@ -51,7 +51,7 @@ int main (int argc, char** argv)
     return(-1);
   }
 
-  int evento=28293;
+  int evento=-17;
 
   TLorentzVector W,MET,LEP;
   TLorentzVector NU0,NU1,NU2;
