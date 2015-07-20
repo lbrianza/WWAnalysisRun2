@@ -212,7 +212,7 @@ int main (int argc, char** argv)
         if(WWTree->event==evento)  std::cout<<"debug: "<<std::endl;
 
     //preselection on jet pt and met
-    if (ReducedTree->METPt < 40) continue; 
+    if (ReducedTree->METPt < 30) continue; 
     cutEff[1]++;
         if(WWTree->event==evento)  std::cout<<"debug: "<<std::endl;
 
@@ -362,7 +362,7 @@ int main (int argc, char** argv)
     ////
         if(WWTree->event==evento)  std::cout<<"debug: "<<std::endl;
 
-    if (W.Pt()<200) continue;
+    if (W.Pt()<100) continue;
     cutEff[2]++;
         if(WWTree->event==evento)  std::cout<<"debug: "<<std::endl;
 
@@ -432,7 +432,7 @@ int main (int argc, char** argv)
     cutEff[3]++;
         if(WWTree->event==evento)  std::cout<<"debug: "<<std::endl;
 
-    if (WWTree->jet_pt<200) continue;
+    if (WWTree->jet_pt<100) continue;
     cutEff[4]++;
 
         if(WWTree->event==evento)  std::cout<<"debug: "<<std::endl;

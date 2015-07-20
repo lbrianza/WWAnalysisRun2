@@ -305,7 +305,7 @@ int main (int argc, char** argv)
     cutEff[0]++;
 
     //preselection on jet pt and met
-    if (ReducedTree->METPt < 40) continue; 
+    if (ReducedTree->METPt < 30) continue; 
     cutEff[1]++;
 
     MET.SetPtEtaPhiE(ReducedTree->METPt,0.,ReducedTree->METPhi,0.);
@@ -453,7 +453,7 @@ int main (int argc, char** argv)
     //    W = NU2+LEP; 
     ////
 
-    if (W.Pt()<200) continue;
+    if (W.Pt()<100) continue;
     cutEff[2]++;
 
 
@@ -528,7 +528,7 @@ int main (int argc, char** argv)
     if (nGoodAK8jets==0) continue; //not found a good hadronic W candidate
     cutEff[3]++;
 
-    if (WWTree->ungroomed_jet_pt<200) continue;
+    if (WWTree->ungroomed_jet_pt<100) continue;
     cutEff[4]++;
 
     //////////////////ANGULAR VARIABLES
