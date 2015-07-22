@@ -100,6 +100,7 @@ vector<double> generate_weights(TH1* data_npu_estimated){
  5.005E-06
 };
   vector<double> result(60);
+  /*  
   double s = 0.0;
   for(int npu=0; npu<60; ++npu){
     double npu_estimated = data_npu_estimated->GetBinContent(data_npu_estimated->GetXaxis()->FindBin(npu));                              
@@ -109,7 +110,17 @@ vector<double> generate_weights(TH1* data_npu_estimated){
   // normalize weights such that the total sum of weights over thw whole sample is 1.0, i.e., sum_i  result[i] * npu_probs[i] should be 1.0 (!)
   for(int npu=0; npu<60; ++npu){
     result[npu] /= s;
+    }*/
+  
+  for(int npu=0; npu<60; ++npu){
+    if (data_npu_estimated->GetBinContent(data_npu_estimated->GetXaxis()->FindBin(npu))==NULL)
+      result[npu] = 0.;
+    else {
+      double npu_estimated = data_npu_estimated->GetBinContent(data_npu_estimated->GetXaxis()->FindBin(npu));                              
+      result[npu] = npu_estimated;
+    }
   }
+  
   return result;
 }
 
@@ -180,7 +191,9 @@ int main (int argc, char** argv)
   int cutEff[20]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
   //--------pile up file -----------------
-  TFile* pileupFile = TFile::Open("190456-208686-13Julv2_Prompt_Moriond2013.69400.observed.root");  
+  //    TFile* pileupFile = TFile::Open("190456-208686-13Julv2_Prompt_Moriond2013.69400.observed.root");  
+  //TH1F *pileupHisto = (TH1F*)pileupFile->Get("pileup");
+  TFile* pileupFile = TFile::Open("PU.root");  
   TH1F *pileupHisto = (TH1F*)pileupFile->Get("pileup");
 
   std::vector<double> weights;
@@ -305,7 +318,7 @@ int main (int argc, char** argv)
     cutEff[0]++;
 
     //preselection on jet pt and met
-    if (ReducedTree->METPt < 30) continue; 
+    if (ReducedTree->METPt < 20) continue; 
     cutEff[1]++;
 
     MET.SetPtEtaPhiE(ReducedTree->METPt,0.,ReducedTree->METPhi,0.);
