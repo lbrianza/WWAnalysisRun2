@@ -163,7 +163,7 @@ int main (int argc, char** argv)
       for (int i=0; i<ReducedTree->MuonsNum; i++) {
 	if (ReducedTree->Muons_isHighPt[i]==false) continue;
         if(WWTree->event==evento)  std::cout<<"debug: "<<i<<std::endl;
-        if (ReducedTree->Muons_isPFMuon[i]==false) continue; 
+	//        if (ReducedTree->Muons_isPFMuon[i]==false) continue; 
         if(WWTree->event==evento)  std::cout<<"debug: "<<i<<std::endl;
         if ((ReducedTree->Muons_trackIso[i]/ReducedTree->MuonsPt[i])>=0.1) continue;
         if(WWTree->event==evento)  std::cout<<"debug: "<<i<<std::endl;
