@@ -194,7 +194,7 @@ int main (int argc, char** argv)
   //    TFile* pileupFile = TFile::Open("190456-208686-13Julv2_Prompt_Moriond2013.69400.observed.root");  
   //TH1F *pileupHisto = (TH1F*)pileupFile->Get("pileup");
   TFile* pileupFile = TFile::Open("PU.root");  
-  TH1F *pileupHisto = (TH1F*)pileupFile->Get("pileup");
+  TH1F *pileupHisto = (TH1F*)pileupFile->Get("puweights");
 
   std::vector<double> weights;
 
