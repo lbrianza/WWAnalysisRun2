@@ -31,6 +31,7 @@ public :
    Int_t           BTags;
    Int_t           NVtx;
    Float_t         Weight;
+   Float_t         genEventWeight;
    Float_t         MHT;
    Float_t         METPt;
    Float_t         METPhi;
@@ -199,6 +200,7 @@ public :
    TBranch        *b_BTags;   //!
    TBranch        *b_NVtx;   //!
    TBranch        *b_Weight;   //!
+   TBranch        *b_genEventWeight;   //!
    TBranch        *b_MHT;   //!
    TBranch        *b_METPt;   //!
    TBranch        *b_METPhi;   //!

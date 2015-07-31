@@ -232,6 +232,7 @@ int main (int argc, char** argv)
     WWTree->wSampleWeight = weight; //xsec/numberOfEntries
     WWTree->totalEventWeight = 1.; //temporary value
     WWTree->eff_and_pu_Weight = 1.; //temporary value
+    WWTree->genWeight = ReducedTree->genEventWeight;
 
     //PILE-UP WEIGHT
     if (isMC) {

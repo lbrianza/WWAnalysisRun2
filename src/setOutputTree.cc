@@ -18,6 +18,7 @@ void setOutputTree::initializeVariables()
   nPV=-999;
   issignal=-999;
   wSampleWeight=-999;
+  genWeight=1;
   totalEventWeight=-999;
   eff_and_pu_Weight=-999;
   pfMET=-999;
@@ -119,6 +120,7 @@ void setOutputTree::setBranches()
   fTree->Branch("nPV",&nPV,"nPV/I");
   fTree->Branch("issignal",&issignal,"issignal/I");
   fTree->Branch("wSampleWeight",&wSampleWeight,"wSampleWeight/F");
+  fTree->Branch("genWeight",&genWeight,"genWeight/F");
   fTree->Branch("totalEventWeight",&totalEventWeight,"totalEventWeight/F");
   fTree->Branch("eff_and_pu_Weight",&eff_and_pu_Weight,"eff_and_pu_Weight/F");
   fTree->Branch("pfMET",&pfMET,"pfMET/F");

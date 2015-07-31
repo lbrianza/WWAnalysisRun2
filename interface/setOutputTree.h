@@ -17,6 +17,7 @@ class setOutputTree {
   int nPV;
   int issignal;
   float wSampleWeight;
+  float genWeight;
   float totalEventWeight;
   float eff_and_pu_Weight;
   float pfMET;
