@@ -46,7 +46,7 @@ mass = ["600", "800", "1000", "1200", "1400", "1600", "1800", "2000",
         "800", "1000", "1200", "1400", "1600", "1800",
         "2000", "2500", "3000", "4000", "4500"];
 
-nameData = ["data_mu","data_el"];
+nameData = ["data_mu_prompt","data_el_prompt","data_mu_17jul","data_el_17jul"];
 
 #MC
 for a in range(len(category)):
