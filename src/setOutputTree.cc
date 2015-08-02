@@ -109,6 +109,10 @@ void setOutputTree::initializeVariables()
   vbf_maxpt_jj_eta=-999;
   vbf_maxpt_jj_phi=-999;
   vbf_maxpt_jj_m=-999;
+  jet2_pt=0;
+  jet2_btag=0;
+  jet3_pt=0;
+  jet3_btag=0;
 }
 
 void setOutputTree::setBranches()
@@ -211,5 +215,9 @@ void setOutputTree::setBranches()
   fTree->Branch("vbf_maxpt_jj_eta",&vbf_maxpt_jj_eta,"vbf_maxpt_jj_eta/F");
   fTree->Branch("vbf_maxpt_jj_phi",&vbf_maxpt_jj_phi,"vbf_maxpt_jj_phi/F");
   fTree->Branch("vbf_maxpt_jj_m",&vbf_maxpt_jj_m,"vbf_maxpt_jj_m/F");
+  fTree->Branch("jet2_pt",&jet2_pt,"jet2_pt/F");
+  fTree->Branch("jet2_btag",&jet2_btag,"jet2_btag/F");
+  fTree->Branch("jet3_pt",&jet3_pt,"jet3_pt/F");
+  fTree->Branch("jet3_btag",&jet3_btag,"jet3_btag/F");
 }
 

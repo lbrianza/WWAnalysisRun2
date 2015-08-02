@@ -232,7 +232,12 @@ int main (int argc, char** argv)
     WWTree->wSampleWeight = weight; //xsec/numberOfEntries
     WWTree->totalEventWeight = 1.; //temporary value
     WWTree->eff_and_pu_Weight = 1.; //temporary value
-    WWTree->genWeight = ReducedTree->genEventWeight;
+
+    if (ReducedTree->genEventWeight>0)
+      WWTree->genWeight=1.;
+    else if (ReducedTree->genEventWeight<0)
+      WWTree->genWeight=-1.;
+    //    WWTree->genWeight = ReducedTree->genEventWeight;
 
     //PILE-UP WEIGHT
     if (isMC) {
@@ -319,7 +324,7 @@ int main (int argc, char** argv)
     cutEff[0]++;
 
     //preselection on jet pt and met
-    if (ReducedTree->METPt < 20) continue; 
+    if (ReducedTree->METPt < 30) continue; 
     cutEff[1]++;
 
     MET.SetPtEtaPhiE(ReducedTree->METPt,0.,ReducedTree->METPhi,0.);
@@ -654,6 +659,18 @@ int main (int argc, char** argv)
 
 	float deltaR = HADW.DeltaR(AK4);
 	if (deltaR<0.8) continue; //the vbf jets must be outside the had W cone
+	
+	if (WWTree->njets!=0) {
+	  if (WWTree->jet2_pt!=0) {
+	    WWTree->jet3_pt=ReducedTree->Jets_PtCorr[i];
+	    WWTree->jet3_btag=ReducedTree->Jets_bDiscriminatorICSV[i];
+	  }
+	  else {
+	    WWTree->jet2_pt=ReducedTree->Jets_PtCorr[i];
+	    WWTree->jet2_btag=ReducedTree->Jets_bDiscriminatorICSV[i];
+	  }
+	}	
+	
 	if (deltaR<oldDeltaR)  indexCloserJet = i; //index of the closest jet to the AK8
 	indexGoodJets.push_back(i); //save index of the "good" vbf jets candidate
       }

@@ -108,7 +108,10 @@ class setOutputTree {
   float vbf_maxpt_jj_eta;
   float vbf_maxpt_jj_phi;
   float vbf_maxpt_jj_m;
-
+  float jet2_pt;
+  float jet2_btag;
+  float jet3_pt;
+  float jet3_btag;
 
   setOutputTree(TTree* outputTree);
   //  setOutputTree(TTree *outputTree=0);
