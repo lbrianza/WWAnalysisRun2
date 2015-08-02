@@ -51,7 +51,8 @@ int main (int argc, char** argv)
     return(-1);
   }
 
-  int evento=-17;
+  int evento=-1;
+  int Nevents=0;
 
   TLorentzVector W,MET,LEP;
   TLorentzVector NU0,NU1,NU2;
@@ -112,6 +113,7 @@ int main (int argc, char** argv)
     if (iEntry < 0) break;
     int nb = ReducedTree->fChain->GetEntry(jentry);   
     // if (Cut(ientry) < 0) continue;                                                                                                                           
+    std::cout<<ReducedTree->EvtNum<<std::endl;
 
     tightMuon.clear();
     tightEle.clear();
@@ -139,15 +141,19 @@ int main (int argc, char** argv)
    // WWTree->njets = ReducedTree->NJets;
     WWTree->nPV  = ReducedTree->NVtx;
 
-        if(WWTree->event==evento)  std::cout<<"debug: "<<std::endl;
+    if(WWTree->event==evento)  std::cout<<"debug: event found "<<evento<<std::endl;
     /////////////////THE SELECTED LEPTON
     int nTightLepton=0;
     if (strcmp(leptonName.c_str(),"el")==0) {
       float tempPt=0.;
       for (int i=0; i<ReducedTree->ElectronsNum; i++) {
+        if(WWTree->event==evento)  std::cout<<"debug: "<<i<<std::endl;
 	if (ReducedTree->Electrons_isHEEP[i]==false) continue;       
+        if(WWTree->event==evento)  std::cout<<"debug: "<<i<<std::endl;
         if (ReducedTree->ElectronsPt[i]<=90) continue;
+        if(WWTree->event==evento)  std::cout<<"debug: "<<i<<std::endl;
 	if (ReducedTree->ElectronsPt[i]<tempPt) continue;
+        if(WWTree->event==evento)  std::cout<<"debug: "<<i<<std::endl;
 	ELE.SetPtEtaPhiE(ReducedTree->ElectronsPt[i],ReducedTree->ElectronsEta[i],ReducedTree->ElectronsPhi[i],ReducedTree->ElectronsE[i]);
 	tightEle.push_back(ELE);
 	WWTree->l_pt  = ReducedTree->ElectronsPt[i];
@@ -183,7 +189,7 @@ int main (int argc, char** argv)
       }
     }
     if (nTightLepton==0) continue; //no leptons with required ID
-        if(WWTree->event==evento)  std::cout<<"debug: "<<std::endl;
+        if(WWTree->event==evento)  std::cout<<"OK: at least 1 tight lepton"<<std::endl;
 
     //VETO ADDITIONAL LEPTONS
     int nLooseLepton=0;
@@ -209,12 +215,12 @@ int main (int argc, char** argv)
     
     if (nLooseLepton!=1) continue; //no additional leptons
     cutEff[0]++;
-        if(WWTree->event==evento)  std::cout<<"debug: "<<std::endl;
+        if(WWTree->event==evento)  std::cout<<"debug: no additional loose leptons "<<std::endl;
 
     //preselection on jet pt and met
     if (ReducedTree->METPt < 30) continue; 
     cutEff[1]++;
-        if(WWTree->event==evento)  std::cout<<"debug: "<<std::endl;
+        if(WWTree->event==evento)  std::cout<<"debug: met passed"<<std::endl;
 
     MET.SetPtEtaPhiE(ReducedTree->METPt,0.,ReducedTree->METPhi,0.);
     LEP.SetPtEtaPhiE(WWTree->l_pt,WWTree->l_eta,WWTree->l_phi,WWTree->l_e);
@@ -360,11 +366,11 @@ int main (int argc, char** argv)
     //    NU2.SetPtEtaPhiE(ReducedTree->METPt,0.,ReducedTree->METPhi,0.);
     //    W = NU2+LEP; 
     ////
-        if(WWTree->event==evento)  std::cout<<"debug: "<<std::endl;
+        if(WWTree->event==evento)  std::cout<<"debug: qui "<<std::endl;
 
     if (W.Pt()<100) continue;
     cutEff[2]++;
-        if(WWTree->event==evento)  std::cout<<"debug: "<<std::endl;
+        if(WWTree->event==evento)  std::cout<<"debug: Wpt>100"<<std::endl;
 
 
     //    if (WWTree->W_pt < 150) continue;
@@ -374,7 +380,7 @@ int main (int argc, char** argv)
     float tempPt=0.;
     int nGoodAK8jets=0;
     if (ReducedTree->AK8JetsNum < 1 ) continue; 
-        if(WWTree->event==evento)  std::cout<<"debug: "<<std::endl;
+        if(WWTree->event==evento)  std::cout<<"debug: at least 1 AK8"<<std::endl;
     for (unsigned int i=0; i<ReducedTree->AK8JetsNum; i++)
       {
 	bool isCleanedJet = true;
@@ -430,12 +436,12 @@ int main (int argc, char** argv)
 
     if (nGoodAK8jets==0) continue; //not found a good hadronic W candidate
     cutEff[3]++;
-        if(WWTree->event==evento)  std::cout<<"debug: "<<std::endl;
+        if(WWTree->event==evento)  std::cout<<"debug: found the had W candidate"<<std::endl;
 
     if (WWTree->jet_pt<100) continue;
     cutEff[4]++;
 
-        if(WWTree->event==evento)  std::cout<<"debug: "<<std::endl;
+        if(WWTree->event==evento)  std::cout<<"debug: jet pt>100"<<std::endl;
 
     //////////////////ANGULAR VARIABLES
     JET.SetPtEtaPhiE(WWTree->jet_pt,WWTree->jet_eta,WWTree->jet_phi,WWTree->jet_e);
@@ -517,7 +523,7 @@ int main (int argc, char** argv)
 	if (isCleanedJet==false) continue;
 
 
-		if(WWTree->event==evento) { std::cout<<"debug: "<<ReducedTree->Jets_bDiscriminatorICSV[i]<<" "<<ReducedTree->Jets_PtCorr[i]<<" "<<ReducedTree->JetsEta[i]<<std::endl; getchar(); }
+		if(WWTree->event==evento) { std::cout<<"debug: btag: "<<ReducedTree->Jets_bDiscriminatorICSV[i]<<" "<<ReducedTree->Jets_PtCorr[i]<<" "<<ReducedTree->JetsEta[i]<<std::endl; getchar(); }
 
 	WWTree->njets++;
 	//fill B-Tag info
@@ -648,11 +654,13 @@ int main (int argc, char** argv)
     
     if(strcmp(leptonName.c_str(),"mu")==0 && WWTree->issignal==1 && WWTree->W_pt>200 && WWTree->pfMET>40 && WWTree->l_pt>50 && WWTree->jet_pt>200 && WWTree->nbtag <1 && WWTree->jet_mass_pruned > 40 && WWTree->jet_mass_pruned < 130 && WWTree->jet_tau2tau1<0.5) {
       outTree->Fill();
-            if(WWTree->event==evento) { std::cout<<"debug: "<<std::endl; getchar(); }
+            if(WWTree->event==evento) { std::cout<<"debug: filling event"<<std::endl; getchar(); }
+	    std::cout<<"debug: filling event "<<std::endl;
     }
     if(strcmp(leptonName.c_str(),"el")==0 && WWTree->issignal==1 && WWTree->W_pt>200 && WWTree->pfMET>80 && WWTree->l_pt>90 && WWTree->jet_pt>200 && WWTree->nbtag <1 && WWTree->jet_mass_pruned > 40 && WWTree->jet_mass_pruned < 130 && WWTree->jet_tau2tau1<0.5) {
       outTree->Fill();
-            if(WWTree->event==evento) { std::cout<<"debug: "<<std::endl; getchar(); }
+            if(WWTree->event==evento) { std::cout<<"debug: filling event "<<std::endl; getchar(); }
+	    std::cout<<"debug: filling event: "<<Nevents<<std::endl; Nevents++;
     }
   }
 
