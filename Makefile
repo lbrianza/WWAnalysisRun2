@@ -12,7 +12,10 @@ CFLAGS = -Wall
 lib/%.o: src/%.cc $(DEPS)
 	$(CC) $(CFLAGS) -c -o $@ $< $(ROOT_LIB) $(ROOT_FLAGS)
 
-all: produceWWNtuples.exe produceWWSynchNtuples.exe ntupleConverter.exe produceWWNtuples_finalSynch.exe produceWWpseudodata.exe findEventAndDebug.exe PUWeightCalculator.exe
+all: produceWWNtuples.exe produceWWSynchNtuples.exe ntupleConverter.exe produceWWNtuples_finalSynch.exe produceWWpseudodata.exe findEventAndDebug.exe PUWeightCalculator.exe synchNtupleConverter.exe
+
+synchNtupleConverter.exe: bin/synchNtupleConverter.cpp $(DEPS_OBJ)
+	g++ $(CFLAGS) -o $@ $^ $(ROOT_LIB) $(ROOT_FLAGS)
 
 PUWeightCalculator.exe: bin/PUWeightCalculator.cpp $(DEPS_OBJ)
 	g++ $(CFLAGS) -o $@ $^ $(ROOT_LIB) $(ROOT_FLAGS)
