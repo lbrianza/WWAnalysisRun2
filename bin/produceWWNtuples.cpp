@@ -156,6 +156,8 @@ int main (int argc, char** argv)
   std::vector<TLorentzVector> looseEle;
 
   int ok=0, total=0;
+  int evento=127270357;
+  int count=0;
 	
   setInputTree *ReducedTree = new setInputTree (inputTreeName.c_str());
   ReducedTree->Init();
@@ -263,6 +265,8 @@ int main (int argc, char** argv)
    // WWTree->njets = ReducedTree->NJets;
     WWTree->nPV  = ReducedTree->NVtx;
 
+    if(WWTree->event==evento) std::cout<<"debug: "<<count<<std::endl; count++;
+
     /////////////////THE SELECTED LEPTON
     int nTightLepton=0;
     if (strcmp(leptonName.c_str(),"el")==0) {
@@ -301,31 +305,43 @@ int main (int argc, char** argv)
       }
     }
     if (nTightLepton==0) continue; //no leptons with required ID
+    if(WWTree->event==evento) std::cout<<"debug: "<<count<<std::endl; count++;
 
     //VETO ADDITIONAL LEPTONS
     int nLooseLepton=0;
     for (int i=0; i<ReducedTree->ElectronsNum; i++) {
+    if(WWTree->event==evento) std::cout<<"debug: "<<i<<std::endl; count++;
       if (ReducedTree->Electrons_isHEEP[i]==false) continue;       
+    if(WWTree->event==evento) std::cout<<"debug: "<<i<<std::endl; count++;
       if (ReducedTree->ElectronsPt[i]<35) continue;       
+    if(WWTree->event==evento) std::cout<<"debug: "<<i<<std::endl; count++;
       ELE.SetPtEtaPhiE(ReducedTree->ElectronsPt[i],ReducedTree->ElectronsEta[i],ReducedTree->ElectronsPhi[i],ReducedTree->ElectronsE[i]);
       looseEle.push_back(ELE);      
       nLooseLepton++;
     }
     for (int i=0; i<ReducedTree->MuonsNum; i++) {
+    if(WWTree->event==evento) std::cout<<"debug: "<<i<<std::endl; count++;
       if (ReducedTree->Muons_isHighPt[i]==false) continue;
+    if(WWTree->event==evento) std::cout<<"debug: "<<i<<std::endl; count++;
       if ((ReducedTree->Muons_trackIso[i]/ReducedTree->MuonsPt[i])>=0.1) continue;
+    if(WWTree->event==evento) std::cout<<"debug: "<<i<<std::endl; count++;
       if (fabs(ReducedTree->MuonsEta[i])>=2.4) continue;
+    if(WWTree->event==evento) std::cout<<"debug: "<<i<<std::endl; count++;
       if (ReducedTree->MuonsPt[i]<20) continue;
+    if(WWTree->event==evento) std::cout<<"debug: "<<i<<std::endl; count++;
       MU.SetPtEtaPhiE(ReducedTree->MuonsPt[i],ReducedTree->MuonsEta[i],ReducedTree->MuonsPhi[i],ReducedTree->MuonsE[i]);
       looseMuon.push_back(MU);
       nLooseLepton++;
     }
+    if(WWTree->event==evento)     std::cout<<nLooseLepton<<std::endl;
     if (nLooseLepton!=1) continue; //no additional leptons
     cutEff[0]++;
+    if(WWTree->event==evento) std::cout<<"debug: "<<count<<std::endl; count++;
 
     //preselection on jet pt and met
     if (ReducedTree->METPt < 30) continue; 
     cutEff[1]++;
+    if(WWTree->event==evento) std::cout<<"debug: "<<count<<std::endl; count++;
 
     MET.SetPtEtaPhiE(ReducedTree->METPt,0.,ReducedTree->METPhi,0.);
     LEP.SetPtEtaPhiE(WWTree->l_pt,WWTree->l_eta,WWTree->l_phi,WWTree->l_e);
@@ -353,6 +369,7 @@ int main (int argc, char** argv)
     W_Met.SetPxPyPzE(ReducedTree->METPt * TMath::Cos(ReducedTree->METPhi), ReducedTree->METPt * TMath::Sin(ReducedTree->METPhi), 0., sqrt(ReducedTree->METPt*ReducedTree->METPt));
 
     if(W_mu.Pt()<=0 || W_Met.Pt() <= 0 ){ std::cerr<<" Negative Lepton - Neutrino Pt "<<std::endl; continue ; }
+    if(WWTree->event==evento) std::cout<<"debug: "<<count<<std::endl; count++;
 
     // type0 calculation of neutrino pZ
     METzCalculator NeutrinoPz_type0;
@@ -474,6 +491,7 @@ int main (int argc, char** argv)
 
     if (W.Pt()<100) continue;
     cutEff[2]++;
+    if(WWTree->event==evento) std::cout<<"debug: "<<count<<std::endl; count++;
 
 
     //    if (WWTree->v_pt < 150) continue;
@@ -484,6 +502,7 @@ int main (int argc, char** argv)
     int nGoodAK8jets=0;
     int ttb_jet_position=-1; //position of AK8 jet in ttbar-topology
     if (ReducedTree->AK8JetsNum < 1 ) continue; 
+    if(WWTree->event==evento) std::cout<<"debug: "<<count<<std::endl; count++;
 
     for (unsigned int i=0; i<ReducedTree->AK8JetsNum; i++)
       {
@@ -546,9 +565,11 @@ int main (int argc, char** argv)
 
     if (nGoodAK8jets==0) continue; //not found a good hadronic W candidate
     cutEff[3]++;
+    if(WWTree->event==evento) std::cout<<"debug: "<<count<<std::endl; count++;
 
     if (WWTree->ungroomed_jet_pt<100) continue;
     cutEff[4]++;
+    if(WWTree->event==evento) std::cout<<"debug: "<<count<<std::endl; count++;
 
     //////////////////ANGULAR VARIABLES
     JET.SetPtEtaPhiE(WWTree->ungroomed_jet_pt,WWTree->ungroomed_jet_eta,WWTree->ungroomed_jet_phi,WWTree->ungroomed_jet_e);
@@ -761,7 +782,7 @@ int main (int argc, char** argv)
 	  float oldDR=100.;
 	  bool isWhadOk=true;
 
-	  if(WWTree->event==91) std::cout<<"debug: "<<std::endl;
+	  if(WWTree->event==127270357) std::cout<<"debug: "<<std::endl;
 
 	  for (int i=0; i<ReducedTree->GenJetsAK8Num; i++) {
 	      if (deltaR(ReducedTree->GenBosonEta[posWhad], ReducedTree->GenBosonPhi[posWhad],
@@ -770,7 +791,7 @@ int main (int argc, char** argv)
 		  posGenJet=i;		
 		  oldDR = deltaR(ReducedTree->GenBosonEta[posWhad], ReducedTree->GenBosonPhi[posWhad],ReducedTree->GenJetsAK8Eta[i], ReducedTree->GenJetsAK8Phi[i]);
 		  isWhadOk = true;
-		  if(WWTree->event==91) std::cout<<"debug: had "<<ReducedTree->GenJetsAK8Phi[i]<<" "<<ReducedTree->GenBosonPhi[posWhad]<<" "<<oldDR<<std::endl;
+		  if(WWTree->event==127270357) std::cout<<"debug: had "<<ReducedTree->GenJetsAK8Phi[i]<<" "<<ReducedTree->GenBosonPhi[posWhad]<<" "<<oldDR<<std::endl;
 		}
 	      if (deltaR(ReducedTree->GenBosonEta[posWlep], ReducedTree->GenBosonPhi[posWlep],
 			 ReducedTree->GenJetsAK8Eta[i], ReducedTree->GenJetsAK8Phi[i])< oldDR ) 
@@ -778,10 +799,10 @@ int main (int argc, char** argv)
 		  posGenJet=i;
 		  oldDR = deltaR(ReducedTree->GenBosonEta[posWlep], ReducedTree->GenBosonPhi[posWlep],ReducedTree->GenJetsAK8Eta[i], ReducedTree->GenJetsAK8Phi[i]);
 		  isWhadOk = false;
-		  if(WWTree->event==91) std::cout<<"debug: lep "<<ReducedTree->GenJetsAK8Phi[i]<<" "<<ReducedTree->GenBosonPhi[posWlep]<<" "<<oldDR<<std::endl;
+		  if(WWTree->event==127270357) std::cout<<"debug: lep "<<ReducedTree->GenJetsAK8Phi[i]<<" "<<ReducedTree->GenBosonPhi[posWlep]<<" "<<oldDR<<std::endl;
          	}      
 	  }
-	  if(WWTree->event==91) std::cout<<ReducedTree->GenJetsAK8Phi[posGenJet]<<std::endl;
+	  if(WWTree->event==127270357) std::cout<<ReducedTree->GenJetsAK8Phi[posGenJet]<<std::endl;
 	  if (isWhadOk==false) //wrong W's positions saved, switch them
 	    {
 	      posTemp = posWhad;
@@ -834,6 +855,7 @@ int main (int argc, char** argv)
       }
     
     //fill the tree
+    if(WWTree->event==evento) std::cout<<"fill: "<<count<<std::endl; count++;
     outTree->Fill();
   }
 
