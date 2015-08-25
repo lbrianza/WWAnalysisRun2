@@ -191,9 +191,9 @@ public :
    Float_t         Muons_trackIso[33];   //[MuonsNum]
    UChar_t         Muons_isLoose[33];   //[MuonsNum]
    UChar_t         Muons_isPFMuon[33];   //[MuonsNum]
-   vector<int>     *TriggerProducerTriggerPrescales;
-   vector<unsigned int> *TriggerProducerTriggerPass;
-   vector<string>  *TriggerProducerTriggerNames;
+   std::vector<int>     *TriggerProducerTriggerPrescales;
+   std::vector<unsigned int> *TriggerProducerTriggerPass;
+   std::vector<std::string>  *TriggerProducerTriggerNames;
 
    // List of branches
    TBranch        *b_RunNum;   //!
