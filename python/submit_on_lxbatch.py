@@ -72,7 +72,7 @@ for a in range(len(category)):
         outScript.write("\n"+command);
         outScript.close();
         os.system("chmod 777 "+currentDir+"/"+fn+".sh");
-        command2 = "bsub -q 8nh -cwd "+currentDir+" "+currentDir+"/"+fn+".sh";
+        command2 = "bsub -q 1nd -cwd "+currentDir+" "+currentDir+"/"+fn+".sh";
         os.system(command2);
         print command2
 
