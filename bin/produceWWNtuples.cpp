@@ -143,6 +143,9 @@ int main (int argc, char** argv)
     return(-1);
   }
   float genMass = atof(argv[9]);
+  int applyTrigger = atoi(argv[10]);
+  //applyTrigger=false;
+  std::cout<<"apply trigger: "<<applyTrigger<<std::endl;
 
   TLorentzVector W,MET,LEP;
   TLorentzVector NU0,NU1,NU2;
@@ -272,6 +275,8 @@ int main (int argc, char** argv)
     if (strcmp(leptonName.c_str(),"el")==0) {
       float tempPt=0.;
       for (int i=0; i<ReducedTree->ElectronsNum; i++) {
+	if (applyTrigger==1 && ReducedTree->TriggerProducerTriggerPass->at(0)==0) continue; //trigger
+	//if (ReducedTree->TriggerProducerTriggerPass->at(0)==0) continue; //trigger
 	if (ReducedTree->Electrons_isHEEP[i]==false) continue;       
         if (ReducedTree->ElectronsPt[i]<=90) continue;
 	if (ReducedTree->ElectronsPt[i]<tempPt) continue;
@@ -288,6 +293,8 @@ int main (int argc, char** argv)
     else if (strcmp(leptonName.c_str(),"mu")==0) {
       float tempPt=0.;
       for (int i=0; i<ReducedTree->MuonsNum; i++) {
+	if (applyTrigger==1 && ReducedTree->TriggerProducerTriggerPass->at(1)==0) continue; //trigger
+	//if (ReducedTree->TriggerProducerTriggerPass->at(1)==0) continue; //trigger
 	if (ReducedTree->Muons_isHighPt[i]==false) continue;
 	//	if (ReducedTree->Muons_isPFMuon[i]==false) continue; //not in the synch ntuple!!
         if ((ReducedTree->Muons_trackIso[i]/ReducedTree->MuonsPt[i])>=0.1) continue;

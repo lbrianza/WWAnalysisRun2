@@ -17,7 +17,8 @@ if __name__ == '__main__':
     parser.add_argument ('-w', '--xsecWeight' , default = '0.0002739' , help='xsec (pb)')
     parser.add_argument ('-no', '--numberOfEntries' , default = '28687' , help='number of initial entries of the dataset')
     parser.add_argument ('-mass', '--mass' , default = '1000' , help='mass of input signal')
+    parser.add_argument ('-trig', '--applyTrigger' , default = '0' , help='apply trigger or not')
     args = parser.parse_args ()
 
-    print 'produceWWNtuples '+args.inputFolder+' '+args.output+' '+args.ismc+' '+args.lepton+' '+args.tree+' '+args.name+' '+args.xsecWeight+' '+args.numberOfEntries+' '+args.mass
-    os.system('./produceWWNtuples.exe '+args.inputFolder+' '+args.output+' '+args.ismc+' '+args.lepton+' '+args.tree+' '+args.name+' '+args.xsecWeight+' '+args.numberOfEntries+' '+args.mass)
+    print 'produceWWNtuples '+args.inputFolder+' '+args.output+' '+args.ismc+' '+args.lepton+' '+args.tree+' '+args.name+' '+args.xsecWeight+' '+args.numberOfEntries+' '+args.mass+' '+args.applyTrigger
+    os.system('./produceWWNtuples.exe '+args.inputFolder+' '+args.output+' '+args.ismc+' '+args.lepton+' '+args.tree+' '+args.name+' '+args.xsecWeight+' '+args.numberOfEntries+' '+args.mass+' '+args.applyTrigger)
