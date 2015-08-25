@@ -63,7 +63,7 @@ for a in range(len(category)):
     for i in range(len(name)):
         fn = "Job/Job_"+name[i]+"_"+category[a];
         outScript = open(fn+".sh","w");
-        command = "python python/produceWWNtuples.py -n "+name[i]+" -o WWTree_"+name[i]+" -l "+category[a]+" -w "+xSecWeight[i]+" -no "+N[i]+" -mass "+mass[i]+" --ismc True -trig 1";
+        command = "python python/produceWWNtuples.py -n "+name[i]+" -o WWTree_"+name[i]+" -l "+category[a]+" -w "+xSecWeight[i]+" -no "+N[i]+" -mass "+mass[i]+" --ismc True -trig 0";
         print command;
         outScript.write('#!/bin/bash');
         outScript.write("\n"+'cd '+CMSSWDir);
@@ -82,7 +82,7 @@ for a in range(len(category)):
     for i in range(len(nameData)):
         fn = "Job/Job_"+nameData[i]+"_"+category[a];
         outScript = open(fn+".sh","w");
-        command = "python python/produceWWNtuples.py -n "+nameData[i]+" -o WWTree_"+nameData[i]+" -l "+category[a]+" -w 1. -no 1. -mass 0 --ismc False -trig 1";
+        command = "python python/produceWWNtuples.py -n "+nameData[i]+" -o WWTree_"+nameData[i]+" -l "+category[a]+" -w 1. -no 1. -mass 0 --ismc False -trig 0";
         print command;
         outScript.write('#!/bin/bash');
         outScript.write("\n"+'cd '+CMSSWDir);
