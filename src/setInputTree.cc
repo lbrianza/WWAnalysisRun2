@@ -224,6 +224,9 @@ void setInputTree::Init()
    fChain->SetBranchAddress("Muons_trackIso", Muons_trackIso, &b_Muons_trackIso);
    fChain->SetBranchAddress("Muons_isLoose", Muons_isLoose, &b_Muons_isLoose);
    fChain->SetBranchAddress("Muons_isPFMuon", Muons_isPFMuon, &b_Muons_isPFMuon);
+   fChain->SetBranchAddress("TriggerProducerTriggerPrescales", &TriggerProducerTriggerPrescales, &b_TriggerProducerTriggerPrescales);
+   fChain->SetBranchAddress("TriggerProducerTriggerPass", &TriggerProducerTriggerPass, &b_TriggerProducerTriggerPass);
+   fChain->SetBranchAddress("TriggerProducerTriggerNames", &TriggerProducerTriggerNames, &b_TriggerProducerTriggerNames);
    //   Notify();
 }
 

@@ -191,6 +191,9 @@ public :
    Float_t         Muons_trackIso[33];   //[MuonsNum]
    UChar_t         Muons_isLoose[33];   //[MuonsNum]
    UChar_t         Muons_isPFMuon[33];   //[MuonsNum]
+   vector<int>     *TriggerProducerTriggerPrescales;
+   vector<unsigned int> *TriggerProducerTriggerPass;
+   vector<string>  *TriggerProducerTriggerNames;
 
    // List of branches
    TBranch        *b_RunNum;   //!
@@ -360,6 +363,9 @@ public :
    TBranch        *b_Muons_trackIso;   //!
    TBranch        *b_Muons_isLoose;   //!
    TBranch        *b_Muons_isPFMuon;   //!
+   TBranch        *b_TriggerProducerTriggerPrescales;   //!                                                                                                      
+   TBranch        *b_TriggerProducerTriggerPass;   //!                                                                                                           
+   TBranch        *b_TriggerProducerTriggerNames;   //! 
 
    setInputTree(std::string inputTree);
    virtual ~setInputTree();
