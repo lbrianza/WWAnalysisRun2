@@ -159,7 +159,7 @@ int main (int argc, char** argv)
     if(strcmp(leptonName.c_str(),"mu")==0 && WWTree->issignal==1 && WWTree->W_pt>200 && WWTree->pfMET>40 && WWTree->l_pt>50 && WWTree->jet_pt>200 && WWTree->nbtag <1 && WWTree->jet_mass_pruned > 40 && WWTree->jet_mass_pruned < 130 && WWTree->jet_tau2tau1<0.5) {
       outTree->Fill();
     }
-    if(strcmp(leptonName.c_str(),"el")==0 && WWTree->issignal==1 && WWTree->W_pt>200 && WWTree->pfMET>80 && WWTree->l_pt>90 && WWTree->jet_pt>200 && WWTree->nbtag <1 && WWTree->jet_mass_pruned > 40 && WWTree->jet_mass_pruned < 130 && WWTree->jet_tau2tau1<0.5) {
+    if(strcmp(leptonName.c_str(),"el")==0 && WWTree->issignal==1 && WWTree->W_pt>200 && WWTree->pfMET>80 && WWTree->l_pt>140 && WWTree->jet_pt>200 && WWTree->nbtag <1 && WWTree->jet_mass_pruned > 40 && WWTree->jet_mass_pruned < 130 && WWTree->jet_tau2tau1<0.5) {
       outTree->Fill();
     }
   }
