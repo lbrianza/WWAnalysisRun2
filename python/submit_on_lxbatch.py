@@ -56,7 +56,7 @@ mass = ["600", "800", "1000", "1200", "1400", "1600", "1800", "2000",
         "600", "800", "1000", "1200", "1400", "1600", "1800",
         "2000", "2500", "3000", "3500", "4000", "4500"];
 
-nameData = ["data_mu_prompt","data_el_prompt","data_mu_17jul","data_el_17jul"];
+nameData = ["data_mu_prompt","data_el_prompt","data_mu_prompt_25ns_runD","data_el_prompt_25ns_runD","data_mu_prompt_25ns_runC","data_el_prompt_25ns_runC"];
 
 #MC
 for a in range(len(category)):
@@ -72,7 +72,7 @@ for a in range(len(category)):
         outScript.write("\n"+command);
         outScript.close();
         os.system("chmod 777 "+currentDir+"/"+fn+".sh");
-        command2 = "bsub -q 1nd -cwd "+currentDir+" "+currentDir+"/"+fn+".sh";
+        command2 = "bsub -q cmscaf1nd -cwd "+currentDir+" "+currentDir+"/"+fn+".sh";
         os.system(command2);
         print command2
 
@@ -91,6 +91,6 @@ for a in range(len(category)):
         outScript.write("\n"+command);
         outScript.close();
         os.system("chmod 777 "+currentDir+"/"+fn+".sh");
-        command2 = "bsub -q 1nd -cwd "+currentDir+" "+currentDir+"/"+fn+".sh";
+        command2 = "bsub -q cmscaf1nd -cwd "+currentDir+" "+currentDir+"/"+fn+".sh";
         os.system(command2);
         print command2
