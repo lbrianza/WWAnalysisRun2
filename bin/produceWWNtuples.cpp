@@ -278,7 +278,8 @@ int main (int argc, char** argv)
 	if (applyTrigger==1 && ReducedTree->TriggerProducerTriggerPass->at(0)==0) continue; //trigger
 	//if (ReducedTree->TriggerProducerTriggerPass->at(0)==0) continue; //trigger
 	if (ReducedTree->Electrons_isHEEP[i]==false) continue;       
-        if (ReducedTree->ElectronsPt[i]<=90) continue;
+        if (ReducedTree->ElectronsPt[i]<=120) continue;
+        if (fabs(ReducedTree->ElectronsEta[i])>=2.5) continue;
 	if (ReducedTree->ElectronsPt[i]<tempPt) continue;
 	ELE.SetPtEtaPhiE(ReducedTree->ElectronsPt[i],ReducedTree->ElectronsEta[i],ReducedTree->ElectronsPhi[i],ReducedTree->ElectronsE[i]);
 	tightEle.push_back(ELE);
@@ -321,6 +322,8 @@ int main (int argc, char** argv)
       if (ReducedTree->Electrons_isHEEP[i]==false) continue;       
     if(WWTree->event==evento) std::cout<<"debug: "<<i<<std::endl; count++;
       if (ReducedTree->ElectronsPt[i]<35) continue;       
+    if(WWTree->event==evento) std::cout<<"debug: "<<i<<std::endl; count++;
+      if (fabs(ReducedTree->ElectronsEta[i])>=2.5) continue;
     if(WWTree->event==evento) std::cout<<"debug: "<<i<<std::endl; count++;
       ELE.SetPtEtaPhiE(ReducedTree->ElectronsPt[i],ReducedTree->ElectronsEta[i],ReducedTree->ElectronsPhi[i],ReducedTree->ElectronsE[i]);
       looseEle.push_back(ELE);      
