@@ -46,7 +46,7 @@ parser.add_option('--rebin', '--rebin',action="store",type="int",dest="rebin",de
 
 #tdrstyle.setTDRStyle()
 
-lumi = 7.34  
+lumi = 848.7
 
 rebin = options.rebin
 
@@ -81,7 +81,7 @@ pudata.GetYaxis().SetTitleOffset(1.1)
 pudata.GetYaxis().SetNdivisions(505)
 pudata.SetMaximum(0.22)
 
-l.AddEntry(pudata,'Run 2015B certified json','PL')
+l.AddEntry(pudata,'Run 2015D certified json','PL')
 l.AddEntry(pumc,'t#bar{t} MC','L')
 
 canv = get_canvas('c',lumi)
