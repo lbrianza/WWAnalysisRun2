@@ -19,7 +19,9 @@ class setOutputTree {
   float wSampleWeight;
   float genWeight;
   float totalEventWeight;
+  float totalEventWeight_2;
   float eff_and_pu_Weight;
+  float eff_and_pu_Weight_2;
   float pfMET;
   float pfMET_Phi;
   float nu_pz_type0;

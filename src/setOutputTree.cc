@@ -20,7 +20,9 @@ void setOutputTree::initializeVariables()
   wSampleWeight=-999;
   genWeight=1;
   totalEventWeight=-999;
+  totalEventWeight_2=-999;
   eff_and_pu_Weight=-999;
+  eff_and_pu_Weight_2=-999;
   pfMET=-999;
   pfMET_Phi=-999;
   nu_pz_type0=-999;
@@ -127,6 +129,8 @@ void setOutputTree::setBranches()
   fTree->Branch("genWeight",&genWeight,"genWeight/F");
   fTree->Branch("totalEventWeight",&totalEventWeight,"totalEventWeight/F");
   fTree->Branch("eff_and_pu_Weight",&eff_and_pu_Weight,"eff_and_pu_Weight/F");
+  fTree->Branch("totalEventWeight_2",&totalEventWeight_2,"totalEventWeight_2/F");
+  fTree->Branch("eff_and_pu_Weight_2",&eff_and_pu_Weight_2,"eff_and_pu_Weight_2/F");
   fTree->Branch("pfMET",&pfMET,"pfMET/F");
   fTree->Branch("pfMET_Phi",&pfMET_Phi,"pfMET_Phi/F");
   fTree->Branch("nu_pz_type0",&nu_pz_type0,"nu_pz_type0/F");

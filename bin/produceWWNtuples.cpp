@@ -35,93 +35,91 @@ using namespace std;
 
 //*****PU WEIGHT***************
 
-vector<double> generate_weights(TH1* data_npu_estimated){
-  // see SimGeneral/MixingModule/python/mix_E7TeV_FlatDist10_2011EarlyData_inTimeOnly_cfi.py; copy and paste from there:
-  const double npu_probs[60] = {
-   2.560E-06,
- 5.239E-06,
- 1.420E-05,
- 5.005E-05,
- 1.001E-04,
- 2.705E-04,
- 1.999E-03,
- 6.097E-03,
- 1.046E-02,
- 1.383E-02,
- 1.685E-02,
- 2.055E-02,
- 2.572E-02,
- 3.262E-02,
- 4.121E-02,
- 4.977E-02,
- 5.539E-02,
- 5.725E-02,
- 5.607E-02,
- 5.312E-02,
- 5.008E-02,
- 4.763E-02,
- 4.558E-02,
- 4.363E-02,
- 4.159E-02,
- 3.933E-02,
- 3.681E-02,
- 3.406E-02,
- 3.116E-02,
- 2.818E-02,
- 2.519E-02,
- 2.226E-02,
- 1.946E-02,
- 1.682E-02,
- 1.437E-02,
- 1.215E-02,
- 1.016E-02,
- 8.400E-03,
- 6.873E-03,
- 5.564E-03,
- 4.457E-03,
- 3.533E-03,
- 2.772E-03,
- 2.154E-03,
- 1.656E-03,
- 1.261E-03,
- 9.513E-04,
- 7.107E-04,
- 5.259E-04,
- 3.856E-04,
- 2.801E-04,
- 2.017E-04,
- 1.439E-04,
- 1.017E-04,
- 7.126E-05,
- 4.948E-05,
- 3.405E-05,
- 2.322E-05,
- 1.570E-05,
- 5.005E-06
+vector<double> generate_weights(TH1* data_npu_estimated, int isForSynch){
+  // see SimGeneral/MixingModule/python/mix_2015_25ns_Startup_PoissonOOTPU_cfi.pyy; copy and paste from there:
+  const double npu_probs[52] = {
+                        4.8551E-07,
+                        1.74806E-06,
+                        3.30868E-06,
+                        1.62972E-05,
+                        4.95667E-05,
+                        0.000606966,
+                        0.003307249,
+                        0.010340741,
+                        0.022852296,
+                        0.041948781,
+                        0.058609363,
+                        0.067475755,
+                        0.072817826,
+                        0.075931405,
+                        0.076782504,
+                        0.076202319,
+                        0.074502547,
+                        0.072355135,
+                        0.069642102,
+                        0.064920999,
+                        0.05725576,
+                        0.047289348,
+                        0.036528446,
+                        0.026376131,
+                        0.017806872,
+                        0.011249422,
+                        0.006643385,
+                        0.003662904,
+                        0.001899681,
+                        0.00095614,
+                        0.00050028,
+                        0.000297353,
+                        0.000208717,
+                        0.000165856,
+                        0.000139974,
+                        0.000120481,
+                        0.000103826,
+                        8.88868E-05,
+                        7.53323E-05,
+                        6.30863E-05,
+                        5.21356E-05,
+                        4.24754E-05,
+                        3.40876E-05,
+                        2.69282E-05,
+                        2.09267E-05,
+                        1.5989E-05,
+                        4.8551E-06,
+                        2.42755E-06,
+                        4.8551E-07,
+                        2.42755E-07,
+                        1.21378E-07,
+                        4.8551E-08
 };
-  vector<double> result(60);
-  /*  
-  double s = 0.0;
-  for(int npu=0; npu<60; ++npu){
-    double npu_estimated = data_npu_estimated->GetBinContent(data_npu_estimated->GetXaxis()->FindBin(npu));                              
-    result[npu] = npu_estimated / npu_probs[npu];
-    s += npu_estimated;
-  }
-  // normalize weights such that the total sum of weights over thw whole sample is 1.0, i.e., sum_i  result[i] * npu_probs[i] should be 1.0 (!)
-  for(int npu=0; npu<60; ++npu){
-    result[npu] /= s;
-    }*/
   
-  for(int npu=0; npu<60; ++npu){
-    if (data_npu_estimated->GetBinContent(data_npu_estimated->GetXaxis()->FindBin(npu))==NULL)
-      result[npu] = 0.;
-    else {
+  if (isForSynch==0) { //OFFICIAL RECIPE
+    vector<double> result(52);
+    double s = 0.0;
+    for(int npu=0; npu<52; ++npu){
       double npu_estimated = data_npu_estimated->GetBinContent(data_npu_estimated->GetXaxis()->FindBin(npu));                              
-      result[npu] = npu_estimated;
+      result[npu] = npu_estimated / npu_probs[npu];
+      s += npu_estimated;
     }
+    // normalize weights such that the total sum of weights over thw whole sample is 1.0, i.e., sum_i  result[i] * npu_probs[i] should be 1.0 (!)
+    for(int npu=0; npu<52; ++npu){
+      result[npu] /= s;
+    }
+    return result;
   }
-  
-  return result;
+
+  else { //THIS IS FOR THE SYNCH ONLY. THIS IS NOT THE OFFICIAL RECIPE!
+    vector<double> result(60);
+    for(int npu=0; npu<60; ++npu){
+      if (data_npu_estimated->GetBinContent(data_npu_estimated->GetXaxis()->FindBin(npu))==NULL)
+	result[npu] = 0.;
+      else {
+	double npu_estimated = data_npu_estimated->GetBinContent(data_npu_estimated->GetXaxis()->FindBin(npu));                              
+	result[npu] = npu_estimated;
+      }
+    }
+    return result;
+  }
+
 }
 
 
@@ -144,6 +142,7 @@ int main (int argc, char** argv)
   }
   float genMass = atof(argv[9]);
   int applyTrigger = atoi(argv[10]);
+
   //applyTrigger=false;
   std::cout<<"apply trigger: "<<applyTrigger<<std::endl;
 
@@ -198,13 +197,20 @@ int main (int argc, char** argv)
   //--------pile up file -----------------
   //    TFile* pileupFile = TFile::Open("190456-208686-13Julv2_Prompt_Moriond2013.69400.observed.root");  
   //TH1F *pileupHisto = (TH1F*)pileupFile->Get("pileup");
-  TFile* pileupFile = TFile::Open("PU.root");  
-  TH1F *pileupHisto = (TH1F*)pileupFile->Get("puweights");
 
-  std::vector<double> weights;
+  std::vector<double> weights_pu1; //these are made with our recipe
+  std::vector<double> weights_pu2; //these are made with the official recipe
 
-  weights = generate_weights(pileupHisto);
-  pileupFile->Close();
+  TFile* pileupFile1 = TFile::Open("pileupDataRun2015D.root");  
+  TH1F *pileupHisto1 = (TH1F*)pileupFile1->Get("pileup");  
+  weights_pu1 = generate_weights(pileupHisto1,0);
+  pileupFile1->Close();
+
+  TFile* pileupFile2 = TFile::Open("PUxSynch.root");  
+  TH1F *pileupHisto2 = (TH1F*)pileupFile2->Get("puweights");
+  weights_pu2 = generate_weights(pileupHisto2,1);
+  pileupFile2->Close();
+
 
   //---------output tree----------------
   TFile* outROOT = TFile::Open((std::string("output/output_")+leptonName+std::string("/")+outputFile+(".root")).c_str(),"recreate");
@@ -237,6 +243,8 @@ int main (int argc, char** argv)
     WWTree->wSampleWeight = weight; //xsec/numberOfEntries
     WWTree->totalEventWeight = 1.; //temporary value
     WWTree->eff_and_pu_Weight = 1.; //temporary value
+    WWTree->totalEventWeight_2 = 1.; //temporary value
+    WWTree->eff_and_pu_Weight_2 = 1.; //temporary value
 
     if (ReducedTree->genEventWeight>0)
       WWTree->genWeight=1.;
@@ -246,15 +254,26 @@ int main (int argc, char** argv)
 
     //PILE-UP WEIGHT
     if (isMC) {
-      if(ReducedTree->NVtx<weights.size()){
-	WWTree->eff_and_pu_Weight = weights[ReducedTree->NVtx];
-	WWTree->totalEventWeight*=weights[ReducedTree->NVtx];
+      if(ReducedTree->NVtx<weights_pu1.size()){
+	WWTree->eff_and_pu_Weight = weights_pu1[ReducedTree->NVtx]; //official pu recipe
+	WWTree->totalEventWeight*=weights_pu1[ReducedTree->NVtx];
       }
       else{ //should not happen as we have a weight for all simulated n_pu multiplicities!
 	std::cout<<"Warning! n_pu too big"<<std::endl;
 	//	throw logic_error("n_pu too big");
         WWTree->eff_and_pu_Weight = 0.;
 	WWTree->totalEventWeight*=0.;
+      }    
+
+      if(ReducedTree->NVtx<weights_pu2.size()){
+	WWTree->eff_and_pu_Weight_2 = weights_pu2[ReducedTree->NVtx]; //our pu recipe
+	WWTree->totalEventWeight_2*=weights_pu2[ReducedTree->NVtx];
+      }
+      else{ //should not happen as we have a weight for all simulated n_pu multiplicities!
+	std::cout<<"Warning! n_pu too big"<<std::endl;
+	//	throw logic_error("n_pu too big");
+        WWTree->eff_and_pu_Weight_2 = 0.;
+	WWTree->totalEventWeight_2*=0.;
       }    
     }    
     //require at least one lepton and one jet
