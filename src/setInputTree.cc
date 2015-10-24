@@ -54,6 +54,10 @@ void setInputTree::Init()
    // Set branch addresses and branch pointers
   //   if (!tree) return;
   //   fChain = tree;
+  TriggerProducerTriggerPrescales=0;
+  TriggerProducerTriggerPass=0;
+  TriggerProducerTriggerNames=0;
+
    fCurrent = -1;
    fChain->SetMakeClass(1);
 

@@ -206,7 +206,7 @@ int main (int argc, char** argv)
   weights_pu1 = generate_weights(pileupHisto1,0);
   pileupFile1->Close();
 
-  TFile* pileupFile2 = TFile::Open("PUxSynch.root");  
+  TFile* pileupFile2 = TFile::Open("puweights.root");  
   TH1F *pileupHisto2 = (TH1F*)pileupFile2->Get("puweights");
   weights_pu2 = generate_weights(pileupHisto2,1);
   pileupFile2->Close();
