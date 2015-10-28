@@ -67,7 +67,9 @@ void setInputTree::Init()
    fChain->SetBranchAddress("NJets", &NJets, &b_NJets);
    fChain->SetBranchAddress("BTags", &BTags, &b_BTags);
    fChain->SetBranchAddress("NVtx", &NVtx, &b_NVtx);
+   fChain->SetBranchAddress("npT", &npT, &b_npT);
    fChain->SetBranchAddress("Weight", &Weight, &b_Weight);
+   fChain->SetBranchAddress("PUWeight", &PUWeight, &b_PUWeight);
    fChain->SetBranchAddress("genEventWeight", &genEventWeight, &b_genEventWeight);
    fChain->SetBranchAddress("MHT", &MHT, &b_MHT);
    fChain->SetBranchAddress("METPt", &METPt, &b_METPt);

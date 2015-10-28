@@ -206,7 +206,8 @@ int main (int argc, char** argv)
   weights_pu1 = generate_weights(pileupHisto1,0);
   pileupFile1->Close();
 
-  TFile* pileupFile2 = TFile::Open("puweights.root");  
+  //  TFile* pileupFile2 = TFile::Open("puweights.root");  
+  TFile* pileupFile2 = TFile::Open("PUxSynch.root");  
   TH1F *pileupHisto2 = (TH1F*)pileupFile2->Get("puweights");
   weights_pu2 = generate_weights(pileupHisto2,1);
   pileupFile2->Close();
@@ -245,6 +246,8 @@ int main (int argc, char** argv)
     WWTree->eff_and_pu_Weight = 1.; //temporary value
     WWTree->totalEventWeight_2 = 1.; //temporary value
     WWTree->eff_and_pu_Weight_2 = 1.; //temporary value
+    WWTree->totalEventWeight_3 = 1.; //temporary value
+    WWTree->eff_and_pu_Weight_3 = 1.; //temporary value
 
     if (ReducedTree->genEventWeight>0)
       WWTree->genWeight=1.;
@@ -255,8 +258,8 @@ int main (int argc, char** argv)
     //PILE-UP WEIGHT
     if (isMC) {
       if(ReducedTree->NVtx<weights_pu1.size()){
-	WWTree->eff_and_pu_Weight = weights_pu1[ReducedTree->NVtx]; //official pu recipe
-	WWTree->totalEventWeight*=weights_pu1[ReducedTree->NVtx];
+	WWTree->eff_and_pu_Weight = weights_pu1[ReducedTree->npT]; //official pu recipe
+	WWTree->totalEventWeight*=weights_pu1[ReducedTree->npT];
       }
       else{ //should not happen as we have a weight for all simulated n_pu multiplicities!
 	std::cout<<"Warning! n_pu too big"<<std::endl;
@@ -275,6 +278,8 @@ int main (int argc, char** argv)
         WWTree->eff_and_pu_Weight_2 = 0.;
 	WWTree->totalEventWeight_2*=0.;
       }    
+      WWTree->eff_and_pu_Weight_3 = ReducedTree->PUWeight; //our pu recipe
+      WWTree->totalEventWeight_3*=ReducedTree->PUWeight;
     }    
     //require at least one lepton and one jet
     //    if ( strcmp(leptonName.c_str(),"el")==0 && ReducedTree->ElectronsNum==0) continue; 

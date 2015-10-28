@@ -30,7 +30,9 @@ public :
    Int_t           NJets;
    Int_t           BTags;
    Int_t           NVtx;
+   Int_t           npT;
    Float_t         Weight;
+   Float_t         PUWeight;
    Float_t         genEventWeight;
    Float_t         MHT;
    Float_t         METPt;
@@ -202,7 +204,9 @@ public :
    TBranch        *b_NJets;   //!
    TBranch        *b_BTags;   //!
    TBranch        *b_NVtx;   //!
+   TBranch        *b_npT;   //!
    TBranch        *b_Weight;   //!
+   TBranch        *b_PUWeight;   //!
    TBranch        *b_genEventWeight;   //!
    TBranch        *b_MHT;   //!
    TBranch        *b_METPt;   //!
