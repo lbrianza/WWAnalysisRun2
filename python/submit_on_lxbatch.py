@@ -30,7 +30,7 @@ category = ["mu","el"];
 xSecWeight = [
     "4.76735", "1.16691", "0.377865", "0.144482", "0.0616708", "0.0288651", "0.0141334", "0.00751431",
               "0.00167726", "0.000443483", "0.000133915", "0.0000424117", "0.0000130705",
-              "61526.7", "1347.", "360.", "48.9", "18.77", "831.76", "831.76", "831.76", "831.76", "831.76", 
+              "61526.7", "1629.87", "435.6", "59.169", "22.7117", "831.76", "831.76", "831.76", "831.76", "831.76", 
     "10.11", "43.8", "26.07", "35.6", "35.6", "118.7", "16.5", "47.13",
               "43.53", "10.96", "10.96", "10.96", "3.38", "3.38", "3.38", 
     "831.76", "831.76", "831.76", "831.76", "831.76", "831.76", "831.76", "831.76",
@@ -74,16 +74,16 @@ mass = [
 nameData = [
     "data_mu_prompt_v3_25ns_runD_1",
     "data_mu_prompt_v3_25ns_runD_2",
-    "data_mu_prompt_v3_25ns_runD_3",
-    "data_mu_prompt_v3_25ns_runD_4",
+#    "data_mu_prompt_v3_25ns_runD_3",
+#    "data_mu_prompt_v3_25ns_runD_4",
     "data_el_prompt_v3_25ns_runD_1",
     "data_el_prompt_v3_25ns_runD_2",
-    "data_el_prompt_v3_25ns_runD_3",
-    "data_el_prompt_v3_25ns_runD_4",
-    "data_mu_prompt_v4_25ns_runD_1",
-    "data_mu_prompt_v4_25ns_runD_2",
-    "data_el_prompt_v4_25ns_runD_1",
-    "data_el_prompt_v4_25ns_runD_2",
+#    "data_el_prompt_v3_25ns_runD_3",
+#    "data_el_prompt_v3_25ns_runD_4",
+    "data_mu_prompt_v4_25ns_runD",
+#    "data_mu_prompt_v4_25ns_runD_2",
+    "data_el_prompt_v4_25ns_runD",
+#    "data_el_prompt_v4_25ns_runD_2",
     "data_mu_prompt_25ns_runC",
     "data_el_prompt_25ns_runC"];
 
