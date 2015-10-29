@@ -201,7 +201,7 @@ int main (int argc, char** argv)
   std::vector<double> weights_pu1; //these are made with our recipe
   std::vector<double> weights_pu2; //these are made with the official recipe
 
-  TFile* pileupFile1 = TFile::Open("pileupDataRun2015D.root");  
+  TFile* pileupFile1 = TFile::Open("pileupDataRun2015D_72mb.root");  
   TH1F *pileupHisto1 = (TH1F*)pileupFile1->Get("pileup");  
   weights_pu1 = generate_weights(pileupHisto1,0);
   pileupFile1->Close();
@@ -323,7 +323,7 @@ int main (int argc, char** argv)
 	if (ReducedTree->Muons_isHighPt[i]==false) continue;
 	//	if (ReducedTree->Muons_isPFMuon[i]==false) continue; //not in the synch ntuple!!
         if ((ReducedTree->Muons_trackIso[i]/ReducedTree->MuonsPt[i])>=0.1) continue;
-        if (ReducedTree->MuonsPt[i]<50) continue;
+        if (ReducedTree->MuonsPt[i]<53) continue;
         if (fabs(ReducedTree->MuonsEta[i])>=2.1) continue;
 	MU.SetPtEtaPhiE(ReducedTree->MuonsPt[i],ReducedTree->MuonsEta[i],ReducedTree->MuonsPhi[i],ReducedTree->MuonsE[i]);
 	tightMuon.push_back(MU);
