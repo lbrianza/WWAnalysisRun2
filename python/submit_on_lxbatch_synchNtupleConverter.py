@@ -14,7 +14,7 @@ ntupleDir = currentDir+"/output/output_"
 
 name = ["RSGraviton600", "RSGraviton800", "RSGraviton1000", "RSGraviton1200", "RSGraviton1400", "RSGraviton1600", "RSGraviton1800", "RSGraviton2000",
         "RSGraviton2500", "RSGraviton3000", "RSGraviton3500", "RSGraviton4000", "RSGraviton4500",
-        "WJets","WJets100", "WJets200", "WJets400", "WJets600", "TTbar_amcatnlo", "sch", "tch", "tch_bar", "tWch", "tWch_bar", "WW", "ZZ", "WZ",
+        "WJets","WJets100", "WJets200", "WJets400", "WJets600", "WJets600bis", "WJets800", "WJets1200", "WJets2500", "TTbar_amcatnlo", "sch", "tch", "tch_bar", "tWch", "tWch_bar", "WW", "ZZ", "WZ",
         "WW_excl", "WZ_excl", "ZZ_excl", "TTbar_powheg", "TTbar_madgraph",
 #        "WJets_50ns", "WW_50ns", "WZ_50ns", "ZZ_50ns", "TTbar_amcatnlo_50ns", "TTbar_powheg_50ns", "TTbar_madgraph_50ns",
 #        "tch_50ns", "tch_bar_50ns", "tWch_bar_50ns", "tWch_50ns",
