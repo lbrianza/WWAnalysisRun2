@@ -239,6 +239,12 @@ int main (int argc, char** argv)
       std::cout << "read entry: " << jentry2 <<"/"<<totalEntries<<std:: endl;
 
     WWTree->initializeVariables(); //initialize all variables
+
+    if (ReducedTree->passFilterHBHELooseRerun == 0) continue;
+    if (ReducedTree->passFilterHBHEIsoRerun == 0) continue;
+    if (ReducedTree->passFilterCSCHalo == 0) continue;
+    if (ReducedTree->passFilterGoodVtx == 0) continue;
+    if (ReducedTree->passFilterEEBadSC == 0) continue;
     
     WWTree->issignal = 0;
     WWTree->wSampleWeight = weight; //xsec/numberOfEntries
@@ -541,7 +547,7 @@ int main (int argc, char** argv)
     for (unsigned int i=0; i<ReducedTree->AK8JetsNum; i++)
       {
 	bool isCleanedJet = true;
-	if (ReducedTree->AK8Jets_PtCorr[i]<200 || fabs(ReducedTree->AK8JetsEta[i])>2.4)  continue; //be careful: this is not inside the synchntuple code
+	if (ReducedTree->AK8Jets_PtCorr[i]<100 || fabs(ReducedTree->AK8JetsEta[i])>2.4)  continue; //be careful: this is not inside the synchntuple code
 	if (ReducedTree->AK8Jets_prunedMass[i]>tempMass) {
 	  if ( (ReducedTree->AK8JetsEta[i]>0 && WWTree->l_eta<0) || 
 	       (ReducedTree->AK8JetsEta[i]<0 && WWTree->l_eta>0)) { //jet and lepton in opposite hemisphere for ttb

@@ -34,6 +34,14 @@ public :
    Float_t         Weight;
    Float_t         PUWeight;
    Float_t         genEventWeight;
+   Int_t           passFilterHBHE;
+   Int_t           passFilterHBHEIso;
+   Int_t           passFilterCSCHalo;
+   Int_t           passFilterGoodVtx;
+   Int_t           passFilterEEBadSC;
+   Int_t           passFilterHBHELooseRerun;
+   Int_t           passFilterHBHETightRerun;
+   Int_t           passFilterHBHEIsoRerun;
    Float_t         MHT;
    Float_t         METPt;
    Float_t         METPhi;
@@ -208,6 +216,14 @@ public :
    TBranch        *b_Weight;   //!
    TBranch        *b_PUWeight;   //!
    TBranch        *b_genEventWeight;   //!
+   TBranch        *b_passFilterHBHE;   //!                                                                                                                      
+   TBranch        *b_passFilterHBHEIso;   //!                                                                                                                   
+   TBranch        *b_passFilterCSCHalo;   //!                                                                                                                   
+   TBranch        *b_passFilterGoodVtx;   //!                                                                                                                   
+   TBranch        *b_passFilterEEBadSC;   //!                                                                                                                   
+   TBranch        *b_passFilterHBHELooseRerun;   //!                                                                                                            
+   TBranch        *b_passFilterHBHETightRerun;   //!                                                                                                            
+   TBranch        *b_passFilterHBHEIsoRerun;   //!
    TBranch        *b_MHT;   //!
    TBranch        *b_METPt;   //!
    TBranch        *b_METPhi;   //!
