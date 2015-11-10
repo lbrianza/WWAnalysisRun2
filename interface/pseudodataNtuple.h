@@ -48,6 +48,7 @@ public :
    Float_t         jet_phi;
    Float_t         jet_mass_pruned;
    Float_t         jet_mass_softdrop;
+   Float_t         jet_pt_softdrop;
    Float_t         jet_tau2tau1;
    Float_t         W_pt;
    Float_t         W_eta;
@@ -96,6 +97,7 @@ public :
    TBranch        *b_jet_phi;   //!
    TBranch        *b_jet_mass_pruned;   //!
    TBranch        *b_jet_mass_softdrop;   //!
+   TBranch        *b_jet_pt_softdrop;   //!
    TBranch        *b_jet_tau2tau1;   //!
    TBranch        *b_W_pt;   //!
    TBranch        *b_W_eta;   //!

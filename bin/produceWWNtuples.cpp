@@ -596,6 +596,7 @@ int main (int argc, char** argv)
 	WWTree->ungroomed_jet_e   = ReducedTree->AK8Jets_ECorr[i];
 	WWTree->jet_mass_pr   = ReducedTree->AK8Jets_prunedMass[i];
         WWTree->jet_mass_so   = ReducedTree->AK8Jets_softDropMass[i];
+        WWTree->jet_pt_so   = ReducedTree->AK8Jets_softDropPt[i];
 	WWTree->jet_mass_tr   = ReducedTree->AK8Jets_trimmedMass[i];
 	WWTree->jet_mass_fi   = ReducedTree->AK8Jets_filteredMass[i];
 	WWTree->jet_tau2tau1   = ReducedTree->AK8Jets_tau2[i]/ReducedTree->AK8Jets_tau1[i];
@@ -632,6 +633,7 @@ int main (int argc, char** argv)
       WWTree->ttb_ungroomed_jet_e   = ReducedTree->AK8Jets_ECorr[ttb_jet_position];
       WWTree->ttb_jet_mass_pr   = ReducedTree->AK8Jets_prunedMass[ttb_jet_position];
       WWTree->ttb_jet_mass_so   = ReducedTree->AK8Jets_softDropMass[ttb_jet_position];
+      WWTree->ttb_jet_pt_so   = ReducedTree->AK8Jets_softDropPt[ttb_jet_position];
       WWTree->ttb_jet_mass_tr   = ReducedTree->AK8Jets_trimmedMass[ttb_jet_position];
       WWTree->ttb_jet_mass_fi   = ReducedTree->AK8Jets_filteredMass[ttb_jet_position];
       WWTree->ttb_jet_tau2tau1   = ReducedTree->AK8Jets_tau2[ttb_jet_position]/ReducedTree->AK8Jets_tau1[ttb_jet_position];
@@ -875,6 +877,7 @@ int main (int argc, char** argv)
 	  WWTree->AK8_e_gen = ReducedTree->GenJetsAK8E[posGenJet];
 	  WWTree->AK8_pruned_mass_gen = ReducedTree->GenJetsAK8_prunedMass[posGenJet];
 	  WWTree->AK8_softdrop_mass_gen = ReducedTree->GenJetsAK8_softdropMass[posGenJet];
+	  WWTree->AK8_softdrop_pt_gen = ReducedTree->GenJetsAK8_softdropPt[posGenJet];
 
           if (deltaR(ReducedTree->GenBosonEta[posWhad], ReducedTree->GenBosonPhi[posWhad],
                      WWTree->ungroomed_jet_eta, WWTree->ungroomed_jet_phi)<0.1)     ok++;

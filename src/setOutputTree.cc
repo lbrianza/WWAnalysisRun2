@@ -61,6 +61,7 @@ void setOutputTree::initializeVariables()
   AK8_e_gen=-999;
   AK8_pruned_mass_gen=-999;
   AK8_softdrop_mass_gen=-999;
+  AK8_softdrop_pt_gen=-999;
   deltaR_lak8jet=-999;
   deltaphi_METak8jet=-999;
   deltaphi_Vak8jet=-999;
@@ -80,6 +81,7 @@ void setOutputTree::initializeVariables()
   ungroomed_jet_e=-999;
   jet_mass_pr=-999;
   jet_mass_so=-999;
+  jet_pt_so=-999;
   jet_mass_tr=-999;
   jet_mass_fi=-999;
   jet_tau2tau1=-999;
@@ -89,6 +91,7 @@ void setOutputTree::initializeVariables()
   ttb_ungroomed_jet_e=-999;
   ttb_jet_mass_pr=-999;
   ttb_jet_mass_so=-999;
+  ttb_jet_pt_so=-999;
   ttb_jet_mass_tr=-999;
   ttb_jet_mass_fi=-999;
   ttb_jet_tau2tau1=-999;
@@ -153,6 +156,7 @@ void setOutputTree::setBranches()
   fTree->Branch("ungroomed_jet_e",&ungroomed_jet_e,"ungroomed_jet_e/F");
   fTree->Branch("jet_mass_pr",&jet_mass_pr,"jet_mass_pr");
   fTree->Branch("jet_mass_so",&jet_mass_so,"jet_mass_so");
+  fTree->Branch("jet_pt_so",&jet_pt_so,"jet_pt_so");
   fTree->Branch("jet_mass_tr",&jet_mass_tr,"jet_mass_tr");
   fTree->Branch("jet_mass_fi",&jet_mass_fi,"jet_mass_fi");
   fTree->Branch("jet_tau2tau1",&jet_tau2tau1,"jet_tau2tau1");
@@ -162,6 +166,7 @@ void setOutputTree::setBranches()
   fTree->Branch("ttb_ungroomed_jet_e",&ttb_ungroomed_jet_e,"ttb_ungroomed_jet_e/F");
   fTree->Branch("ttb_jet_mass_pr",&ttb_jet_mass_pr,"ttb_jet_mass_pr");
   fTree->Branch("ttb_jet_mass_so",&ttb_jet_mass_so,"ttb_jet_mass_so");
+  fTree->Branch("ttb_jet_pt_so",&ttb_jet_pt_so,"ttb_jet_pt_so");
   fTree->Branch("ttb_jet_mass_tr",&ttb_jet_mass_tr,"ttb_jet_mass_tr");
   fTree->Branch("ttb_jet_mass_fi",&ttb_jet_mass_fi,"ttb_jet_mass_fi");
   fTree->Branch("ttb_jet_tau2tau1",&ttb_jet_tau2tau1,"ttb_jet_tau2tau1");
@@ -190,6 +195,7 @@ void setOutputTree::setBranches()
   fTree->Branch("AK8_e_gen",&AK8_e_gen,"AK8_e_gen");
   fTree->Branch("AK8_pruned_mass_gen",&AK8_pruned_mass_gen,"AK8_pruned_mass_gen");
   fTree->Branch("AK8_softdrop_mass_gen",&AK8_softdrop_mass_gen,"AK8_softdrop_mass_gen");
+  fTree->Branch("AK8_softdrop_pt_gen",&AK8_softdrop_pt_gen,"AK8_softdrop_pt_gen");
   fTree->Branch("deltaR_lak8jet",&deltaR_lak8jet,"deltaR_lak8jet/F");
   fTree->Branch("deltaphi_METak8jet",&deltaphi_METak8jet,"deltaphi_METak8jet/F");
   fTree->Branch("deltaphi_Vak8jet",&deltaphi_Vak8jet,"deltaphi_Vak8jet/F");

@@ -92,6 +92,7 @@ void pseudodataNtuple::Init()
    fChain->SetBranchAddress("jet_phi", &jet_phi, &b_jet_phi);
    fChain->SetBranchAddress("jet_mass_pruned", &jet_mass_pruned, &b_jet_mass_pruned);
    fChain->SetBranchAddress("jet_mass_softdrop", &jet_mass_softdrop, &b_jet_mass_softdrop);
+   fChain->SetBranchAddress("jet_pt_softdrop", &jet_pt_softdrop, &b_jet_pt_softdrop);
    fChain->SetBranchAddress("jet_tau2tau1", &jet_tau2tau1, &b_jet_tau2tau1);
    fChain->SetBranchAddress("W_pt", &W_pt, &b_W_pt);
    fChain->SetBranchAddress("W_eta", &W_eta, &b_W_eta);

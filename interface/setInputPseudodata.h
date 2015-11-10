@@ -49,6 +49,7 @@ public :
    Float_t         ungroomed_jet_e;
    Float_t         jet_mass_pr;
    Float_t         jet_mass_so;
+   Float_t         jet_pt_so;
    Float_t         jet_mass_tr;
    Float_t         jet_mass_fi;
    Float_t         jet_tau2tau1;
@@ -118,6 +119,7 @@ public :
    TBranch        *b_ungroomed_jet_e;   //!
    TBranch        *b_jet_mass_pr;   //!
    TBranch        *b_jet_mass_so;   //!
+   TBranch        *b_jet_pt_so;   //!
    TBranch        *b_jet_mass_tr;   //!
    TBranch        *b_jet_mass_fi;   //!
    TBranch        *b_jet_tau2tau1;   //!
