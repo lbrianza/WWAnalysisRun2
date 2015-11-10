@@ -109,6 +109,7 @@ int main (int argc, char** argv)
     WWTree->ungroomed_jet_phi = ReducedTree->ungroomed_jet_phi;
     WWTree->jet_mass_pr   = ReducedTree->jet_mass_pr;
     WWTree->jet_mass_so   = ReducedTree->jet_mass_so;
+    WWTree->jet_pt_so   = ReducedTree->jet_pt_so;
     WWTree->jet_tau2tau1   = ReducedTree->jet_tau2tau1;
 
     WWTree->deltaR_lak8jet = deltaR(WWTree->l_eta, WWTree->l_phi, WWTree->ungroomed_jet_eta, WWTree->ungroomed_jet_phi);

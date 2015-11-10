@@ -78,6 +78,7 @@ public :
    Float_t         GenJetsAK8TLorentzVector[60];   //[GenJetsNum]
    Float_t         GenJetsAK8_prunedMass[60];   //[GenJetsNum]
    Float_t         GenJetsAK8_softdropMass[60];   //[GenJetsNum]
+   Float_t         GenJetsAK8_softdropPt[60];   //[GenJetsNum]
    Float_t         GenJetsAK8_tau1[60];   //[GenJetsNum]
    Float_t         GenJetsAK8_tau2[60];   //[GenJetsNum]
    Float_t         GenJetsAK8_tau3[60];   //[GenJetsNum]
@@ -153,6 +154,7 @@ public :
    Int_t           AK8Jets_photonMultiplicity[30];   //[AK8JetsNum]
    Float_t         AK8Jets_prunedMass[30];   //[AK8JetsNum]
    Float_t         AK8Jets_softDropMass[30];   //[AK8JetsNum]
+   Float_t         AK8Jets_softDropPt[30];   //[AK8JetsNum]
    Float_t         AK8Jets_trimmedMass[30];   //[AK8JetsNum]
    Float_t         AK8Jets_filteredMass[30];   //[AK8JetsNum]
    Float_t         AK8Jets_tau1[30];   //[AK8JetsNum]
@@ -260,6 +262,7 @@ public :
    TBranch        *b_GenJetsAK8TLorentzVector;   //!
    TBranch        *b_GenJetsAK8_prunedMass;   //!
    TBranch        *b_GenJetsAK8_softdropMass;   //!
+   TBranch        *b_GenJetsAK8_softdropPt;   //!
    TBranch        *b_GenJetsAK8_tau1;   //!
    TBranch        *b_GenJetsAK8_tau2;   //!
    TBranch        *b_GenJetsAK8_tau3;   //!
@@ -335,6 +338,7 @@ public :
    TBranch        *b_AK8Jets_photonMultiplicity;   //!
    TBranch        *b_AK8Jets_prunedMass;   //!
    TBranch        *b_AK8Jets_softDropMass;   //!
+   TBranch        *b_AK8Jets_softDropPt;   //!
    TBranch        *b_AK8Jets_trimmedMass;   //!
    TBranch        *b_AK8Jets_filteredMass;   //!
    TBranch        *b_AK8Jets_tau1;   //!

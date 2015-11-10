@@ -82,6 +82,7 @@ void setInputPseudodata::Init()
    fChain->SetBranchAddress("ungroomed_jet_e", &ungroomed_jet_e, &b_ungroomed_jet_e);
    fChain->SetBranchAddress("jet_mass_pr", &jet_mass_pr, &b_jet_mass_pr);
    fChain->SetBranchAddress("jet_mass_so", &jet_mass_so, &b_jet_mass_so);
+   fChain->SetBranchAddress("jet_pt_so", &jet_pt_so, &b_jet_pt_so);
    fChain->SetBranchAddress("jet_mass_tr", &jet_mass_tr, &b_jet_mass_tr);
    fChain->SetBranchAddress("jet_mass_fi", &jet_mass_fi, &b_jet_mass_fi);
    fChain->SetBranchAddress("jet_tau2tau1", &jet_tau2tau1, &b_jet_tau2tau1);

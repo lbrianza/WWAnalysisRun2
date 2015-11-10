@@ -115,6 +115,7 @@ void setInputTree::Init()
    fChain->SetBranchAddress("GenJetsAK8TLorentzVector", GenJetsAK8TLorentzVector, &b_GenJetsAK8TLorentzVector);
    fChain->SetBranchAddress("GenJetsAK8_prunedMass", GenJetsAK8_prunedMass, &b_GenJetsAK8_prunedMass);
    fChain->SetBranchAddress("GenJetsAK8_softdropMass", GenJetsAK8_softdropMass, &b_GenJetsAK8_softdropMass);
+   fChain->SetBranchAddress("GenJetsAK8_softdropPt", GenJetsAK8_softdropPt, &b_GenJetsAK8_softdropPt);
    fChain->SetBranchAddress("GenJetsAK8_tau1", GenJetsAK8_tau1, &b_GenJetsAK8_tau1);
    fChain->SetBranchAddress("GenJetsAK8_tau2", GenJetsAK8_tau2, &b_GenJetsAK8_tau2);
    fChain->SetBranchAddress("GenJetsAK8_tau3", GenJetsAK8_tau3, &b_GenJetsAK8_tau3);
@@ -190,6 +191,7 @@ void setInputTree::Init()
    fChain->SetBranchAddress("AK8Jets_photonMultiplicity", AK8Jets_photonMultiplicity, &b_AK8Jets_photonMultiplicity);
    fChain->SetBranchAddress("AK8Jets_prunedMass", AK8Jets_prunedMass, &b_AK8Jets_prunedMass);
    fChain->SetBranchAddress("AK8Jets_softDropMass", AK8Jets_softDropMass, &b_AK8Jets_softDropMass);
+   fChain->SetBranchAddress("AK8Jets_softDropPt", AK8Jets_softDropPt, &b_AK8Jets_softDropPt);
    fChain->SetBranchAddress("AK8Jets_trimmedMass", AK8Jets_trimmedMass, &b_AK8Jets_trimmedMass);
    fChain->SetBranchAddress("AK8Jets_filteredMass", AK8Jets_filteredMass, &b_AK8Jets_filteredMass);
    fChain->SetBranchAddress("AK8Jets_tau1", AK8Jets_tau1, &b_AK8Jets_tau1);

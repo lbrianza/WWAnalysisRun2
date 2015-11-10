@@ -42,6 +42,7 @@ class setOutputTree {
   float ungroomed_jet_e;
   float jet_mass_pr;
   float jet_mass_so;
+  float jet_pt_so;
   float jet_mass_tr;
   float jet_mass_fi;
   float jet_tau2tau1;
@@ -51,6 +52,7 @@ class setOutputTree {
   float ttb_ungroomed_jet_e;
   float ttb_jet_mass_pr;
   float ttb_jet_mass_so;
+  float ttb_jet_pt_so;
   float ttb_jet_mass_tr;
   float ttb_jet_mass_fi;
   float ttb_jet_tau2tau1;
@@ -79,6 +81,7 @@ class setOutputTree {
   float AK8_e_gen;
   float AK8_pruned_mass_gen;
   float AK8_softdrop_mass_gen;
+  float AK8_softdrop_pt_gen;
   float deltaR_lak8jet;
   float deltaphi_METak8jet;
   float deltaphi_Vak8jet;
