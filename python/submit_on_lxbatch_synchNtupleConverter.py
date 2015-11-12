@@ -19,7 +19,7 @@ name = ["RSGraviton600", "RSGraviton800", "RSGraviton1000", "RSGraviton1200", "R
 #        "WJets_50ns", "WW_50ns", "WZ_50ns", "ZZ_50ns", "TTbar_amcatnlo_50ns", "TTbar_powheg_50ns", "TTbar_madgraph_50ns",
 #        "tch_50ns", "tch_bar_50ns", "tWch_bar_50ns", "tWch_50ns",
         "BulkGraviton800", "BulkGraviton1000", "BulkGraviton1200", "BulkGraviton1400", "BulkGraviton1600", "BulkGraviton1800", 
-        "BulkGraviton2000", "BulkGraviton2500", "BulkGraviton3000", "BulkGraviton4000", "BulkGraviton4500", "data"];
+        "BulkGraviton2000", "BulkGraviton2500", "BulkGraviton3000", "BulkGraviton4000", "BulkGraviton4500", "data", "data_silver"];
 
 category = ["mu","el"];
 
