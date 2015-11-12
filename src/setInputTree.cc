@@ -82,6 +82,10 @@ void setInputTree::Init()
    fChain->SetBranchAddress("MHT", &MHT, &b_MHT);
    fChain->SetBranchAddress("METPt", &METPt, &b_METPt);
    fChain->SetBranchAddress("METPhi", &METPhi, &b_METPhi);
+   fChain->SetBranchAddress("METPtUp", &METPtUp, &b_METPtUp);
+   fChain->SetBranchAddress("METPhiUp", &METPhiUp, &b_METPhiUp);
+   fChain->SetBranchAddress("METPtDown", &METPtDown, &b_METPtDown);
+   fChain->SetBranchAddress("METPhiDown", &METPhiDown, &b_METPhiDown);
    fChain->SetBranchAddress("METPtRaw", &METPtRaw, &b_METPtRaw);
    fChain->SetBranchAddress("METPhiRaw", &METPhiRaw, &b_METPhiRaw);
    fChain->SetBranchAddress("HT", &HT, &b_HT);
@@ -146,6 +150,13 @@ void setInputTree::Init()
    fChain->SetBranchAddress("GenNuPhi", GenNuPhi, &b_GenNuPhi);
    fChain->SetBranchAddress("GenNuE", GenNuE, &b_GenNuE);
    fChain->SetBranchAddress("GenNuTLorentzVector", GenNuTLorentzVector, &b_GenNuTLorentzVector);
+   fChain->SetBranchAddress("GenTopNum", &GenTopNum, &b_GenTopNum);
+   fChain->SetBranchAddress("GenTopPt", GenTopPt, &b_GenTopPt);
+   fChain->SetBranchAddress("GenTopEta", GenTopEta, &b_GenTopEta);
+   fChain->SetBranchAddress("GenTopPhi", GenTopPhi, &b_GenTopPhi);
+   fChain->SetBranchAddress("GenTopE", GenTopE, &b_GenTopE);
+   fChain->SetBranchAddress("GenTopTLorentzVector", GenTopTLorentzVector, &b_GenTopTLorentzVector);
+   fChain->SetBranchAddress("GenTop_GenTopPDGId", GenTop_GenTopPDGId, &b_GenTop_GenTopPDGId);
    fChain->SetBranchAddress("JetsNum", &JetsNum, &b_JetsNum);
    fChain->SetBranchAddress("JetsPt", JetsPt, &b_JetsPt);
    fChain->SetBranchAddress("JetsEta", JetsEta, &b_JetsEta);
@@ -170,6 +181,9 @@ void setInputTree::Init()
    fChain->SetBranchAddress("Jets_EtaCorr", Jets_EtaCorr, &b_Jets_EtaCorr);
    fChain->SetBranchAddress("Jets_PhiCorr", Jets_PhiCorr, &b_Jets_PhiCorr);
    fChain->SetBranchAddress("Jets_ECorr", Jets_ECorr, &b_Jets_ECorr);
+   fChain->SetBranchAddress("Jets_AK4correction", Jets_AK4correction, &b_Jets_AK4correction);
+   fChain->SetBranchAddress("Jets_AK4correctionUp", Jets_AK4correctionUp, &b_Jets_AK4correctionUp);
+   fChain->SetBranchAddress("Jets_AK4correctionDown", Jets_AK4correctionDown, &b_Jets_AK4correctionDown);
    fChain->SetBranchAddress("AK8JetsNum", &AK8JetsNum, &b_AK8JetsNum);
    fChain->SetBranchAddress("AK8JetsPt", AK8JetsPt, &b_AK8JetsPt);
    fChain->SetBranchAddress("AK8JetsEta", AK8JetsEta, &b_AK8JetsEta);
@@ -202,6 +216,12 @@ void setInputTree::Init()
    fChain->SetBranchAddress("AK8Jets_EtaCorr", AK8Jets_EtaCorr, &b_AK8Jets_EtaCorr);
    fChain->SetBranchAddress("AK8Jets_PhiCorr", AK8Jets_PhiCorr, &b_AK8Jets_PhiCorr);
    fChain->SetBranchAddress("AK8Jets_ECorr", AK8Jets_ECorr, &b_AK8Jets_ECorr);
+   fChain->SetBranchAddress("AK8Jets_AK8correction", AK8Jets_AK8correction, &b_AK8Jets_AK8correction);
+   fChain->SetBranchAddress("AK8Jets_AK8correctionUp", AK8Jets_AK8correctionUp, &b_AK8Jets_AK8correctionUp);
+   fChain->SetBranchAddress("AK8Jets_AK8correctionDown", AK8Jets_AK8correctionDown, &b_AK8Jets_AK8correctionDown);
+   fChain->SetBranchAddress("AK8Jets_AK8massCorrection", AK8Jets_AK8massCorrection, &b_AK8Jets_AK8massCorrection);
+   fChain->SetBranchAddress("AK8Jets_AK8massCorrectionUp", AK8Jets_AK8massCorrectionUp, &b_AK8Jets_AK8massCorrectionUp);
+   fChain->SetBranchAddress("AK8Jets_AK8massCorrectionDown", AK8Jets_AK8massCorrectionDown, &b_AK8Jets_AK8massCorrectionDown);
    fChain->SetBranchAddress("ElectronsNum", &ElectronsNum, &b_ElectronsNum);
    fChain->SetBranchAddress("ElectronsPt", ElectronsPt, &b_ElectronsPt);
    fChain->SetBranchAddress("ElectronsEta", ElectronsEta, &b_ElectronsEta);

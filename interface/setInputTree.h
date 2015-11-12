@@ -45,6 +45,10 @@ public :
    Float_t         MHT;
    Float_t         METPt;
    Float_t         METPhi;
+   Float_t         METPtUp;
+   Float_t         METPhiUp;
+   Float_t         METPtDown;
+   Float_t         METPhiDown;
    Float_t         METPtRaw;
    Float_t         METPhiRaw;
    Float_t         HT;
@@ -109,6 +113,13 @@ public :
    Float_t         GenNuPhi[30];   //[GenNuNum]
    Float_t         GenNuE[30];   //[GenNuNum]
    Float_t         GenNuTLorentzVector[30];   //[GenNuNum]
+   UShort_t        GenTopNum;
+   Float_t         GenTopPt[30];   //[GenTopNum]
+   Float_t         GenTopEta[30];   //[GenTopNum]
+   Float_t         GenTopPhi[30];   //[GenTopNum]
+   Float_t         GenTopE[30];   //[GenTopNum]
+   Float_t         GenTopTLorentzVector[30];   //[GenTopNum]
+   Int_t           GenTop_GenTopPDGId[30];   //[GenTopNum]
    UShort_t        JetsNum;
    Float_t         JetsPt[60];   //[JetsNum]
    Float_t         JetsEta[60];   //[JetsNum]
@@ -133,6 +144,9 @@ public :
    Float_t         Jets_EtaCorr[60];   //[JetsNum]
    Float_t         Jets_PhiCorr[60];   //[JetsNum]
    Float_t         Jets_ECorr[60];   //[JetsNum]
+   Float_t         Jets_AK4correction[60];   //[JetsNum]
+   Float_t         Jets_AK4correctionUp[60];   //[JetsNum]
+   Float_t         Jets_AK4correctionDown[60];   //[JetsNum]
    UShort_t        AK8JetsNum;
    Float_t         AK8JetsPt[30];   //[AK8JetsNum]
    Float_t         AK8JetsEta[30];   //[AK8JetsNum]
@@ -165,6 +179,12 @@ public :
    Float_t         AK8Jets_EtaCorr[30];   //[AK8JetsNum]
    Float_t         AK8Jets_PhiCorr[30];   //[AK8JetsNum]
    Float_t         AK8Jets_ECorr[30];   //[AK8JetsNum]
+   Float_t         AK8Jets_AK8correction[30];   //[AK8JetsNum]
+   Float_t         AK8Jets_AK8correctionUp[30];   //[AK8JetsNum]
+   Float_t         AK8Jets_AK8correctionDown[30];   //[AK8JetsNum]
+   Float_t         AK8Jets_AK8massCorrection[30];   //[AK8JetsNum]
+   Float_t         AK8Jets_AK8massCorrectionUp[30];   //[AK8JetsNum]
+   Float_t         AK8Jets_AK8massCorrectionDown[30];   //[AK8JetsNum]
    UShort_t        ElectronsNum;
    Float_t         ElectronsPt[30];   //[ElectronsNum]
    Float_t         ElectronsEta[30];   //[ElectronsNum]
@@ -229,6 +249,10 @@ public :
    TBranch        *b_MHT;   //!
    TBranch        *b_METPt;   //!
    TBranch        *b_METPhi;   //!
+   TBranch        *b_METPtUp;   //!
+   TBranch        *b_METPhiUp;   //!
+   TBranch        *b_METPtDown;   //!
+   TBranch        *b_METPhiDown;   //!
    TBranch        *b_METPtRaw;   //!
    TBranch        *b_METPhiRaw;   //!
    TBranch        *b_HT;   //!
@@ -293,6 +317,13 @@ public :
    TBranch        *b_GenNuPhi;   //!
    TBranch        *b_GenNuE;   //!
    TBranch        *b_GenNuTLorentzVector;   //!
+   TBranch        *b_GenTopNum;   //!
+   TBranch        *b_GenTopPt;   //!
+   TBranch        *b_GenTopEta;   //!
+   TBranch        *b_GenTopPhi;   //!
+   TBranch        *b_GenTopE;   //!
+   TBranch        *b_GenTopTLorentzVector;   //!
+   TBranch        *b_GenTop_GenTopPDGId;   //!
    TBranch        *b_JetsNum;   //!
    TBranch        *b_JetsPt;   //!
    TBranch        *b_JetsEta;   //!
@@ -317,6 +348,9 @@ public :
    TBranch        *b_Jets_EtaCorr;   //!
    TBranch        *b_Jets_PhiCorr;   //!
    TBranch        *b_Jets_ECorr;   //!
+   TBranch        *b_Jets_AK4correction;   //!
+   TBranch        *b_Jets_AK4correctionUp;   //!
+   TBranch        *b_Jets_AK4correctionDown;   //!
    TBranch        *b_AK8JetsNum;   //!
    TBranch        *b_AK8JetsPt;   //!
    TBranch        *b_AK8JetsEta;   //!
@@ -349,6 +383,12 @@ public :
    TBranch        *b_AK8Jets_EtaCorr;   //!
    TBranch        *b_AK8Jets_PhiCorr;   //!
    TBranch        *b_AK8Jets_ECorr;   //!
+   TBranch        *b_AK8Jets_AK8correction;   //!
+   TBranch        *b_AK8Jets_AK8correctionUp;   //!
+   TBranch        *b_AK8Jets_AK8correctionDown;   //!
+   TBranch        *b_AK8Jets_AK8massCorrection;   //!
+   TBranch        *b_AK8Jets_AK8massCorrectionUp;   //!
+   TBranch        *b_AK8Jets_AK8massCorrectionDown;   //!
    TBranch        *b_ElectronsNum;   //!
    TBranch        *b_ElectronsPt;   //!
    TBranch        *b_ElectronsEta;   //!
