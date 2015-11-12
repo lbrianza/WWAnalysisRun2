@@ -148,7 +148,9 @@ int main (int argc, char** argv)
 
   TLorentzVector W,MET,LEP;
   TLorentzVector NU0,NU1,NU2;
+  TLorentzVector NU0_jes_up, NU0_jes_dn;
   TLorentzVector JET, HADW, AK4;
+  TLorentzVector JET_jes_up, JET_jes_dn;
   TLorentzVector VBF1,VBF2,TOT;
   TLorentzVector ELE,MU;
 
@@ -221,6 +223,8 @@ int main (int argc, char** argv)
 
   setOutputTree *WWTree = new setOutputTree(outTree);
 
+  float top_NNLO_weight[2];
+
   //---------start loop on events------------
   Long64_t jentry2=0;
   for (Long64_t jentry=0; jentry<ReducedTree->fChain->GetEntries();jentry++,jentry2++) {
@@ -248,12 +252,11 @@ int main (int argc, char** argv)
     
     WWTree->issignal = 0;
     WWTree->wSampleWeight = weight; //xsec/numberOfEntries
-    WWTree->totalEventWeight = 1.; //temporary value
     WWTree->eff_and_pu_Weight = 1.; //temporary value
-    WWTree->totalEventWeight_2 = 1.; //temporary value
     WWTree->eff_and_pu_Weight_2 = 1.; //temporary value
-    WWTree->totalEventWeight_3 = 1.; //temporary value
     WWTree->eff_and_pu_Weight_3 = 1.; //temporary value
+    WWTree->top1_NNLO_Weight = 1.;
+    WWTree->top2_NNLO_Weight = 1.;
 
     if (ReducedTree->genEventWeight>0)
       WWTree->genWeight=1.;
@@ -265,27 +268,22 @@ int main (int argc, char** argv)
     if (isMC) {
       if(ReducedTree->NVtx<weights_pu1.size()){
 	WWTree->eff_and_pu_Weight = weights_pu1[ReducedTree->npT]; //official pu recipe
-	WWTree->totalEventWeight*=weights_pu1[ReducedTree->npT];
       }
       else{ //should not happen as we have a weight for all simulated n_pu multiplicities!
 	std::cout<<"Warning! n_pu too big"<<std::endl;
 	//	throw logic_error("n_pu too big");
         WWTree->eff_and_pu_Weight = 0.;
-	WWTree->totalEventWeight*=0.;
       }    
 
       if(ReducedTree->NVtx<weights_pu2.size()){
 	WWTree->eff_and_pu_Weight_2 = weights_pu2[ReducedTree->NVtx]; //our pu recipe
-	WWTree->totalEventWeight_2*=weights_pu2[ReducedTree->NVtx];
       }
       else{ //should not happen as we have a weight for all simulated n_pu multiplicities!
 	std::cout<<"Warning! n_pu too big"<<std::endl;
 	//	throw logic_error("n_pu too big");
         WWTree->eff_and_pu_Weight_2 = 0.;
-	WWTree->totalEventWeight_2*=0.;
       }    
       WWTree->eff_and_pu_Weight_3 = ReducedTree->PUWeight; //our pu recipe
-      WWTree->totalEventWeight_3*=ReducedTree->PUWeight;
     }    
     //require at least one lepton and one jet
     //    if ( strcmp(leptonName.c_str(),"el")==0 && ReducedTree->ElectronsNum==0) continue; 
@@ -403,20 +401,32 @@ int main (int argc, char** argv)
 
     float Wmass = 80.385;
 
-    TLorentzVector W_mu, W_Met;
+    TLorentzVector W_mu, W_Met, W_Met_jes_up, W_Met_jes_dn;
 
     W_mu.SetPtEtaPhiE(WWTree->l_pt,WWTree->l_eta,WWTree->l_phi,WWTree->l_e);
     W_Met.SetPxPyPzE(ReducedTree->METPt * TMath::Cos(ReducedTree->METPhi), ReducedTree->METPt * TMath::Sin(ReducedTree->METPhi), 0., sqrt(ReducedTree->METPt*ReducedTree->METPt));
+    W_Met_jes_up.SetPxPyPzE(ReducedTree->METPtUp * TMath::Cos(ReducedTree->METPhiUp), ReducedTree->METPtUp * TMath::Sin(ReducedTree->METPhiUp), 0., sqrt(ReducedTree->METPtUp*ReducedTree->METPtUp));
+    W_Met_jes_dn.SetPxPyPzE(ReducedTree->METPtDown * TMath::Cos(ReducedTree->METPhiDown), ReducedTree->METPtDown * TMath::Sin(ReducedTree->METPhiDown), 0., sqrt(ReducedTree->METPtDown*ReducedTree->METPtDown));
 
     if(W_mu.Pt()<=0 || W_Met.Pt() <= 0 ){ std::cerr<<" Negative Lepton - Neutrino Pt "<<std::endl; continue ; }
     if(WWTree->event==evento) std::cout<<"debug: "<<count<<std::endl; count++;
 
     // type0 calculation of neutrino pZ
     METzCalculator NeutrinoPz_type0;
+    METzCalculator NeutrinoPz_type0_jes_up;
+    METzCalculator NeutrinoPz_type0_jes_dn;
     METzCalculator_Run2 NeutrinoPz_run2;
     NeutrinoPz_type0.SetMET(W_Met);
     NeutrinoPz_type0.SetLepton(W_mu);
     NeutrinoPz_type0.SetLeptonType(leptonName.c_str());
+
+    NeutrinoPz_type0_jes_up.SetMET(W_Met_jes_up);
+    NeutrinoPz_type0_jes_up.SetLepton(W_mu);
+    NeutrinoPz_type0_jes_up.SetLeptonType(leptonName.c_str());
+
+    NeutrinoPz_type0_jes_dn.SetMET(W_Met_jes_dn);
+    NeutrinoPz_type0_jes_dn.SetLepton(W_mu);
+    NeutrinoPz_type0_jes_dn.SetLeptonType(leptonName.c_str());
 
     NeutrinoPz_run2.SetMET(W_Met);
     NeutrinoPz_run2.SetLepton(W_mu);
@@ -426,6 +436,9 @@ int main (int argc, char** argv)
     double pz2_type0 = NeutrinoPz_type0.getOther(); // Default one
 
     double pz1_run2 = NeutrinoPz_run2.Calculate(); 
+
+    double pz1_type0_jes_up = NeutrinoPz_type0_jes_up.Calculate(); // Default one -> according to type0
+    double pz1_type0_jes_dn = NeutrinoPz_type0_jes_dn.Calculate(); // Default one -> according to type0
 
     // don't touch the neutrino pT
     TLorentzVector W_neutrino_type0_met; 
@@ -500,6 +513,8 @@ int main (int argc, char** argv)
     //    W_nu2_pz_type2 = pz2_type2;
 
     WWTree->pfMET   = sqrt(ReducedTree->METPt*ReducedTree->METPt);
+    WWTree->pfMET_jes_up   = sqrt(ReducedTree->METPtUp*ReducedTree->METPtUp);
+    WWTree->pfMET_jes_dn   = sqrt(ReducedTree->METPtDown*ReducedTree->METPtDown);
     WWTree->pfMET_Phi = ReducedTree->METPhi;
     WWTree->nu_pz_type0 = pz1_type0;
     WWTree->nu_pz_type2 = pz1_type2;
@@ -513,6 +528,10 @@ int main (int argc, char** argv)
     
     LEP.SetPtEtaPhiE(WWTree->l_pt,WWTree->l_eta,WWTree->l_phi,WWTree->l_e);
     NU0.SetPxPyPzE(ReducedTree->METPt*TMath::Cos(ReducedTree->METPhi),ReducedTree->METPt*TMath::Sin(ReducedTree->METPhi),WWTree->nu_pz_type0,TMath::Sqrt(WWTree->pfMET*WWTree->pfMET+WWTree->nu_pz_type0*WWTree->nu_pz_type0));
+
+    NU0_jes_up.SetPxPyPzE(ReducedTree->METPtUp*TMath::Cos(ReducedTree->METPhiUp),ReducedTree->METPtUp*TMath::Sin(ReducedTree->METPhiUp),pz1_type0_jes_up,TMath::Sqrt(WWTree->pfMET_jes_up*WWTree->pfMET_jes_up+pz1_type0_jes_up*pz1_type0_jes_up));
+    NU0_jes_dn.SetPxPyPzE(ReducedTree->METPtDown*TMath::Cos(ReducedTree->METPhiDown),ReducedTree->METPtDown*TMath::Sin(ReducedTree->METPhiDown),pz1_type0_jes_dn,TMath::Sqrt(WWTree->pfMET_jes_dn*WWTree->pfMET_jes_dn+pz1_type0_jes_dn*pz1_type0_jes_dn));
+
     NU2.SetPxPyPzE(ReducedTree->METPt*TMath::Cos(ReducedTree->METPhi),ReducedTree->METPt*TMath::Sin(ReducedTree->METPhi),WWTree->nu_pz_type2,TMath::Sqrt(WWTree->pfMET*WWTree->pfMET+WWTree->nu_pz_type2*WWTree->nu_pz_type2));
     NU1.SetPxPyPzE(ReducedTree->METPt*TMath::Cos(ReducedTree->METPhi),ReducedTree->METPt*TMath::Sin(ReducedTree->METPhi),WWTree->nu_pz_run2,TMath::Sqrt(WWTree->pfMET*WWTree->pfMET+WWTree->nu_pz_run2*WWTree->nu_pz_run2));
     W = LEP + NU2;
@@ -540,10 +559,11 @@ int main (int argc, char** argv)
     ///////////THE FAT JET
     float tempPt=0., tempMass=0.;
     int nGoodAK8jets=0;
+    int hadWpos = -1;
     int ttb_jet_position=-1; //position of AK8 jet in ttbar-topology
     if (ReducedTree->AK8JetsNum < 1 ) continue; 
     if(WWTree->event==evento) std::cout<<"debug: "<<count<<std::endl; count++;
-
+   
     for (unsigned int i=0; i<ReducedTree->AK8JetsNum; i++)
       {
 	bool isCleanedJet = true;
@@ -591,10 +611,14 @@ int main (int argc, char** argv)
 	if (isCleanedJet==false) continue; //jet is overlapped with a lepton
 
 	WWTree->ungroomed_jet_pt  = ReducedTree->AK8Jets_PtCorr[i];
+	WWTree->ungroomed_jet_pt_jes_up = (ReducedTree->AK8Jets_PtCorr[i]/ReducedTree->AK8Jets_AK8correction[i])*ReducedTree->AK8Jets_AK8correctionUp[i];
+	WWTree->ungroomed_jet_pt_jes_dn = (ReducedTree->AK8Jets_PtCorr[i]/ReducedTree->AK8Jets_AK8correction[i])*ReducedTree->AK8Jets_AK8correctionDown[i];
 	WWTree->ungroomed_jet_eta = ReducedTree->AK8JetsEta[i];
 	WWTree->ungroomed_jet_phi = ReducedTree->AK8JetsPhi[i];
 	WWTree->ungroomed_jet_e   = ReducedTree->AK8Jets_ECorr[i];
 	WWTree->jet_mass_pr   = ReducedTree->AK8Jets_prunedMass[i];
+	WWTree->jet_mass_pr_jes_up = (ReducedTree->AK8Jets_prunedMass[i]/ReducedTree->AK8Jets_AK8massCorrection[i])*ReducedTree->AK8Jets_AK8massCorrectionUp[i];
+	WWTree->jet_mass_pr_jes_dn = (ReducedTree->AK8Jets_prunedMass[i]/ReducedTree->AK8Jets_AK8massCorrection[i])*ReducedTree->AK8Jets_AK8massCorrectionDown[i];
         WWTree->jet_mass_so   = ReducedTree->AK8Jets_softDropMass[i];
         WWTree->jet_pt_so   = ReducedTree->AK8Jets_softDropPt[i];
 	WWTree->jet_mass_tr   = ReducedTree->AK8Jets_trimmedMass[i];
@@ -602,6 +626,7 @@ int main (int argc, char** argv)
 	WWTree->jet_tau2tau1   = ReducedTree->AK8Jets_tau2[i]/ReducedTree->AK8Jets_tau1[i];
 	tempPt = WWTree->ungroomed_jet_pt;
 	nGoodAK8jets++;
+	hadWpos = i;
       }
 
     if (nGoodAK8jets==0) continue; //not found a good hadronic W candidate
@@ -619,11 +644,21 @@ int main (int argc, char** argv)
     WWTree->deltaphi_Vak8jet = JET.DeltaPhi(W);
     if (WWTree->deltaR_lak8jet>(TMath::Pi()/2.0) && fabs(WWTree->deltaphi_METak8jet)>2.0 && fabs(WWTree->deltaphi_Vak8jet)>2.0)
       WWTree->issignal=1;
+    JET_jes_up.SetPtEtaPhiE(WWTree->ungroomed_jet_pt*(ReducedTree->AK8Jets_AK8correctionUp[hadWpos]/ReducedTree->AK8Jets_AK8correction[hadWpos]),
+		     WWTree->ungroomed_jet_eta,
+		     WWTree->ungroomed_jet_phi,
+		     WWTree->ungroomed_jet_e*(ReducedTree->AK8Jets_AK8correctionUp[hadWpos]/ReducedTree->AK8Jets_AK8correction[hadWpos]));
+    JET_jes_dn.SetPtEtaPhiE(WWTree->ungroomed_jet_pt*(ReducedTree->AK8Jets_AK8correctionDown[hadWpos]/ReducedTree->AK8Jets_AK8correction[hadWpos]),
+		     WWTree->ungroomed_jet_eta,
+		     WWTree->ungroomed_jet_phi,
+		     WWTree->ungroomed_jet_e*(ReducedTree->AK8Jets_AK8correctionDown[hadWpos]/ReducedTree->AK8Jets_AK8correction[hadWpos]));
 
     //FOUR-BODY INVARIANT MASS
     WWTree->mass_lvj_type0 = (LEP + NU0 + JET).M();
     WWTree->mass_lvj_type2 = (LEP + NU2 + JET).M();
     WWTree->mass_lvj_run2  = (LEP + NU1 + JET).M();
+    WWTree->mass_lvj_type0_met_jes_up = (LEP + NU0_jes_up + JET_jes_up).M();
+    WWTree->mass_lvj_type0_met_jes_dn = (LEP + NU0_jes_dn + JET_jes_dn).M();
 
     //--- ttbar topology ------
     if (ttb_jet_position>=0) {
@@ -895,8 +930,29 @@ int main (int argc, char** argv)
 	  WWTree->nu_eta_gen=temp.Eta();
 	  deltaPhiOld = deltaPhi;
 	}		
+
+	top_NNLO_weight[0] = 1.;
+	top_NNLO_weight[1] = 1.;
+        if ( TString(outputFile.c_str()).Contains("TTbar_powheg") && ReducedTree->GenTopNum > 1) { //look at here: http://arxiv.org/pdf/1511.00549.pdf
+	  for (int i=0; i<2; i++) {
+	    if (ReducedTree->GenTopPt[i]<60)                                           top_NNLO_weight[i] = 1./0.97;
+	    else if (ReducedTree->GenTopPt[i]>=60 && ReducedTree->GenTopPt[i]<100)     top_NNLO_weight[i] = 1./0.995;
+	    else if (ReducedTree->GenTopPt[i]>=100 && ReducedTree->GenTopPt[i]<150)    top_NNLO_weight[i] = 1.;
+	    else if (ReducedTree->GenTopPt[i]>=150 && ReducedTree->GenTopPt[i]<200)    top_NNLO_weight[i] = 1./1.025;
+	    else if (ReducedTree->GenTopPt[i]>=200 && ReducedTree->GenTopPt[i]<260)    top_NNLO_weight[i] = 1./1.045;
+	    else if (ReducedTree->GenTopPt[i]>=260 && ReducedTree->GenTopPt[i]<320)    top_NNLO_weight[i] = 1./1.065;
+	    else                                                                       top_NNLO_weight[i] = 1./1.095;
+	  }
+	}
+	WWTree->top1_NNLO_Weight*=float(top_NNLO_weight[0]);
+	WWTree->top2_NNLO_Weight*=float(top_NNLO_weight[1]);
+
       }
     
+    WWTree->totalEventWeight = WWTree->genWeight*WWTree->eff_and_pu_Weight*WWTree->top1_NNLO_Weight*WWTree->top2_NNLO_Weight;
+    WWTree->totalEventWeight_2 = WWTree->genWeight*WWTree->eff_and_pu_Weight_2*WWTree->top1_NNLO_Weight*WWTree->top2_NNLO_Weight;
+    WWTree->totalEventWeight_3 = WWTree->genWeight*WWTree->eff_and_pu_Weight_3*WWTree->top1_NNLO_Weight*WWTree->top2_NNLO_Weight;
+
     //fill the tree
     if(WWTree->event==evento) std::cout<<"fill: "<<count<<std::endl; count++;
     outTree->Fill();
