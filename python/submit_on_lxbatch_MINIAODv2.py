@@ -83,14 +83,24 @@ mass = [
 nameData = [
     "data_mu_05Oct_25ns_runD_1",
     "data_mu_05Oct_25ns_runD_2",
+    "data_mu_05Oct_25ns_runD_3",
+    "data_mu_05Oct_25ns_runD_4",
+    "data_mu_05Oct_25ns_runD_5",
     "data_el_05Oct_25ns_runD_1",
     "data_el_05Oct_25ns_runD_2",
+    "data_el_05Oct_25ns_runD_3",
+    "data_el_05Oct_25ns_runD_4",
+    "data_el_05Oct_25ns_runD_5",
     "data_mu_prompt_v4_25ns_runD_1",
     "data_mu_prompt_v4_25ns_runD_2",
     "data_mu_prompt_v4_25ns_runD_3",
+    "data_mu_prompt_v4_25ns_runD_4",
+    "data_mu_prompt_v4_25ns_runD_5",
     "data_el_prompt_v4_25ns_runD_1",
     "data_el_prompt_v4_25ns_runD_2",
     "data_el_prompt_v4_25ns_runD_3",
+    "data_el_prompt_v4_25ns_runD_4",
+    "data_el_prompt_v4_25ns_runD_5",
     "data_mu_prompt_25ns_runC",
     "data_el_prompt_25ns_runC"];
 
@@ -132,4 +142,5 @@ for a in range(len(category)):
         command2 = "bsub -q cmscaf1nd -cwd "+currentDir+" "+currentDir+"/"+fn+".sh";
         os.system(command2);
         print command2
+
 
