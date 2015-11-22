@@ -96,7 +96,7 @@ int main (int argc, char** argv)
   inputTree->SetBranchAddress("v_eta", &v_eta);
   inputTree->SetBranchAddress("v_phi", &v_phi);
   inputTree->SetBranchAddress("v_mt", &v_mt);
-  inputTree->SetBranchAddress("mass_lvj_type0", &mass_lvj_type0);
+  inputTree->SetBranchAddress("mass_lvj_type2", &mass_lvj_type0);
   inputTree->SetBranchAddress("nBTagJet_medium", &nBTagJet_medium);
   inputTree->SetBranchAddress("jet2_pt", &jet2_pt);
   inputTree->SetBranchAddress("jet2_btag", &jet2_btag);

@@ -20,6 +20,8 @@ class setOutputTree {
   float genWeight;
   float top1_NNLO_Weight;
   float top2_NNLO_Weight;
+  float gen_top1_pt;
+  float gen_top2_pt;
   float totalEventWeight;
   float totalEventWeight_2;
   float totalEventWeight_3;

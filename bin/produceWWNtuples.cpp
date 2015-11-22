@@ -160,7 +160,7 @@ int main (int argc, char** argv)
   std::vector<TLorentzVector> looseEle;
 
   int ok=0, total=0;
-  int evento=127270357;
+  int evento=-1;
   int count=0;
 	
   setInputTree *ReducedTree = new setInputTree (inputTreeName.c_str());
@@ -297,18 +297,30 @@ int main (int argc, char** argv)
     WWTree->nPV  = ReducedTree->NVtx;
 
     if(WWTree->event==evento) std::cout<<"debug: "<<count<<std::endl; count++;
-
+    
     /////////////////THE SELECTED LEPTON
     int nTightLepton=0;
     if (strcmp(leptonName.c_str(),"el")==0) {
+      int passTrigger=0;
       float tempPt=0.;
       for (int i=0; i<ReducedTree->ElectronsNum; i++) {
-	if (applyTrigger==1 && ReducedTree->TriggerProducerTriggerPass->at(0)==0) continue; //trigger
+	if(WWTree->event==evento) std::cout<<"debug ele: "<<i<<std::endl;
+	if (applyTrigger==1)
+	  for (int t=0; t<ReducedTree->TriggerProducerTriggerNames->size(); t++)
+	    if(TString(ReducedTree->TriggerProducerTriggerNames->at(t)).Contains("HLT_Ele105_CaloIdVT_GsfTrkIdT") || 
+	       TString(ReducedTree->TriggerProducerTriggerNames->at(t)).Contains("HLT_Ele115_CaloIdVT_GsfTrkIdT"))
+	      if (ReducedTree->TriggerProducerTriggerPass->at(t)==1) passTrigger=1; //trigger
+	if (passTrigger==0) continue;
+	if(WWTree->event==evento) std::cout<<"debug ele: "<<i<<std::endl;
 	//if (ReducedTree->TriggerProducerTriggerPass->at(0)==0) continue; //trigger
 	if (ReducedTree->Electrons_isHEEP[i]==false) continue;       
+	if(WWTree->event==evento) std::cout<<"debug ele: "<<i<<std::endl;
         if (ReducedTree->ElectronsPt[i]<=120) continue;
-        if (fabs(ReducedTree->ElectronsEta[i])>=2.5) continue;
+	if(WWTree->event==evento) std::cout<<"debug ele: "<<i<<std::endl;
+	//        if (fabs(ReducedTree->ElectronsEta[i])>=2.5) continue; //this is already in the HEEP requirement
+	//if(WWTree->event==evento) std::cout<<"debug ele: "<<i<<std::endl;
 	if (ReducedTree->ElectronsPt[i]<tempPt) continue;
+	if(WWTree->event==evento) std::cout<<"debug ele: "<<i<<std::endl;
 	ELE.SetPtEtaPhiE(ReducedTree->ElectronsPt[i],ReducedTree->ElectronsEta[i],ReducedTree->ElectronsPhi[i],ReducedTree->ElectronsE[i]);
 	tightEle.push_back(ELE);
 	WWTree->l_pt  = ReducedTree->ElectronsPt[i];
@@ -320,9 +332,15 @@ int main (int argc, char** argv)
       }
     }
     else if (strcmp(leptonName.c_str(),"mu")==0) {
+      int passTrigger=0;
       float tempPt=0.;
       for (int i=0; i<ReducedTree->MuonsNum; i++) {
-	if (applyTrigger==1 && ReducedTree->TriggerProducerTriggerPass->at(1)==0) continue; //trigger
+	if (applyTrigger==1)
+	  for (int t=0; t<ReducedTree->TriggerProducerTriggerNames->size(); t++)
+	    if(TString(ReducedTree->TriggerProducerTriggerNames->at(t)).Contains("HLT_Mu45_eta2p1") || 
+	       TString(ReducedTree->TriggerProducerTriggerNames->at(t)).Contains("HLT_Mu50"))
+	      if (ReducedTree->TriggerProducerTriggerPass->at(t)==1) passTrigger=1; //trigger
+	if (passTrigger==0) continue;
 	//if (ReducedTree->TriggerProducerTriggerPass->at(1)==0) continue; //trigger
 	if (ReducedTree->Muons_isHighPt[i]==false) continue;
 	//	if (ReducedTree->Muons_isPFMuon[i]==false) continue; //not in the synch ntuple!!
@@ -350,8 +368,8 @@ int main (int argc, char** argv)
       if (ReducedTree->Electrons_isHEEP[i]==false) continue;       
     if(WWTree->event==evento) std::cout<<"debug: "<<i<<std::endl; count++;
       if (ReducedTree->ElectronsPt[i]<35) continue;       
-    if(WWTree->event==evento) std::cout<<"debug: "<<i<<std::endl; count++;
-      if (fabs(ReducedTree->ElectronsEta[i])>=2.5) continue;
+      //    if(WWTree->event==evento) std::cout<<"debug: "<<i<<std::endl; count++;
+      // if (fabs(ReducedTree->ElectronsEta[i])>=2.5) continue;
     if(WWTree->event==evento) std::cout<<"debug: "<<i<<std::endl; count++;
       ELE.SetPtEtaPhiE(ReducedTree->ElectronsPt[i],ReducedTree->ElectronsEta[i],ReducedTree->ElectronsPhi[i],ReducedTree->ElectronsE[i]);
       looseEle.push_back(ELE);      
@@ -947,6 +965,8 @@ int main (int argc, char** argv)
 	WWTree->top1_NNLO_Weight*=float(top_NNLO_weight[0]);
 	WWTree->top2_NNLO_Weight*=float(top_NNLO_weight[1]);
 
+	WWTree->gen_top1_pt = ReducedTree->GenTopPt[0];
+	WWTree->gen_top2_pt = ReducedTree->GenTopPt[1];
       }
     
     WWTree->totalEventWeight = WWTree->genWeight*WWTree->eff_and_pu_Weight*WWTree->top1_NNLO_Weight*WWTree->top2_NNLO_Weight;
