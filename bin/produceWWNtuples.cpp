@@ -225,6 +225,24 @@ int main (int argc, char** argv)
 
   float top_NNLO_weight[2];
 
+  std::ifstream badEventsFile;
+  std::map<int,int> badEventsList;
+
+  int run, lumi, evt;
+  if (!isMC) {
+    if (strcmp(leptonName.c_str(),"el")==0)
+      badEventsFile.open("SingleElectron_csc2015.txt");
+    else
+      badEventsFile.open("SingleMuon_csc2015.txt");      
+    while(!badEventsFile.eof()) 
+      {
+	badEventsFile >> run >> lumi >> evt;
+	badEventsList.insert(std::pair<int,int>(run,evt));
+      }      
+  }
+  badEventsFile.close();
+  
+
   //---------start loop on events------------
   Long64_t jentry2=0;
   for (Long64_t jentry=0; jentry<ReducedTree->fChain->GetEntries();jentry++,jentry2++) {
@@ -233,7 +251,7 @@ int main (int argc, char** argv)
     if (iEntry < 0) break;
     int nb = ReducedTree->fChain->GetEntry(jentry);   
     // if (Cut(ientry) < 0) continue;                                                                                                                           
-
+    
     tightMuon.clear();
     tightEle.clear();
     looseMuon.clear();
@@ -257,6 +275,7 @@ int main (int argc, char** argv)
     WWTree->eff_and_pu_Weight_3 = 1.; //temporary value
     WWTree->top1_NNLO_Weight = 1.;
     WWTree->top2_NNLO_Weight = 1.;
+    WWTree->trig_eff_Weight = 1.;
 
     if (ReducedTree->genEventWeight>0)
       WWTree->genWeight=1.;
@@ -293,6 +312,15 @@ int main (int argc, char** argv)
     WWTree->run   = ReducedTree->RunNum;
     WWTree->event = ReducedTree->EvtNum;
     WWTree->lumi = ReducedTree->LumiBlockNum;
+
+    bool isBadEvent=false;
+    std::map<int,int>::iterator it = badEventsList.begin();
+    for (it=badEventsList.begin(); it!=badEventsList.end(); ++it) {
+      if (it->first == WWTree->run && it->second == WWTree->event)
+	isBadEvent = true;
+    }
+    if (isBadEvent)      continue;
+    
    // WWTree->njets = ReducedTree->NJets;
     WWTree->nPV  = ReducedTree->NVtx;
 
@@ -360,6 +388,21 @@ int main (int argc, char** argv)
     }
     if (nTightLepton==0) continue; //no leptons with required ID
     if(WWTree->event==evento) std::cout<<"debug: "<<count<<std::endl; count++;
+
+    if (strcmp(leptonName.c_str(),"mu")==0 && isMC) { //trigger SF for muon
+      if ( fabs(WWTree->l_eta) < 0.9) {
+	if      ( WWTree->l_pt> 50 && WWTree->l_pt<60) WWTree->trig_eff_Weight = 0.9764;
+	else if ( WWTree->l_pt>=60) WWTree->trig_eff_Weight = 0.9693;
+      }	
+      else if ( fabs(WWTree->l_eta) >= 0.9 && fabs(WWTree->l_eta)<1.2 ) {
+	if      ( WWTree->l_pt> 50 && WWTree->l_pt<60) WWTree->trig_eff_Weight = 0.9722;
+	else if ( WWTree->l_pt>=60) WWTree->trig_eff_Weight = 0.9607;
+      }	
+      else {
+	if      ( WWTree->l_pt> 50 && WWTree->l_pt<60) WWTree->trig_eff_Weight = 0.9631;
+	else if ( WWTree->l_pt>=60) WWTree->trig_eff_Weight = 0.9677;
+      }	      
+    }
 
     //VETO ADDITIONAL LEPTONS
     int nLooseLepton=0;
@@ -969,9 +1012,9 @@ int main (int argc, char** argv)
 	WWTree->gen_top2_pt = ReducedTree->GenTopPt[1];
       }
     
-    WWTree->totalEventWeight = WWTree->genWeight*WWTree->eff_and_pu_Weight*WWTree->top1_NNLO_Weight*WWTree->top2_NNLO_Weight;
-    WWTree->totalEventWeight_2 = WWTree->genWeight*WWTree->eff_and_pu_Weight_2*WWTree->top1_NNLO_Weight*WWTree->top2_NNLO_Weight;
-    WWTree->totalEventWeight_3 = WWTree->genWeight*WWTree->eff_and_pu_Weight_3*WWTree->top1_NNLO_Weight*WWTree->top2_NNLO_Weight;
+    WWTree->totalEventWeight = WWTree->genWeight*WWTree->eff_and_pu_Weight*WWTree->top1_NNLO_Weight*WWTree->top2_NNLO_Weight*WWTree->trig_eff_Weight;
+    WWTree->totalEventWeight_2 = WWTree->genWeight*WWTree->eff_and_pu_Weight_2*WWTree->top1_NNLO_Weight*WWTree->top2_NNLO_Weight*WWTree->trig_eff_Weight;
+    WWTree->totalEventWeight_3 = WWTree->genWeight*WWTree->eff_and_pu_Weight_3*WWTree->top1_NNLO_Weight*WWTree->top2_NNLO_Weight*WWTree->trig_eff_Weight;
 
     //fill the tree
     if(WWTree->event==evento) std::cout<<"fill: "<<count<<std::endl; count++;

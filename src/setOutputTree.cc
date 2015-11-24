@@ -19,8 +19,9 @@ void setOutputTree::initializeVariables()
   issignal=-999;
   wSampleWeight=-999;
   genWeight=1;
-  top1_NNLO_Weight=1;
-  top2_NNLO_Weight=1;
+  top1_NNLO_Weight=1.;
+  top2_NNLO_Weight=1.;
+  trig_eff_Weight=1.;
   gen_top1_pt=-999;
   gen_top2_pt=-999;
   totalEventWeight=-999;
@@ -180,6 +181,7 @@ void setOutputTree::setBranches()
   fTree->Branch("top2_NNLO_Weight",&top2_NNLO_Weight,"top2_NNLO_Weight/F");
   fTree->Branch("gen_top1_pt",&gen_top1_pt,"gen_top1_pt/F");
   fTree->Branch("gen_top2_pt",&gen_top2_pt,"gen_top2_pt/F");
+  fTree->Branch("trig_eff_Weight",&trig_eff_Weight,"trig_eff_Weight/F");
   fTree->Branch("totalEventWeight",&totalEventWeight,"totalEventWeight/F");
   fTree->Branch("eff_and_pu_Weight",&eff_and_pu_Weight,"eff_and_pu_Weight/F");
   fTree->Branch("totalEventWeight_2",&totalEventWeight_2,"totalEventWeight_2/F");
