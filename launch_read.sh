@@ -1,0 +1,16 @@
+./read_and_plot BulkG el_HPW WW interpolationFiles/
+./read_and_plot BulkG mu_HPW WW interpolationFiles/
+./read_and_plot BulkG el_LPW WW interpolationFiles/
+./read_and_plot BulkG mu_LPW WW interpolationFiles/
+./read_and_plot BulkG el_HPZ WW interpolationFiles/
+./read_and_plot BulkG mu_HPZ WW interpolationFiles/
+./read_and_plot BulkG el_LPZ WW interpolationFiles/
+./read_and_plot BulkG mu_LPZ WW interpolationFiles/
+./read_and_plot Wprime el_HPW WZ interpolationFiles/
+./read_and_plot Wprime mu_HPW WZ interpolationFiles/
+./read_and_plot Wprime el_LPW WZ interpolationFiles/
+./read_and_plot Wprime mu_LPW WZ interpolationFiles/
+./read_and_plot Wprime el_HPZ WZ interpolationFiles/
+./read_and_plot Wprime mu_HPZ WZ interpolationFiles/
+./read_and_plot Wprime el_LPZ WZ interpolationFiles/
+./read_and_plot Wprime mu_LPZ WZ interpolationFiles/

@@ -1,0 +1,16 @@
+./interpolate BulkG el_HPW WW /afs/cern.ch/user/l/lbrianza/work/PHD/WW_ANALYSIS_RUN2/WWSEMILEP/ANALISI_NOVEMBER/TEST/CMSSW_7_1_5/src/13TeV_datacards_Spring15/ log/
+./interpolate BulkG mu_HPW WW /afs/cern.ch/user/l/lbrianza/work/PHD/WW_ANALYSIS_RUN2/WWSEMILEP/ANALISI_NOVEMBER/TEST/CMSSW_7_1_5/src/13TeV_datacards_Spring15/ log/
+./interpolate BulkG el_LPW WW /afs/cern.ch/user/l/lbrianza/work/PHD/WW_ANALYSIS_RUN2/WWSEMILEP/ANALISI_NOVEMBER/TEST/CMSSW_7_1_5/src/13TeV_datacards_Spring15/ log/
+./interpolate BulkG mu_LPW WW /afs/cern.ch/user/l/lbrianza/work/PHD/WW_ANALYSIS_RUN2/WWSEMILEP/ANALISI_NOVEMBER/TEST/CMSSW_7_1_5/src/13TeV_datacards_Spring15/ log/
+./interpolate BulkG el_HPZ WW /afs/cern.ch/user/l/lbrianza/work/PHD/WW_ANALYSIS_RUN2/WWSEMILEP/ANALISI_NOVEMBER/TEST/CMSSW_7_1_5/src/13TeV_datacards_Spring15/ log/
+./interpolate BulkG mu_HPZ WW /afs/cern.ch/user/l/lbrianza/work/PHD/WW_ANALYSIS_RUN2/WWSEMILEP/ANALISI_NOVEMBER/TEST/CMSSW_7_1_5/src/13TeV_datacards_Spring15/ log/
+./interpolate BulkG el_LPZ WW /afs/cern.ch/user/l/lbrianza/work/PHD/WW_ANALYSIS_RUN2/WWSEMILEP/ANALISI_NOVEMBER/TEST/CMSSW_7_1_5/src/13TeV_datacards_Spring15/ log/
+./interpolate BulkG mu_LPZ WW /afs/cern.ch/user/l/lbrianza/work/PHD/WW_ANALYSIS_RUN2/WWSEMILEP/ANALISI_NOVEMBER/TEST/CMSSW_7_1_5/src/13TeV_datacards_Spring15/ log/
+./interpolate Wprime el_HPW WZ /afs/cern.ch/user/l/lbrianza/work/PHD/WW_ANALYSIS_RUN2/WWSEMILEP/ANALISI_NOVEMBER/TEST/CMSSW_7_1_5/src/13TeV_datacards_Spring15/ log/
+./interpolate Wprime mu_HPW WZ /afs/cern.ch/user/l/lbrianza/work/PHD/WW_ANALYSIS_RUN2/WWSEMILEP/ANALISI_NOVEMBER/TEST/CMSSW_7_1_5/src/13TeV_datacards_Spring15/ log/
+./interpolate Wprime el_LPW WZ /afs/cern.ch/user/l/lbrianza/work/PHD/WW_ANALYSIS_RUN2/WWSEMILEP/ANALISI_NOVEMBER/TEST/CMSSW_7_1_5/src/13TeV_datacards_Spring15/ log/
+./interpolate Wprime mu_LPW WZ /afs/cern.ch/user/l/lbrianza/work/PHD/WW_ANALYSIS_RUN2/WWSEMILEP/ANALISI_NOVEMBER/TEST/CMSSW_7_1_5/src/13TeV_datacards_Spring15/ log/
+./interpolate Wprime el_HPZ WZ /afs/cern.ch/user/l/lbrianza/work/PHD/WW_ANALYSIS_RUN2/WWSEMILEP/ANALISI_NOVEMBER/TEST/CMSSW_7_1_5/src/13TeV_datacards_Spring15/ log/
+./interpolate Wprime mu_HPZ WZ /afs/cern.ch/user/l/lbrianza/work/PHD/WW_ANALYSIS_RUN2/WWSEMILEP/ANALISI_NOVEMBER/TEST/CMSSW_7_1_5/src/13TeV_datacards_Spring15/ log/
+./interpolate Wprime el_LPZ WZ /afs/cern.ch/user/l/lbrianza/work/PHD/WW_ANALYSIS_RUN2/WWSEMILEP/ANALISI_NOVEMBER/TEST/CMSSW_7_1_5/src/13TeV_datacards_Spring15/ log/
+./interpolate Wprime mu_LPZ WZ /afs/cern.ch/user/l/lbrianza/work/PHD/WW_ANALYSIS_RUN2/WWSEMILEP/ANALISI_NOVEMBER/TEST/CMSSW_7_1_5/src/13TeV_datacards_Spring15/ log/

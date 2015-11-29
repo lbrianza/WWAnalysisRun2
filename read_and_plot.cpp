@@ -1,4 +1,5 @@
 //c++ -o read_and_plot read_and_plot.cpp `root-config --cflags --glibs`
+// ./read_and_plot BulkG el_HPW WW interpolationFiles/
 #include <iostream>
 #include <fstream>
 #include <cstdio>
@@ -85,6 +86,7 @@ int main(int argc, char** argv)
   std::string signal =argv[1];
   std::string category =argv[2];
   std::string type =argv[3];
+  std::string inputFolder = argv[4];
 
   string line;
   ifstream logFile[11];
@@ -95,7 +97,7 @@ int main(int argc, char** argv)
   Double_t err[8][11];
   string parName[8]={"alpha1","alpha2","mean","n1","n2","number","sigma","Ndatacard"}; 
 
-  TString *readFile = new TString (Form("%s_%s_%s.root",signal.c_str(),category.c_str(),type.c_str()));
+  TString *readFile = new TString (Form("%s%s_%s_lvjj_%s.root",inputFolder.c_str(),signal.c_str(),type.c_str(),category.c_str()));
   TFile* inputFile = new TFile(readFile->Data());
 
   std::cout<<"open: "<<readFile->Data()<<std::endl;
@@ -112,7 +114,7 @@ int main(int argc, char** argv)
     }
 
   int i=0;
-  for (int mass=800; mass<5001; mass+=100,i++) {
+  for (int mass=800; mass<5001; mass+=200,i++) {
 
     TString NameFunc = Form("f_%d",mass);
     fTest[i] = new TF1 (NameFunc.Data(), DoubleCB, 0, 10000, 8) ;
@@ -131,10 +133,10 @@ int main(int argc, char** argv)
 
   TCanvas *c = new TCanvas (Form("%s_%s_%s",signal.c_str(),category.c_str(),type.c_str()) ,"",500,525);
   c->cd();
-  c->DrawFrame(0,0,5000,1000);
+  c->DrawFrame(0,3,3,5000);
 
   i=0;
-  for (int mass=800; mass<5001; mass+=100,i++) {
+  for (int mass=800; mass<5001; mass+=200,i++) {
     //    if (mass!=4200) continue;
     //else fTest[i]->Draw();
     if (i==0)

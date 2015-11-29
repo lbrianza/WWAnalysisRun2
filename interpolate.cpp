@@ -1,6 +1,6 @@
 //c++ -o interpolate interpolate.cpp `root-config --cflags --glibs`
 //to run:
-//./interpolate BulkG el_HPW WW
+//./interpolate BulkG el_HPW WW /afs/cern.ch/user/l/lbrianza/work/PHD/WW_ANALYSIS_RUN2/WWSEMILEP/ANALISI_NOVEMBER/TEST/CMSSW_7_1_5/src/13TeV_datacards_Spring15/ log/
 #include <iostream>
 #include <fstream>
 #include <cstdio>
@@ -87,6 +87,8 @@ int main(int argc, char** argv)
   std::string signal =argv[1];
   std::string category =argv[2];
   std::string type =argv[3];
+  std::string folderDatacard = argv[4];
+  std::string folderLogFile = argv[5];
 
   string line;
   string line2;
@@ -99,15 +101,17 @@ int main(int argc, char** argv)
   float val[8][11];
   float err[8][11];
   string parName[8]={"alpha1","alpha2","mean","n1","n2","number","sigma","Ndatacard"}; 
+  //  string folderDatacard = "/afs/cern.ch/user/l/lbrianza/work/PHD/WW_ANALYSIS_RUN2/WWSEMILEP/ANALISI_NOVEMBER/TEST/CMSSW_7_1_5/src/13TeV_datacards_Spring15/";
+  //  string folderLogFile = "log/";
 
-  //  char signal[200]="BulkG_WW";
+  //  Char %20louer%20furnished%20studio%20in%20St%20Genis&FolderCTID=0x0120020014A4FDC150F34C48869500E594CCB052&SiteMapTitle=Housing&SiteMapUrl=https%3A%2F%2Fsocial%2Ecern%2Ech%2Fcommunity%2Fcern-market%2FSitePages%2FCategory%2Easpx%3FCategoryID%3D3%26SiteMapTitle%3DHousingsignal[200]="BulkG_WW";
   //  char category[200]="el_HPW";
   //  char signal[200]={signalString.c_str()};
   //char category[200]={categoryString.c_str()};
 
   for(int iMass=0; iMass<nMass; iMass++)
     {
-      TString NameFile = Form("log/%s_%s_M%d_%s.log",signal.c_str(),type.c_str(),mass[iMass],category.c_str());
+      TString NameFile = Form("%s%s_%s_M%d_%s.log",folderLogFile.c_str(),signal.c_str(),type.c_str(),mass[iMass],category.c_str());
       logFile[iMass].open(NameFile.Data());
       if (logFile[iMass]) 
 	{
@@ -133,7 +137,7 @@ int main(int argc, char** argv)
 	}
       logFile[iMass].close();
 
-      TString NameCard = Form("/afs/cern.ch/user/l/lbrianza/work/PHD/WW_ANALYSIS_RUN2/WWSEMILEP/ANALISI_NOVEMBER/TEST/CMSSW_7_1_5/src/13TeV_datacards_Spring15/cards_%s/cards_%s/wwlvj_%s_%s_lvjj_M%d_%s_unbin.txt",signal.c_str(),category.c_str(),signal.c_str(),type.c_str(),mass[iMass],category.c_str());
+      TString NameCard = Form("%scards_%s_unblind/cards_%s/wwlvj_%s_%s_lvjj_M%d_%s_unbin.txt",folderDatacard.c_str(),signal.c_str(),category.c_str(),signal.c_str(),type.c_str(),mass[iMass],category.c_str());
       std::cout<<"open datacard: "<<NameCard.Data()<<std::endl;
 
       datacard[iMass].open(NameCard.Data());
@@ -158,7 +162,7 @@ int main(int argc, char** argv)
       
     }
 
-  TString NameOutput = Form("%s_%s_%s.root",signal.c_str(),category.c_str(),type.c_str());
+  TString NameOutput = Form("interpolationFiles/%s_%s_lvjj_%s.root",signal.c_str(),type.c_str(),category.c_str());
   TFile *outputFile = new TFile(NameOutput.Data(),"RECREATE");
   outputFile->cd();
 
