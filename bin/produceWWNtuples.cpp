@@ -30,6 +30,7 @@
 #include "../interface/METzCalculator.h"
 #include "../interface/METzCalculator_Run2.h"
 #include "../interface/analysisUtils.h"
+#include "../interface/readJSONFile.h"
 
 using namespace std;
 
@@ -129,12 +130,13 @@ int main (int argc, char** argv)
 { 
   std::string inputFolder = argv[1];
   std::string outputFile = argv[2];
-  bool isMC = argv[3];
+  int isMC = atoi(argv[3]);
   std::string leptonName = argv[4];
   std::string inputTreeName = argv[5];
   std::string inputFile = argv[6];
   std::string xSecWeight = argv[7];
   std::string numberOfEntries = argv[8];
+  
   float weight = std::atof(xSecWeight.c_str())/std::atof(numberOfEntries.c_str());
   if (strcmp(leptonName.c_str(),"el")!=0 && strcmp(leptonName.c_str(),"mu")!=0) {
     std::cout<<"Error: wrong lepton category"<<std::endl;
@@ -142,6 +144,15 @@ int main (int argc, char** argv)
   }
   float genMass = atof(argv[9]);
   int applyTrigger = atoi(argv[10]);
+  std::string jsonFileName = argv[11];
+
+  //  std::string jsonFileName="/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON.txt";
+  std::map<int, std::vector<std::pair<int, int> > > jsonMap;
+  jsonMap = readJSONFile(jsonFileName);
+  std::cout<<"JSON file: "<<jsonFileName<<std::endl;
+
+  // define map with events                                                                                                                                     
+  std::map<std::pair<int,std::pair<int,int> >,int> eventsMap;
 
   //applyTrigger=false;
   std::cout<<"apply trigger: "<<applyTrigger<<std::endl;
@@ -160,7 +171,9 @@ int main (int argc, char** argv)
   std::vector<TLorentzVector> looseEle;
 
   int ok=0, total=0;
-  int evento=-1;
+  int runno=260627;
+  int lumo=524;
+  int evento=942309369;
   int count=0;
 	
   setInputTree *ReducedTree = new setInputTree (inputTreeName.c_str());
@@ -226,10 +239,10 @@ int main (int argc, char** argv)
   float top_NNLO_weight[2];
 
   std::ifstream badEventsFile;
-  std::map<int,int> badEventsList;
+  std::multimap<int,int> badEventsList;
 
   int run, lumi, evt;
-  if (!isMC) {
+  if (isMC==0) {
     if (strcmp(leptonName.c_str(),"el")==0)
       badEventsFile.open("SingleElectron_csc2015.txt");
     else
@@ -241,11 +254,11 @@ int main (int argc, char** argv)
       }      
   }
   badEventsFile.close();
-  
 
   //---------start loop on events------------
   Long64_t jentry2=0;
   for (Long64_t jentry=0; jentry<ReducedTree->fChain->GetEntries();jentry++,jentry2++) {
+    //for (Long64_t jentry=531000; jentry<532000;jentry++,jentry2++) {
 
     Long64_t iEntry = ReducedTree->LoadTree(jentry);
     if (iEntry < 0) break;
@@ -259,6 +272,24 @@ int main (int argc, char** argv)
 
     if(jentry2 % 1000 == 0)    
       std::cout << "read entry: " << jentry2 <<"/"<<totalEntries<<std:: endl;
+
+    //*********************************                                                                                                                       
+    // JSON FILE AND DUPLIACTES IN DATA                                                                                                                       
+    WWTree->run   = ReducedTree->RunNum;
+    WWTree->event = ReducedTree->EvtNum;
+    WWTree->lumi = ReducedTree->LumiBlockNum;
+
+    bool skipEvent = false;
+
+    if( isMC==0 )         //apply json file
+        {                                                                                                                                                        
+	  if(AcceptEventByRunAndLumiSection(ReducedTree->RunNum,ReducedTree->LumiBlockNum,jsonMap) == false) skipEvent = true;                           
+          std::pair<int,Long64_t> eventLSandID(ReducedTree->LumiBlockNum,ReducedTree->EvtNum);            
+	  std::pair<int,std::pair<int,Long64_t> > eventRUNandLSandID(ReducedTree->RunNum,eventLSandID); 
+          if( eventsMap[eventRUNandLSandID] == 1 ) skipEvent = true;                                             
+          else eventsMap[eventRUNandLSandID] = 1;                                                          
+          }
+    if( skipEvent == true ) continue;
 
     WWTree->initializeVariables(); //initialize all variables
 
@@ -284,7 +315,7 @@ int main (int argc, char** argv)
     //    WWTree->genWeight = ReducedTree->genEventWeight;
 
     //PILE-UP WEIGHT
-    if (isMC) {
+    if (isMC==1) {
       if(ReducedTree->NVtx<weights_pu1.size()){
 	WWTree->eff_and_pu_Weight = weights_pu1[ReducedTree->npT]; //official pu recipe
       }
@@ -313,18 +344,11 @@ int main (int argc, char** argv)
     WWTree->event = ReducedTree->EvtNum;
     WWTree->lumi = ReducedTree->LumiBlockNum;
 
-    bool isBadEvent=false;
-    std::map<int,int>::iterator it = badEventsList.begin();
-    for (it=badEventsList.begin(); it!=badEventsList.end(); ++it) {
-      if (it->first == WWTree->run && it->second == WWTree->event)
-	isBadEvent = true;
-    }
-    if (isBadEvent)      continue;
     
    // WWTree->njets = ReducedTree->NJets;
     WWTree->nPV  = ReducedTree->NVtx;
-
-    if(WWTree->event==evento) std::cout<<"debug: "<<count<<std::endl; count++;
+    count=0;
+    if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug: "<<count<<std::endl; count++;
     
     /////////////////THE SELECTED LEPTON
     int nTightLepton=0;
@@ -332,23 +356,23 @@ int main (int argc, char** argv)
       int passTrigger=0;
       float tempPt=0.;
       for (int i=0; i<ReducedTree->ElectronsNum; i++) {
-	if(WWTree->event==evento) std::cout<<"debug ele: "<<i<<std::endl;
+	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug ele: "<<i<<std::endl;
 	if (applyTrigger==1)
 	  for (int t=0; t<ReducedTree->TriggerProducerTriggerNames->size(); t++)
 	    if(TString(ReducedTree->TriggerProducerTriggerNames->at(t)).Contains("HLT_Ele105_CaloIdVT_GsfTrkIdT") || 
 	       TString(ReducedTree->TriggerProducerTriggerNames->at(t)).Contains("HLT_Ele115_CaloIdVT_GsfTrkIdT"))
 	      if (ReducedTree->TriggerProducerTriggerPass->at(t)==1) passTrigger=1; //trigger
 	if (passTrigger==0) continue;
-	if(WWTree->event==evento) std::cout<<"debug ele: "<<i<<std::endl;
+	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug ele: "<<i<<std::endl;
 	//if (ReducedTree->TriggerProducerTriggerPass->at(0)==0) continue; //trigger
 	if (ReducedTree->Electrons_isHEEP[i]==false) continue;       
-	if(WWTree->event==evento) std::cout<<"debug ele: "<<i<<std::endl;
+	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug ele: "<<i<<std::endl;
         if (ReducedTree->ElectronsPt[i]<=120) continue;
-	if(WWTree->event==evento) std::cout<<"debug ele: "<<i<<std::endl;
+	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug ele: "<<i<<std::endl;
 	//        if (fabs(ReducedTree->ElectronsEta[i])>=2.5) continue; //this is already in the HEEP requirement
-	//if(WWTree->event==evento) std::cout<<"debug ele: "<<i<<std::endl;
+	//if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug ele: "<<i<<std::endl;
 	if (ReducedTree->ElectronsPt[i]<tempPt) continue;
-	if(WWTree->event==evento) std::cout<<"debug ele: "<<i<<std::endl;
+	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug ele: "<<i<<std::endl;
 	ELE.SetPtEtaPhiE(ReducedTree->ElectronsPt[i],ReducedTree->ElectronsEta[i],ReducedTree->ElectronsPhi[i],ReducedTree->ElectronsE[i]);
 	tightEle.push_back(ELE);
 	WWTree->l_pt  = ReducedTree->ElectronsPt[i];
@@ -368,16 +392,23 @@ int main (int argc, char** argv)
 	    if(TString(ReducedTree->TriggerProducerTriggerNames->at(t)).Contains("HLT_Mu45_eta2p1") || 
 	       TString(ReducedTree->TriggerProducerTriggerNames->at(t)).Contains("HLT_Mu50"))
 	      if (ReducedTree->TriggerProducerTriggerPass->at(t)==1) passTrigger=1; //trigger
+	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug mu: "<<i<<std::endl;
 	if (passTrigger==0) continue;
+	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug mu: "<<i<<std::endl;
 	//if (ReducedTree->TriggerProducerTriggerPass->at(1)==0) continue; //trigger
 	if (ReducedTree->Muons_isHighPt[i]==false) continue;
+	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug mu: "<<i<<std::endl;
 	//	if (ReducedTree->Muons_isPFMuon[i]==false) continue; //not in the synch ntuple!!
         if ((ReducedTree->Muons_trackIso[i]/ReducedTree->MuonsPt[i])>=0.1) continue;
+	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug mu: "<<i<<std::endl;
         if (ReducedTree->MuonsPt[i]<53) continue;
+	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug mu: "<<i<<std::endl;
         if (fabs(ReducedTree->MuonsEta[i])>=2.1) continue;
+	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug mu: "<<i<<std::endl;
 	MU.SetPtEtaPhiE(ReducedTree->MuonsPt[i],ReducedTree->MuonsEta[i],ReducedTree->MuonsPhi[i],ReducedTree->MuonsE[i]);
 	tightMuon.push_back(MU);
 	if (ReducedTree->MuonsPt[i]<tempPt) continue;
+	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug mu: "<<i<<std::endl;
 	WWTree->l_pt  = ReducedTree->MuonsPt[i];
 	WWTree->l_eta = ReducedTree->MuonsEta[i];
 	WWTree->l_phi = ReducedTree->MuonsPhi[i];
@@ -387,9 +418,9 @@ int main (int argc, char** argv)
       }
     }
     if (nTightLepton==0) continue; //no leptons with required ID
-    if(WWTree->event==evento) std::cout<<"debug: "<<count<<std::endl; count++;
+    if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug: "<<count<<std::endl; count++;
 
-    if (strcmp(leptonName.c_str(),"mu")==0 && isMC) { //trigger SF for muon
+    if (strcmp(leptonName.c_str(),"mu")==0 && isMC==1) { //trigger SF for muon
       if ( fabs(WWTree->l_eta) < 0.9) {
 	if      ( WWTree->l_pt> 50 && WWTree->l_pt<60) WWTree->trig_eff_Weight = 0.9764;
 	else if ( WWTree->l_pt>=60) WWTree->trig_eff_Weight = 0.9693;
@@ -407,40 +438,40 @@ int main (int argc, char** argv)
     //VETO ADDITIONAL LEPTONS
     int nLooseLepton=0;
     for (int i=0; i<ReducedTree->ElectronsNum; i++) {
-    if(WWTree->event==evento) std::cout<<"debug: "<<i<<std::endl; count++;
+    if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug loose el: "<<i<<std::endl; count++;
       if (ReducedTree->Electrons_isHEEP[i]==false) continue;       
-    if(WWTree->event==evento) std::cout<<"debug: "<<i<<std::endl; count++;
+      if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug loose el: "<<i<<", pt: "<<ReducedTree->ElectronsPt[i]<<", eta: "<<ReducedTree->ElectronsEta[i]<<std::endl; count++;
       if (ReducedTree->ElectronsPt[i]<35) continue;       
-      //    if(WWTree->event==evento) std::cout<<"debug: "<<i<<std::endl; count++;
-      // if (fabs(ReducedTree->ElectronsEta[i])>=2.5) continue;
-    if(WWTree->event==evento) std::cout<<"debug: "<<i<<std::endl; count++;
+      //    if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug: "<<i<<std::endl; count++;
+      //       if (fabs(ReducedTree->ElectronsEta[i])>=2.5) continue;
+    if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug loose el: "<<i<<std::endl; count++;
       ELE.SetPtEtaPhiE(ReducedTree->ElectronsPt[i],ReducedTree->ElectronsEta[i],ReducedTree->ElectronsPhi[i],ReducedTree->ElectronsE[i]);
       looseEle.push_back(ELE);      
       nLooseLepton++;
     }
     for (int i=0; i<ReducedTree->MuonsNum; i++) {
-    if(WWTree->event==evento) std::cout<<"debug: "<<i<<std::endl; count++;
+    if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug loose mu: "<<i<<std::endl; count++;
       if (ReducedTree->Muons_isHighPt[i]==false) continue;
-    if(WWTree->event==evento) std::cout<<"debug: "<<i<<std::endl; count++;
+    if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug loose mu: "<<i<<std::endl; count++;
       if ((ReducedTree->Muons_trackIso[i]/ReducedTree->MuonsPt[i])>=0.1) continue;
-    if(WWTree->event==evento) std::cout<<"debug: "<<i<<std::endl; count++;
+    if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug loose mu: "<<i<<std::endl; count++;
       if (fabs(ReducedTree->MuonsEta[i])>=2.4) continue;
-    if(WWTree->event==evento) std::cout<<"debug: "<<i<<std::endl; count++;
+    if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug loose mu: "<<i<<std::endl; count++;
       if (ReducedTree->MuonsPt[i]<20) continue;
-    if(WWTree->event==evento) std::cout<<"debug: "<<i<<std::endl; count++;
+    if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug loose mu: "<<i<<std::endl; count++;
       MU.SetPtEtaPhiE(ReducedTree->MuonsPt[i],ReducedTree->MuonsEta[i],ReducedTree->MuonsPhi[i],ReducedTree->MuonsE[i]);
       looseMuon.push_back(MU);
       nLooseLepton++;
     }
-    if(WWTree->event==evento)     std::cout<<nLooseLepton<<std::endl;
+    if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo)     std::cout<<"nlooseleptons: "<<nLooseLepton<<std::endl;
     if (nLooseLepton!=1) continue; //no additional leptons
     cutEff[0]++;
-    if(WWTree->event==evento) std::cout<<"debug: "<<count<<std::endl; count++;
+    if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug: "<<count<<std::endl; count++;
 
     //preselection on jet pt and met
     if (ReducedTree->METPt < 30) continue; 
     cutEff[1]++;
-    if(WWTree->event==evento) std::cout<<"debug: "<<count<<std::endl; count++;
+    if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug: "<<count<<std::endl; count++;
 
     MET.SetPtEtaPhiE(ReducedTree->METPt,0.,ReducedTree->METPhi,0.);
     LEP.SetPtEtaPhiE(WWTree->l_pt,WWTree->l_eta,WWTree->l_phi,WWTree->l_e);
@@ -470,7 +501,7 @@ int main (int argc, char** argv)
     W_Met_jes_dn.SetPxPyPzE(ReducedTree->METPtDown * TMath::Cos(ReducedTree->METPhiDown), ReducedTree->METPtDown * TMath::Sin(ReducedTree->METPhiDown), 0., sqrt(ReducedTree->METPtDown*ReducedTree->METPtDown));
 
     if(W_mu.Pt()<=0 || W_Met.Pt() <= 0 ){ std::cerr<<" Negative Lepton - Neutrino Pt "<<std::endl; continue ; }
-    if(WWTree->event==evento) std::cout<<"debug: "<<count<<std::endl; count++;
+    if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug: "<<count<<std::endl; count++;
 
     // type0 calculation of neutrino pZ
     METzCalculator NeutrinoPz_type0;
@@ -611,7 +642,7 @@ int main (int argc, char** argv)
 
     if (W.Pt()<100) continue;
     cutEff[2]++;
-    if(WWTree->event==evento) std::cout<<"debug: "<<count<<std::endl; count++;
+    if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug: "<<count<<std::endl; count++;
 
 
     //    if (WWTree->v_pt < 150) continue;
@@ -623,7 +654,7 @@ int main (int argc, char** argv)
     int hadWpos = -1;
     int ttb_jet_position=-1; //position of AK8 jet in ttbar-topology
     if (ReducedTree->AK8JetsNum < 1 ) continue; 
-    if(WWTree->event==evento) std::cout<<"debug: "<<count<<std::endl; count++;
+    if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug: "<<count<<std::endl; count++;
    
     for (unsigned int i=0; i<ReducedTree->AK8JetsNum; i++)
       {
@@ -692,11 +723,11 @@ int main (int argc, char** argv)
 
     if (nGoodAK8jets==0) continue; //not found a good hadronic W candidate
     cutEff[3]++;
-    if(WWTree->event==evento) std::cout<<"debug: "<<count<<std::endl; count++;
+    if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug: "<<count<<std::endl; count++;
 
     if (WWTree->ungroomed_jet_pt<100) continue;
     cutEff[4]++;
-    if(WWTree->event==evento) std::cout<<"debug: "<<count<<std::endl; count++;
+    if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug: "<<count<<std::endl; count++;
 
     //////////////////ANGULAR VARIABLES
     JET.SetPtEtaPhiE(WWTree->ungroomed_jet_pt,WWTree->ungroomed_jet_eta,WWTree->ungroomed_jet_phi,WWTree->ungroomed_jet_e);
@@ -890,7 +921,7 @@ int main (int argc, char** argv)
       }
 
     /////////////////MC Infos
-    if (isMC)
+    if (isMC==1)
       {
 	TLorentzVector hadW, lepW, temp;
 	int posWhad =-1, posWlep =-1, posTemp=-1, posGenJet=-1;
@@ -1016,8 +1047,17 @@ int main (int argc, char** argv)
     WWTree->totalEventWeight_2 = WWTree->genWeight*WWTree->eff_and_pu_Weight_2*WWTree->top1_NNLO_Weight*WWTree->top2_NNLO_Weight*WWTree->trig_eff_Weight;
     WWTree->totalEventWeight_3 = WWTree->genWeight*WWTree->eff_and_pu_Weight_3*WWTree->top1_NNLO_Weight*WWTree->top2_NNLO_Weight*WWTree->trig_eff_Weight;
 
+    /*    
+    bool isBadEvent=false;
+    std::multimap<int,int>::iterator it = badEventsList.begin(); //filter bad events
+    for (it=badEventsList.begin(); it!=badEventsList.end(); ++it) {
+      if (it->first == WWTree->run && it->second == WWTree->event)
+	isBadEvent = true;
+    }
+    if (isBadEvent)      continue;
+    */
     //fill the tree
-    if(WWTree->event==evento) std::cout<<"fill: "<<count<<std::endl; count++;
+    if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"fill: "<<count<<std::endl; count++;
     outTree->Fill();
   }
 
