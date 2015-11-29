@@ -80,30 +80,89 @@ mass = [
         "2500", "3000", "3500", "4000", "4500"
         ];
 
-nameData = [
+#nameDataMu = ['data_mu_prompt_v4_25ns_runD_4']
+
+
+nameDataMu = [
     "data_mu_05Oct_25ns_runD_1",
     "data_mu_05Oct_25ns_runD_2",
     "data_mu_05Oct_25ns_runD_3",
     "data_mu_05Oct_25ns_runD_4",
     "data_mu_05Oct_25ns_runD_5",
-    "data_el_05Oct_25ns_runD_1",
-    "data_el_05Oct_25ns_runD_2",
-    "data_el_05Oct_25ns_runD_3",
-    "data_el_05Oct_25ns_runD_4",
-    "data_el_05Oct_25ns_runD_5",
+    "data_mu_05Oct_25ns_runD_6",
+    "data_mu_05Oct_25ns_runD_7",
+    "data_mu_05Oct_25ns_runD_8",
+    "data_mu_05Oct_25ns_runD_9",
+    "data_mu_05Oct_25ns_runD_10",
+    "data_mu_05Oct_25ns_runD_11",
+    "data_mu_05Oct_25ns_runD_12",
+    "data_mu_05Oct_25ns_runD_13",
+    "data_mu_05Oct_25ns_runD_14",
+    "data_mu_05Oct_25ns_runD_15",
+    "data_mu_05Oct_25ns_runD_16",
+    "data_mu_05Oct_25ns_runD_17",
     "data_mu_prompt_v4_25ns_runD_1",
     "data_mu_prompt_v4_25ns_runD_2",
     "data_mu_prompt_v4_25ns_runD_3",
     "data_mu_prompt_v4_25ns_runD_4",
     "data_mu_prompt_v4_25ns_runD_5",
     "data_mu_prompt_v4_25ns_runD_6",
+    "data_mu_prompt_v4_25ns_runD_7",
+    "data_mu_prompt_v4_25ns_runD_8",
+    "data_mu_prompt_v4_25ns_runD_9",
+    "data_mu_prompt_v4_25ns_runD_10",
+    "data_mu_prompt_v4_25ns_runD_11",
+    "data_mu_prompt_v4_25ns_runD_12",
+    "data_mu_prompt_v4_25ns_runD_13",
+    "data_mu_prompt_v4_25ns_runD_14",
+    "data_mu_prompt_v4_25ns_runD_15",
+    "data_mu_prompt_v4_25ns_runD_16",
+    "data_mu_prompt_v4_25ns_runD_17",
+    "data_mu_prompt_v4_25ns_runD_18",
+    "data_mu_prompt_v4_25ns_runD_19", 
+    "data_mu_prompt_v4_25ns_runD_20",
+    "data_mu_prompt_v4_25ns_runD_21",
+    "data_mu_prompt_25ns_runC"];
+
+nameDataEl = [
+    "data_el_05Oct_25ns_runD_1",
+    "data_el_05Oct_25ns_runD_2",
+    "data_el_05Oct_25ns_runD_3",
+    "data_el_05Oct_25ns_runD_4",
+    "data_el_05Oct_25ns_runD_5",
+    "data_el_05Oct_25ns_runD_6",
+    "data_el_05Oct_25ns_runD_7",
+    "data_el_05Oct_25ns_runD_8",
+    "data_el_05Oct_25ns_runD_9",
+    "data_el_05Oct_25ns_runD_10",
+    "data_el_05Oct_25ns_runD_11",
+    "data_el_05Oct_25ns_runD_12",
+    "data_el_05Oct_25ns_runD_13",
+    "data_el_05Oct_25ns_runD_14",
+    "data_el_05Oct_25ns_runD_15",
+    "data_el_05Oct_25ns_runD_16",
+    "data_el_05Oct_25ns_runD_17",
     "data_el_prompt_v4_25ns_runD_1",
     "data_el_prompt_v4_25ns_runD_2",
     "data_el_prompt_v4_25ns_runD_3",
     "data_el_prompt_v4_25ns_runD_4",
     "data_el_prompt_v4_25ns_runD_5",
     "data_el_prompt_v4_25ns_runD_6",
-    "data_mu_prompt_25ns_runC",
+    "data_el_prompt_v4_25ns_runD_7",
+    "data_el_prompt_v4_25ns_runD_8",
+    "data_el_prompt_v4_25ns_runD_9",
+    "data_el_prompt_v4_25ns_runD_10",
+    "data_el_prompt_v4_25ns_runD_11",
+    "data_el_prompt_v4_25ns_runD_12",
+    "data_el_prompt_v4_25ns_runD_13",
+    "data_el_prompt_v4_25ns_runD_14",
+    "data_el_prompt_v4_25ns_runD_15",
+    "data_el_prompt_v4_25ns_runD_16",
+    "data_el_prompt_v4_25ns_runD_17",
+    "data_el_prompt_v4_25ns_runD_18",
+    "data_el_prompt_v4_25ns_runD_19", 
+    "data_el_prompt_v4_25ns_runD_20",
+    "data_el_prompt_v4_25ns_runD_21",
     "data_el_prompt_25ns_runC"];
 
 #MC
@@ -112,7 +171,7 @@ for a in range(len(category)):
     for i in range(len(name)):
         fn = "Job/Job_"+name[i]+"_"+category[a];
         outScript = open(fn+".sh","w");
-        command = "python python/produceWWNtuples.py -n "+name[i]+" -o WWTree_"+name[i]+" -l "+category[a]+" -w "+xSecWeight[i]+" -no "+N[i]+" -mass "+mass[i]+" --ismc True -trig 1";
+        command = "python python/produceWWNtuples.py -n "+name[i]+" -o WWTree_"+name[i]+" -l "+category[a]+" -w "+xSecWeight[i]+" -no "+N[i]+" -mass "+mass[i]+" --ismc 1 -trig 1";
         print command;
         outScript.write('#!/bin/bash');
         outScript.write("\n"+'cd '+CMSSWDir);
@@ -126,13 +185,11 @@ for a in range(len(category)):
         print command2
 
 
-#data
-
-for a in range(len(category)):
-    for i in range(len(nameData)):
-        fn = "Job/Job_"+nameData[i]+"_"+category[a];
+#data mu
+for i in range(len(nameDataMu)):
+        fn = "Job/Job_"+nameDataMu[i]+"_mu";
         outScript = open(fn+".sh","w");
-        command = "python python/produceWWNtuples.py -n "+nameData[i]+" -o WWTree_"+nameData[i]+" -l "+category[a]+" -w 1. -no 1. -mass 0 --ismc False -trig 1";
+        command = "python python/produceWWNtuples.py -n "+nameDataMu[i]+" -o WWTree_"+nameDataMu[i]+" -l mu"+" -w 1. -no 1. -mass 0 --ismc 0 -trig 1";
         print command;
         outScript.write('#!/bin/bash');
         outScript.write("\n"+'cd '+CMSSWDir);
@@ -145,4 +202,21 @@ for a in range(len(category)):
         os.system(command2);
         print command2
 
+
+#data el
+for i in range(len(nameDataEl)):
+        fn = "Job/Job_"+nameDataEl[i]+"_el";
+        outScript = open(fn+".sh","w");
+        command = "python python/produceWWNtuples.py -n "+nameDataEl[i]+" -o WWTree_"+nameDataEl[i]+" -l el"+" -w 1. -no 1. -mass 0 --ismc 0 -trig 1";
+        print command;
+        outScript.write('#!/bin/bash');
+        outScript.write("\n"+'cd '+CMSSWDir);
+        outScript.write("\n"+'eval `scram runtime -sh`');
+        outScript.write("\n"+'cd '+currentDir);
+        outScript.write("\n"+command);
+        outScript.close();
+        os.system("chmod 777 "+currentDir+"/"+fn+".sh");
+        command2 = "bsub -q cmscaf1nd -cwd "+currentDir+" "+currentDir+"/"+fn+".sh";
+        os.system(command2);
+        print command2
 
