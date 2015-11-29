@@ -1047,15 +1047,17 @@ int main (int argc, char** argv)
     WWTree->totalEventWeight_2 = WWTree->genWeight*WWTree->eff_and_pu_Weight_2*WWTree->top1_NNLO_Weight*WWTree->top2_NNLO_Weight*WWTree->trig_eff_Weight;
     WWTree->totalEventWeight_3 = WWTree->genWeight*WWTree->eff_and_pu_Weight_3*WWTree->top1_NNLO_Weight*WWTree->top2_NNLO_Weight*WWTree->trig_eff_Weight;
 
-    /*    
+    
     bool isBadEvent=false;
-    std::multimap<int,int>::iterator it = badEventsList.begin(); //filter bad events
-    for (it=badEventsList.begin(); it!=badEventsList.end(); ++it) {
-      if (it->first == WWTree->run && it->second == WWTree->event)
-	isBadEvent = true;
+    if (isMC==0) {
+      std::multimap<int,int>::iterator it = badEventsList.begin(); //filter bad events
+      for (it=badEventsList.begin(); it!=badEventsList.end(); ++it) {
+	if (it->first == WWTree->run && it->second == WWTree->event)
+	  isBadEvent = true;
+      }
     }
     if (isBadEvent)      continue;
-    */
+    
     //fill the tree
     if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"fill: "<<count<<std::endl; count++;
     outTree->Fill();
