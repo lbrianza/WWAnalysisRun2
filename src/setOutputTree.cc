@@ -162,9 +162,16 @@ void setOutputTree::initializeVariables()
   vbf_maxpt_jj_phi=-999;
   vbf_maxpt_jj_m=-999;
   jet2_pt=0;
+  jet2_eta=0;
+  jet2_phi=0;
+  jet2_e=0;
   jet2_btag=0;
   jet3_pt=0;
+  jet3_eta=0;
+  jet3_phi=0;
+  jet3_e=0;
   jet3_btag=0;
+  deltaR_AK8_closestBtagJet=0;
 }
 
 void setOutputTree::setBranches()
@@ -320,8 +327,15 @@ void setOutputTree::setBranches()
   fTree->Branch("vbf_maxpt_jj_phi",&vbf_maxpt_jj_phi,"vbf_maxpt_jj_phi/F");
   fTree->Branch("vbf_maxpt_jj_m",&vbf_maxpt_jj_m,"vbf_maxpt_jj_m/F");
   fTree->Branch("jet2_pt",&jet2_pt,"jet2_pt/F");
+  fTree->Branch("jet2_eta",&jet2_eta,"jet2_eta/F");
+  fTree->Branch("jet2_phi",&jet2_phi,"jet2_phi/F");
+  fTree->Branch("jet2_e",&jet2_e,"jet2_e/F");
   fTree->Branch("jet2_btag",&jet2_btag,"jet2_btag/F");
   fTree->Branch("jet3_pt",&jet3_pt,"jet3_pt/F");
+  fTree->Branch("jet3_eta",&jet3_eta,"jet3_eta/F");
+  fTree->Branch("jet3_phi",&jet3_phi,"jet3_phi/F");
+  fTree->Branch("jet3_e",&jet3_e,"jet3_e/F");
   fTree->Branch("jet3_btag",&jet3_btag,"jet3_btag/F");
+  fTree->Branch("deltaR_AK8_closestBtagJet",&deltaR_AK8_closestBtagJet,"deltaR_AK8_closestBtagJet/F");
 }
 

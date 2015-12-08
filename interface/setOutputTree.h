@@ -161,9 +161,16 @@ class setOutputTree {
   float vbf_maxpt_jj_phi;
   float vbf_maxpt_jj_m;
   float jet2_pt;
+  float jet2_eta;
+  float jet2_phi;
+  float jet2_e;
   float jet2_btag;
   float jet3_pt;
+  float jet3_eta;
+  float jet3_phi;
+  float jet3_e;
   float jet3_btag;
+  float deltaR_AK8_closestBtagJet;
 
   setOutputTree(TTree* outputTree);
   //  setOutputTree(TTree *outputTree=0);

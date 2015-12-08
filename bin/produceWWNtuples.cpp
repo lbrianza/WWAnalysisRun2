@@ -289,7 +289,7 @@ int main (int argc, char** argv)
           if( eventsMap[eventRUNandLSandID] == 1 ) skipEvent = true;                                             
           else eventsMap[eventRUNandLSandID] = 1;                                                          
           }
-    if( skipEvent == true ) continue;
+    if( skipEvent == true ) continue;    
 
     WWTree->initializeVariables(); //initialize all variables
 
@@ -837,12 +837,21 @@ int main (int argc, char** argv)
 
 
 	WWTree->njets++;
-	//fill B-Tag info
-	if (ReducedTree->Jets_bDiscriminatorICSV[i]>0.605)   WWTree->nBTagJet_loose++;
-	if (ReducedTree->Jets_bDiscriminatorICSV[i]>0.890)   WWTree->nBTagJet_medium++;
-	if (ReducedTree->Jets_bDiscriminatorICSV[i]>0.970)   WWTree->nBTagJet_tight++;
 
 	AK4.SetPtEtaPhiE(ReducedTree->Jets_PtCorr[i],ReducedTree->JetsEta[i],ReducedTree->JetsPhi[i],ReducedTree->Jets_ECorr[i]);
+
+	float deltaRbtag_prev=100.;
+	//fill B-Tag info
+	if (ReducedTree->Jets_bDiscriminatorICSV[i]>0.605)   WWTree->nBTagJet_loose++;
+	if (ReducedTree->Jets_bDiscriminatorICSV[i]>0.890) {  
+	  WWTree->nBTagJet_medium++;
+	  float deltaRbtag = HADW.DeltaR(AK4);
+	  if (deltaRbtag>0.8 && deltaRbtag<deltaRbtag_prev) {
+	    WWTree->deltaR_AK8_closestBtagJet = deltaRbtag;
+	    deltaRbtag_prev = deltaRbtag;
+	  }	  
+	}
+	if (ReducedTree->Jets_bDiscriminatorICSV[i]>0.970)   WWTree->nBTagJet_tight++;
 
 	float deltaRlep = W.DeltaR(AK4);
 	if (deltaRlep<oldDeltaRLep) indexCloserJetLep = i;
@@ -853,10 +862,16 @@ int main (int argc, char** argv)
 	if (WWTree->njets!=0) {
 	  if (WWTree->jet2_pt!=0) {
 	    WWTree->jet3_pt=ReducedTree->Jets_PtCorr[i];
+	    WWTree->jet3_eta=ReducedTree->JetsEta[i];
+	    WWTree->jet3_phi=ReducedTree->JetsPhi[i];
+	    WWTree->jet3_e=ReducedTree->Jets_ECorr[i];
 	    WWTree->jet3_btag=ReducedTree->Jets_bDiscriminatorICSV[i];
 	  }
 	  else {
 	    WWTree->jet2_pt=ReducedTree->Jets_PtCorr[i];
+	    WWTree->jet2_eta=ReducedTree->JetsEta[i];
+	    WWTree->jet2_phi=ReducedTree->JetsPhi[i];
+	    WWTree->jet2_e=ReducedTree->Jets_ECorr[i];
 	    WWTree->jet2_btag=ReducedTree->Jets_bDiscriminatorICSV[i];
 	  }
 	}	
