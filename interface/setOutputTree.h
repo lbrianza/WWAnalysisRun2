@@ -171,6 +171,7 @@ class setOutputTree {
   float jet3_e;
   float jet3_btag;
   float deltaR_AK8_closestBtagJet;
+  float deltaR_AK8_closestBtagJet_loose;
 
   setOutputTree(TTree* outputTree);
   //  setOutputTree(TTree *outputTree=0);

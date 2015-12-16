@@ -172,6 +172,7 @@ void setOutputTree::initializeVariables()
   jet3_e=0;
   jet3_btag=0;
   deltaR_AK8_closestBtagJet=0;
+  deltaR_AK8_closestBtagJet_loose=0;
 }
 
 void setOutputTree::setBranches()
@@ -337,5 +338,6 @@ void setOutputTree::setBranches()
   fTree->Branch("jet3_e",&jet3_e,"jet3_e/F");
   fTree->Branch("jet3_btag",&jet3_btag,"jet3_btag/F");
   fTree->Branch("deltaR_AK8_closestBtagJet",&deltaR_AK8_closestBtagJet,"deltaR_AK8_closestBtagJet/F");
+  fTree->Branch("deltaR_AK8_closestBtagJet_loose",&deltaR_AK8_closestBtagJet_loose,"deltaR_AK8_closestBtagJet_loose/F");
 }
 

@@ -791,6 +791,8 @@ int main (int argc, char** argv)
     //    LEP.SetPtEtaPhiE(WWTree->l_pt,WWTree->l_eta,WWTree->l_phi,WWTree->l_e);
     //    NU2.SetPxPyPzE(ReducedTree->METPt*TMath::Cos(ReducedTree->METPhi),ReducedTree->METPt*TMath::Sin(ReducedTree->METPhi),WWTree->nu_pz_type2,TMath::Sqrt(WWTree->pfMET*WWTree->pfMET+WWTree->nu_pz_type2*WWTree->nu_pz_type2));
     //    W = LEP + NU2;
+    float deltaRbtag_prev=100.;
+    float deltaRbtag_prev_loose=100.;
 
     for (unsigned int i=0; i<ReducedTree->JetsNum; i++) //loop on AK4 jet
       {
@@ -840,9 +842,16 @@ int main (int argc, char** argv)
 
 	AK4.SetPtEtaPhiE(ReducedTree->Jets_PtCorr[i],ReducedTree->JetsEta[i],ReducedTree->JetsPhi[i],ReducedTree->Jets_ECorr[i]);
 
-	float deltaRbtag_prev=100.;
 	//fill B-Tag info
-	if (ReducedTree->Jets_bDiscriminatorICSV[i]>0.605)   WWTree->nBTagJet_loose++;
+	if (ReducedTree->Jets_bDiscriminatorICSV[i]>0.605) { 
+	  WWTree->nBTagJet_loose++;
+	  float deltaRbtag = HADW.DeltaR(AK4);
+	  if (deltaRbtag>0.8 && deltaRbtag<deltaRbtag_prev_loose) {
+	    WWTree->deltaR_AK8_closestBtagJet_loose = deltaRbtag;
+	    deltaRbtag_prev_loose = deltaRbtag;
+	  }	  
+	}
+
 	if (ReducedTree->Jets_bDiscriminatorICSV[i]>0.890) {  
 	  WWTree->nBTagJet_medium++;
 	  float deltaRbtag = HADW.DeltaR(AK4);
