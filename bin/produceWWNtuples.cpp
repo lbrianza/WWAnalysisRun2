@@ -359,8 +359,8 @@ int main (int argc, char** argv)
 	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug ele: "<<i<<std::endl;
 	if (applyTrigger==1)
 	  for (int t=0; t<ReducedTree->TriggerProducerTriggerNames->size(); t++)
-	    if(TString(ReducedTree->TriggerProducerTriggerNames->at(t)).Contains("HLT_Ele105_CaloIdVT_GsfTrkIdT") || 
-	       TString(ReducedTree->TriggerProducerTriggerNames->at(t)).Contains("HLT_Ele115_CaloIdVT_GsfTrkIdT"))
+	    if(TString(ReducedTree->TriggerProducerTriggerNames->at(t)).Contains("HLT_Ele23_CaloIdL_TrackIdL_IsoVL") || 
+	       TString(ReducedTree->TriggerProducerTriggerNames->at(t)).Contains("HLT_Ele27_WPLoose_Gsf"))
 	      if (ReducedTree->TriggerProducerTriggerPass->at(t)==1) passTrigger=1; //trigger
 	if (passTrigger==0) continue;
 	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug ele: "<<i<<std::endl;
@@ -389,8 +389,8 @@ int main (int argc, char** argv)
       for (int i=0; i<ReducedTree->MuonsNum; i++) {
 	if (applyTrigger==1)
 	  for (int t=0; t<ReducedTree->TriggerProducerTriggerNames->size(); t++)
-	    if(TString(ReducedTree->TriggerProducerTriggerNames->at(t)).Contains("HLT_Mu45_eta2p1") || 
-	       TString(ReducedTree->TriggerProducerTriggerNames->at(t)).Contains("HLT_Mu50"))
+	    if(TString(ReducedTree->TriggerProducerTriggerNames->at(t)).Contains("HLT_Mu24_eta2p1") || 
+	       TString(ReducedTree->TriggerProducerTriggerNames->at(t)).Contains("HLT_IsoMu27"))
 	      if (ReducedTree->TriggerProducerTriggerPass->at(t)==1) passTrigger=1; //trigger
 	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug mu: "<<i<<std::endl;
 	if (passTrigger==0) continue;
