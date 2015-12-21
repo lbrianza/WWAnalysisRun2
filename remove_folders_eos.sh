@@ -1,0 +1,11 @@
+rm -r RSGraviton*/RS*
+rm -r Higgs*/Glu*
+rm -r BulkGraviton*/Bulk*
+rm -r WprimeToWZ*/Wprime*
+rm -r VBF*/VBF*
+rm -r W*/W*
+rm -r Z*/Z*
+rm -r TTbar*/T*
+rm -r s*ch*/ST*
+rm -r t*ch*/ST*
+rm -r data_*/Single*
