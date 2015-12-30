@@ -13,7 +13,8 @@ ReducedTreeDir = "";
 
 category = ["mu","el"];
 xSecWeight = [
-    "4.76735", "0.377865", "0.144482", "0.0616708", "0.0141334", "0.00751431",
+    "1.0149", "0.11877", "0.320", "0.125",
+    "4.76735", "1.16691", "0.377865", "0.144482", "0.0616708", "0.0141334", "0.00751431",
               "0.00167726", "0.000443483", "0.000133915", "0.0000424117", "0.0000130705",
               "61526.7", "1629.87", "435.6", "59.169", "22.7117", "831.76", "831.76", "831.76", "831.76", "831.76", 
     "10.11", "43.8", "26.07", "35.6", "35.6", "118.7", "16.5", "47.13",
@@ -25,12 +26,13 @@ xSecWeight = [
 #              "43.8", "26.07", "35.6", "35.6",
               "0.","0.001332687", "0.000359194", "0.000119842", "0.000045798", "0.", "0.",
               "0.000000786", "0.", "0.000000172", "0.", "0.","0.",
-              "0.","0.","0.","0.","0.","0.",
-              "0.","0.","0.","0.","0."
+              "0.","0.153250","0.102236","0.056357","0.031283","0.017844","0.010458",
+              "0.006273","0.0018842","0.0006039","0.00019991","0.","0.",
               ];
 
 name = [
-    "RSGraviton600", "RSGraviton1000", "RSGraviton1200", "RSGraviton1400", "RSGraviton1800", "RSGraviton2000",
+    "Higgs650", "Higgs1000", "VBFHiggs650", "VBFHiggs1000",
+    "RSGraviton600", "RSGraviton800", "RSGraviton1000", "RSGraviton1200", "RSGraviton1400", "RSGraviton1800", "RSGraviton2000",
         "RSGraviton2500", "RSGraviton3000", "RSGraviton3500", "RSGraviton4000", "RSGraviton4500",
         "WJets","WJets100", "WJets200", "WJets400", "WJets600", "TTbar_amcatnlo_1","TTbar_amcatnlo_2","TTbar_amcatnlo_3","TTbar_amcatnlo_4","TTbar_amcatnlo_5", 
     "sch", "tch", "tch_bar", "tWch", "tWch_bar", "WW", "ZZ", "WZ",
@@ -42,12 +44,13 @@ name = [
 #        "tch_50ns", "tch_bar_50ns", "tWch_bar_50ns", "tWch_50ns",
         "BulkGraviton600","BulkGraviton800", "BulkGraviton1000", "BulkGraviton1200", "BulkGraviton1400", "BulkGraviton1600", "BulkGraviton1800", 
         "BulkGraviton2000", "BulkGraviton2500", "BulkGraviton3000", "BulkGraviton3500", "BulkGraviton4000", "BulkGraviton4500",
-        "WprimeToWZ600","WprimeToWZ800","WprimeToWZ1000","WprimeToWZ1200","WprimeToWZ1400","WprimeToWZ1800",
-        "WprimeToWZ2500","WprimeToWZ3000","WprimeToWZ3500","WprimeToWZ4000","WprimeToWZ4500"
+        "WprimeToWZ600","WprimeToWZ800","WprimeToWZ1000","WprimeToWZ1200","WprimeToWZ1400","WprimeToWZ1600", "WprimeToWZ1800",
+        "WprimeToWZ2000","WprimeToWZ2500","WprimeToWZ3000","WprimeToWZ3500","WprimeToWZ4000","WprimeToWZ4500"
         ];
 
 N = [
-    "32354.", "32448.", "32252.", "32275.", "32021.", "31295.",
+    "399600.", "400000.", "398400.", "400000.",
+    "32354.", "31906.", "32448.", "32252.", "32275.", "32021.", "31295.",
      "32032.", "31374.", "32194.", "32207.", "32351.",
      "24184766.","10152718.", "5221599.", "1745914.", "1039152.", "42784971.", "42784971.", "42784971.", "42784971.", "42784971.", 
     "613384.", "3299800.", "1680200.", "995600.", "988500.", "993640.", "996944.", "978512.", #    "984400.", "3299800.", "1680200.", "995600.", "988500.", "993640.", "996944.", "978512.", #MCATNLO samples
@@ -59,12 +62,13 @@ N = [
 #     "1273800.", "681900.", "1000000.", "998400.",
      "49600.", "50000.", "50000.", "50000.", "50000.", "49200.", "48400.", 
      "14800.", "48400.", "49800.", "49700.", "50000.", "47600.",
-              "0.","0.","0.","0.","0.","0.",
-              "0.","0.","0.","0.","0."
+              "0.","50000.","50000.","50000.","50000.","49200.","49800.",
+              "50000.","50000.","49600.","50000.","50000.","50000.",
      ];
 
 mass = [
-    "600", "1000", "1200", "1400", "1800", "2000",
+    "650", "1000", "650", "1000",
+    "600", "800", "1000", "1200", "1400", "1800", "2000",
         "2500", "3000", "3500", "4000", "4500",
      "0","0", "0", "0", "0", "0", "0", "0", "0", "0", 
     "0", "0", "0", "0", "0", "0", "0", "0",
@@ -76,8 +80,8 @@ mass = [
 #        "0", "0", "0", "0",
         "600", "800", "1000", "1200", "1400", "1600", "1800",
         "2000", "2500", "3000", "3500", "4000", "4500",
-        "600", "800", "1000", "1200", "1400", "1800",
-        "2500", "3000", "3500", "4000", "4500"
+        "600", "800", "1000", "1200", "1400", "1600", "1800",
+        "2000","2500", "3000", "3500", "4000", "4500"
         ];
 
 #nameDataMu = ['data_mu_prompt_v4_25ns_runD_4']
@@ -180,6 +184,7 @@ for a in range(len(category)):
         outScript.write("\n"+command);
         outScript.close();
         os.system("chmod 777 "+currentDir+"/"+fn+".sh");
+#        command2 = "bsub -q cmscaf1nd -cwd "+currentDir+" "+currentDir+"/"+fn+".sh";
         command2 = "bsub -q cmscaf1nd -cwd "+currentDir+" "+currentDir+"/"+fn+".sh";
         os.system(command2);
         print command2
@@ -198,6 +203,7 @@ for i in range(len(nameDataMu)):
         outScript.write("\n"+command);
         outScript.close();
         os.system("chmod 777 "+currentDir+"/"+fn+".sh");
+#        command2 = "bsub -q cmscaf1nd -cwd "+currentDir+" "+currentDir+"/"+fn+".sh";
         command2 = "bsub -q cmscaf1nd -cwd "+currentDir+" "+currentDir+"/"+fn+".sh";
         os.system(command2);
         print command2
@@ -216,6 +222,7 @@ for i in range(len(nameDataEl)):
         outScript.write("\n"+command);
         outScript.close();
         os.system("chmod 777 "+currentDir+"/"+fn+".sh");
+#        command2 = "bsub -q cmscaf1nd -cwd "+currentDir+" "+currentDir+"/"+fn+".sh";
         command2 = "bsub -q cmscaf1nd -cwd "+currentDir+" "+currentDir+"/"+fn+".sh";
         os.system(command2);
         print command2

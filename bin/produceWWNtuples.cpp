@@ -365,9 +365,9 @@ int main (int argc, char** argv)
 	if (passTrigger==0) continue;
 	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug ele: "<<i<<std::endl;
 	//if (ReducedTree->TriggerProducerTriggerPass->at(0)==0) continue; //trigger
-	if (ReducedTree->Electrons_isHEEP[i]==false) continue;       
+	if (ReducedTree->Electrons_isTight[i]==false) continue;       
 	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug ele: "<<i<<std::endl;
-        if (ReducedTree->ElectronsPt[i]<=120) continue;
+        if (ReducedTree->ElectronsPt[i]<=35) continue;
 	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug ele: "<<i<<std::endl;
 	//        if (fabs(ReducedTree->ElectronsEta[i])>=2.5) continue; //this is already in the HEEP requirement
 	//if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug ele: "<<i<<std::endl;
@@ -396,12 +396,12 @@ int main (int argc, char** argv)
 	if (passTrigger==0) continue;
 	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug mu: "<<i<<std::endl;
 	//if (ReducedTree->TriggerProducerTriggerPass->at(1)==0) continue; //trigger
-	if (ReducedTree->Muons_isHighPt[i]==false) continue;
+	if (ReducedTree->Muons_isTight[i]==false) continue;
 	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug mu: "<<i<<std::endl;
 	//	if (ReducedTree->Muons_isPFMuon[i]==false) continue; //not in the synch ntuple!!
         if ((ReducedTree->Muons_trackIso[i]/ReducedTree->MuonsPt[i])>=0.1) continue;
 	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug mu: "<<i<<std::endl;
-        if (ReducedTree->MuonsPt[i]<53) continue;
+        if (ReducedTree->MuonsPt[i]<30) continue;
 	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug mu: "<<i<<std::endl;
         if (fabs(ReducedTree->MuonsEta[i])>=2.1) continue;
 	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug mu: "<<i<<std::endl;
@@ -439,7 +439,7 @@ int main (int argc, char** argv)
     int nLooseLepton=0;
     for (int i=0; i<ReducedTree->ElectronsNum; i++) {
     if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug loose el: "<<i<<std::endl; count++;
-      if (ReducedTree->Electrons_isHEEP[i]==false) continue;       
+      if (ReducedTree->Electrons_isTight[i]==false) continue;       
       if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug loose el: "<<i<<", pt: "<<ReducedTree->ElectronsPt[i]<<", eta: "<<ReducedTree->ElectronsEta[i]<<std::endl; count++;
       if (ReducedTree->ElectronsPt[i]<35) continue;       
       //    if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug: "<<i<<std::endl; count++;
@@ -451,7 +451,7 @@ int main (int argc, char** argv)
     }
     for (int i=0; i<ReducedTree->MuonsNum; i++) {
     if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug loose mu: "<<i<<std::endl; count++;
-      if (ReducedTree->Muons_isHighPt[i]==false) continue;
+      if (ReducedTree->Muons_isTight[i]==false) continue;
     if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug loose mu: "<<i<<std::endl; count++;
       if ((ReducedTree->Muons_trackIso[i]/ReducedTree->MuonsPt[i])>=0.1) continue;
     if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug loose mu: "<<i<<std::endl; count++;
