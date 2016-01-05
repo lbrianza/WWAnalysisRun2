@@ -12,7 +12,7 @@ CFLAGS = -Wall
 lib/%.o: src/%.cc $(DEPS)
 	$(CC) $(CFLAGS) -c -o $@ $< $(ROOT_LIB) $(ROOT_FLAGS)
 
-all: produceWWNtuples.exe produceWWSynchNtuples.exe ntupleConverter.exe produceWWNtuples_finalSynch.exe produceWWpseudodata.exe PUWeightCalculator.exe synchNtupleConverter.exe
+all: produceWWNtuples.exe produceWWSynchNtuples.exe ntupleConverter.exe produceWWNtuples_finalSynch.exe produceWWpseudodata.exe PUWeightCalculator.exe synchNtupleConverter.exe hadronicWstudies.exe
 
 synchNtupleConverter.exe: bin/synchNtupleConverter.cpp $(DEPS_OBJ)
 	g++ $(CFLAGS) -o $@ $^ $(ROOT_LIB) $(ROOT_FLAGS)
@@ -33,6 +33,9 @@ ntupleConverter.exe: bin/ntupleConverter.cpp $(DEPS_OBJ)
 	g++ $(CFLAGS) -o $@ $^ $(ROOT_LIB) $(ROOT_FLAGS)
 
 produceWWpseudodata.exe: bin/produceWWpseudodata.cpp $(DEPS_OBJ)
+	g++ $(CFLAGS) -o $@ $^ $(ROOT_LIB) $(ROOT_FLAGS)
+
+hadronicWstudies.exe: bin/hadronicWstudies.cpp $(DEPS_OBJ)
 	g++ $(CFLAGS) -o $@ $^ $(ROOT_LIB) $(ROOT_FLAGS)
 
 clean:
