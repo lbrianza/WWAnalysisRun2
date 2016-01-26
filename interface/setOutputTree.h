@@ -68,6 +68,7 @@ class setOutputTree {
   float jet_pt_so;
   float jet_mass_tr;
   float jet_mass_fi;
+  float jet_mass;
   float jet_tau2tau1;
   float ttb_ungroomed_jet_pt;
   float ttb_ungroomed_jet_eta;
@@ -99,6 +100,7 @@ class setOutputTree {
   float AK10_jet_pt_so;
   float AK10_jet_mass_tr;
   float AK10_jet_mass_fi;
+  float AK10_jet_mass;
   float AK10_jet_tau2tau1;
   float ungroomed_AK12_jet_pt;
   float ungroomed_AK12_jet_pt_jes_up;
@@ -119,6 +121,7 @@ class setOutputTree {
   float AK12_jet_pt_so;
   float AK12_jet_mass_tr;
   float AK12_jet_mass_fi;
+  float AK12_jet_mass;
   float AK12_jet_tau2tau1;
   float ungroomed_PuppiAK8_jet_pt;
   float ungroomed_PuppiAK8_jet_pt_jes_up;
@@ -139,6 +142,7 @@ class setOutputTree {
   float PuppiAK8_jet_pt_so;
   float PuppiAK8_jet_mass_tr;
   float PuppiAK8_jet_mass_fi;
+  float PuppiAK8_jet_mass;
   float PuppiAK8_jet_tau2tau1;
   float W_pt_gen;
   float W_pz_gen;
@@ -162,6 +166,7 @@ class setOutputTree {
   float AK8_eta_gen;
   float AK8_phi_gen;
   float AK8_e_gen;
+  float AK8_mass_gen;
   float AK8_pruned_mass_gen;
   float AK8_softdrop_mass_gen;
   float AK8_softdrop_pt_gen;
@@ -267,6 +272,19 @@ class setOutputTree {
   float jet3_btag;
   float deltaR_AK8_closestBtagJet;
   float deltaR_AK8_closestBtagJet_loose;
+  float vbf_maxpt_deltaR;
+  float AK4_1_pt_gen;
+  float AK4_1_eta_gen;
+  float AK4_1_phi_gen;
+  float AK4_1_e_gen;
+  float AK4_1_mass_gen;
+  float AK4_2_pt_gen;
+  float AK4_2_eta_gen;
+  float AK4_2_phi_gen;
+  float AK4_2_e_gen;
+  float AK4_2_mass_gen;
+  float AK4_BIG_gen_mass;
+  float deltaR_AK4;
 
   setOutputTree(TTree* outputTree);
   //  setOutputTree(TTree *outputTree=0);
