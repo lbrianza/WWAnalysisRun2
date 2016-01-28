@@ -359,16 +359,17 @@ int main (int argc, char** argv)
 	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug ele: "<<i<<std::endl;
 	if (applyTrigger==1)
 	  for (int t=0; t<ReducedTree->TriggerProducerTriggerNames->size(); t++)
-	    if(TString(ReducedTree->TriggerProducerTriggerNames->at(t)).Contains("HLT_Ele27_WP85_Gsf") || 
-	       TString(ReducedTree->TriggerProducerTriggerNames->at(t)).Contains("HLT_Ele27_WPLoose_Gsf"))
+	    if(TString(ReducedTree->TriggerProducerTriggerNames->at(t)).Contains("HLT_Ele27_eta2p1_WP75_Gsf_v") || 
+	       TString(ReducedTree->TriggerProducerTriggerNames->at(t)).Contains("HLT_Ele27_eta2p1_WPLoose_Gsf_v"))
 	      if (ReducedTree->TriggerProducerTriggerPass->at(t)==1) passTrigger=1; //trigger
 	if (passTrigger==0) continue;
 	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug ele: "<<i<<std::endl;
 	//if (ReducedTree->TriggerProducerTriggerPass->at(0)==0) continue; //trigger
 	if (ReducedTree->Electrons_isTight[i]==false) continue;       
 	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug ele: "<<i<<std::endl;
-        if (ReducedTree->ElectronsPt[i]<=35) continue;
+        if (ReducedTree->ElectronsPt[i]<=45) continue;
 	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug ele: "<<i<<std::endl;
+        if (fabs(ReducedTree->ElectronsEta[i])>=2.1) continue;
 	//        if (fabs(ReducedTree->ElectronsEta[i])>=2.5) continue; //this is already in the HEEP requirement
 	//if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug ele: "<<i<<std::endl;
 	if (ReducedTree->ElectronsPt[i]<tempPt) continue;
@@ -400,7 +401,7 @@ int main (int argc, char** argv)
 	//	if (ReducedTree->Muons_isPFMuon[i]==false) continue; //not in the synch ntuple!!
         if ((ReducedTree->Muons_trackIso[i]/ReducedTree->MuonsPt[i])>=0.1) continue;
 	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug mu: "<<i<<std::endl;
-        if (ReducedTree->MuonsPt[i]<30) continue;
+        if (ReducedTree->MuonsPt[i]<40) continue;
 	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug mu: "<<i<<std::endl;
         if (fabs(ReducedTree->MuonsEta[i])>=2.1) continue;
 	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug mu: "<<i<<std::endl;
@@ -418,29 +419,146 @@ int main (int argc, char** argv)
     }
     if (nTightLepton==0) continue; //no leptons with required ID
     if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug: "<<count<<std::endl; count++;
+    /*
+    if (strcmp(leptonName.c_str(),"mu")==0 && isMC==1) { //trigger SF for muon (from B2G-15-005)
+      if ( fabs(WWTree->l_eta) < 0.4) {
+	if      ( WWTree->l_pt<45)  WWTree->trig_eff_Weight = 0.977;
+	else if ( WWTree->l_pt<50)  WWTree->trig_eff_Weight = 0.978;
+	else if ( WWTree->l_pt<200) WWTree->trig_eff_Weight = 0.977;
+	else                        WWTree->trig_eff_Weight = 0.993;
+      }	
+      else if ( fabs(WWTree->l_eta) >= 0.4 && fabs(WWTree->l_eta)<0.8) {
+	if      ( WWTree->l_pt<45)  WWTree->trig_eff_Weight = 0.996;
+	else if ( WWTree->l_pt<50)  WWTree->trig_eff_Weight = 0.996;
+	else if ( WWTree->l_pt<200) WWTree->trig_eff_Weight = 0.994;
+	else                        WWTree->trig_eff_Weight = 0.998;
+      }	
+      else if ( fabs(WWTree->l_eta) >= 0.8 && fabs(WWTree->l_eta)<1.2) {
+	if      ( WWTree->l_pt<45)  WWTree->trig_eff_Weight = 0.978;
+	else if ( WWTree->l_pt<50)  WWTree->trig_eff_Weight = 0.979;
+	else if ( WWTree->l_pt<200) WWTree->trig_eff_Weight = 0.976;
+	else                        WWTree->trig_eff_Weight = 1.005;
+      }	
+      else if ( fabs(WWTree->l_eta) >= 1.2 && fabs(WWTree->l_eta)<1.6) {
+	if      ( WWTree->l_pt<45)  WWTree->trig_eff_Weight = 0.990;
+	else if ( WWTree->l_pt<50)  WWTree->trig_eff_Weight = 0.993;
+	else if ( WWTree->l_pt<200) WWTree->trig_eff_Weight = 0.994;
+	else                        WWTree->trig_eff_Weight = 0.982;
+      }	
+      else if ( fabs(WWTree->l_eta) >= 1.6 && fabs(WWTree->l_eta)<2.1) {
+	if      ( WWTree->l_pt<45)  WWTree->trig_eff_Weight = 0.955;
+	else if ( WWTree->l_pt<50)  WWTree->trig_eff_Weight = 0.956;
+	else if ( WWTree->l_pt<200) WWTree->trig_eff_Weight = 0.958;
+	else                        WWTree->trig_eff_Weight = 0.959;
+      }	
+    }
+    */
 
-    if (strcmp(leptonName.c_str(),"mu")==0 && isMC==1) { //trigger SF for muon
-      if ( fabs(WWTree->l_eta) < 0.9) {
-	if      ( WWTree->l_pt> 50 && WWTree->l_pt<60) WWTree->trig_eff_Weight = 0.9764;
-	else if ( WWTree->l_pt>=60) WWTree->trig_eff_Weight = 0.9693;
-      }	
-      else if ( fabs(WWTree->l_eta) >= 0.9 && fabs(WWTree->l_eta)<1.2 ) {
-	if      ( WWTree->l_pt> 50 && WWTree->l_pt<60) WWTree->trig_eff_Weight = 0.9722;
-	else if ( WWTree->l_pt>=60) WWTree->trig_eff_Weight = 0.9607;
-      }	
+    if (strcmp(leptonName.c_str(),"mu")==0 && isMC==1) { //trigger SF for muon (from B2G-15-005, these are for the HLT_IsoMu20 trigger, see https://indico.cern.ch/event/462268/contribution/9/attachments/1188638/1724574/2015.11.17_MuonPOG_SingleMuTrigEff_SF_KPLee_v2.pdf)
+      if (WWTree->run >= 257820) {
+	if ( fabs(WWTree->l_eta) < 0.9) {
+	  if      ( WWTree->l_pt<50)  WWTree->trig_eff_Weight = 1.0000;
+	  else if ( WWTree->l_pt<60)  WWTree->trig_eff_Weight = 0.9981;
+	  else                        WWTree->trig_eff_Weight = 0.9908;
+	}	
+	else if ( fabs(WWTree->l_eta) >= 0.9 && fabs(WWTree->l_eta)<1.2) {
+	  if      ( WWTree->l_pt<50)  WWTree->trig_eff_Weight = 0.9992;
+	  else if ( WWTree->l_pt<60)  WWTree->trig_eff_Weight = 1.0028;
+	  else                        WWTree->trig_eff_Weight = 0.9847;
+	}	
+	else if ( fabs(WWTree->l_eta) >= 1.2 && fabs(WWTree->l_eta)<2.1) {
+	  if      ( WWTree->l_pt<50)  WWTree->trig_eff_Weight = 0.9951;
+	  else if ( WWTree->l_pt<60)  WWTree->trig_eff_Weight = 0.9940;
+	  else                        WWTree->trig_eff_Weight = 0.9931;
+	}
+      }
       else {
-	if      ( WWTree->l_pt> 50 && WWTree->l_pt<60) WWTree->trig_eff_Weight = 0.9631;
-	else if ( WWTree->l_pt>=60) WWTree->trig_eff_Weight = 0.9677;
-      }	      
+	if ( fabs(WWTree->l_eta) < 0.9) {
+	  if      ( WWTree->l_pt<50)  WWTree->trig_eff_Weight = 0.9770;
+	  else if ( WWTree->l_pt<60)  WWTree->trig_eff_Weight = 0.9848;
+	  else                        WWTree->trig_eff_Weight = 0.9763;
+	}	
+	else if ( fabs(WWTree->l_eta) >= 0.9 && fabs(WWTree->l_eta)<1.2) {
+	  if      ( WWTree->l_pt<50)  WWTree->trig_eff_Weight = 0.9810;
+	  else if ( WWTree->l_pt<60)  WWTree->trig_eff_Weight = 0.9890;
+	  else                        WWTree->trig_eff_Weight = 0.9807;
+	}	
+	else if ( fabs(WWTree->l_eta) >= 1.2 && fabs(WWTree->l_eta)<2.1) {
+	  if      ( WWTree->l_pt<50)  WWTree->trig_eff_Weight = 0.9767;
+	  else if ( WWTree->l_pt<60)  WWTree->trig_eff_Weight = 0.9788;
+	  else                        WWTree->trig_eff_Weight = 0.9808;
+	}
+      }
+    }
+
+
+    if (strcmp(leptonName.c_str(),"el")==0 && isMC==1) { //trigger SF for electron (from B2G-15-005)
+      if ( fabs(WWTree->l_eta) < 0.4) {
+	if      ( WWTree->l_pt<50)   WWTree->trig_eff_Weight = 0.980;
+	else if ( WWTree->l_pt<200)  WWTree->trig_eff_Weight = 0.998;
+	else                         WWTree->trig_eff_Weight = 1.011;
+      }	
+      else if ( fabs(WWTree->l_eta) >= 0.4 && fabs(WWTree->l_eta)<1.4 ) {
+	if      ( WWTree->l_pt<50)   WWTree->trig_eff_Weight = 1.005;
+	else if ( WWTree->l_pt<200)  WWTree->trig_eff_Weight = 1.012;
+	else                         WWTree->trig_eff_Weight = 1.012;
+      }
+      else if ( fabs(WWTree->l_eta) >= 1.4 && fabs(WWTree->l_eta)<1.6 ) {
+	if      ( WWTree->l_pt<50)   WWTree->trig_eff_Weight = 0.998;
+	else if ( WWTree->l_pt<200)  WWTree->trig_eff_Weight = 1.004;
+	else                         WWTree->trig_eff_Weight = 0.947;
+      }
+      else {
+	if      ( WWTree->l_pt<50)   WWTree->trig_eff_Weight = 0.958;
+	else if ( WWTree->l_pt<200)  WWTree->trig_eff_Weight = 0.944;
+	else                         WWTree->trig_eff_Weight = 0.950;
+      }
+    }
+
+
+    if (strcmp(leptonName.c_str(),"el")==0 && isMC==1) { //ID efficiency SF for electrons (from B2G-15-005)
+      if ( fabs(WWTree->l_eta) < 1.4) {
+	if      ( WWTree->l_pt<50)  WWTree->id_eff_Weight = 0.975;
+	else if ( WWTree->l_pt<100) WWTree->id_eff_Weight = 0.976;
+	else if ( WWTree->l_pt<150) WWTree->id_eff_Weight = 0.977;
+	else                        WWTree->id_eff_Weight = 1.008;
+      }	
+      else if (fabs(WWTree->l_eta) >= 1.4 && fabs(WWTree->l_eta)<1.6 ) {
+	if      ( WWTree->l_pt<50)  WWTree->id_eff_Weight = 0.968;
+	else if ( WWTree->l_pt<100) WWTree->id_eff_Weight = 0.996;
+	else if ( WWTree->l_pt<150) WWTree->id_eff_Weight = 0.983;
+	else                        WWTree->id_eff_Weight = 1.045;
+      }
+      else if (fabs(WWTree->l_eta) >= 1.6 && fabs(WWTree->l_eta)<2.1 ) {
+	if      ( WWTree->l_pt<50)  WWTree->id_eff_Weight = 0.987;
+	else if ( WWTree->l_pt<100) WWTree->id_eff_Weight = 0.981;
+	else if ( WWTree->l_pt<150) WWTree->id_eff_Weight = 0.996;
+	else                        WWTree->id_eff_Weight = 0.977;
+      }
+    }
+
+    if (strcmp(leptonName.c_str(),"mu")==0 && isMC==1) { //ID efficiency SF for muons (from B2G-15-005)
+      if ( fabs(WWTree->l_eta) < 1.2) {
+	if      ( WWTree->l_pt<50)  WWTree->id_eff_Weight = 0.994;
+	else if ( WWTree->l_pt<100) WWTree->id_eff_Weight = 0.992;
+	else if ( WWTree->l_pt<150) WWTree->id_eff_Weight = 0.985;
+	else                        WWTree->id_eff_Weight = 0.984;
+      }	
+      else if (fabs(WWTree->l_eta) >= 1.2 && fabs(WWTree->l_eta)<2.1 ) {
+	if      ( WWTree->l_pt<50)  WWTree->id_eff_Weight = 0.995;
+	else if ( WWTree->l_pt<100) WWTree->id_eff_Weight = 0.993;
+	else if ( WWTree->l_pt<150) WWTree->id_eff_Weight = 0.986;
+	else                        WWTree->id_eff_Weight = 0.960;
+      }
     }
 
     //VETO ADDITIONAL LEPTONS
     int nLooseLepton=0;
     for (int i=0; i<ReducedTree->ElectronsNum; i++) {
     if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug loose el: "<<i<<std::endl; count++;
-      if (ReducedTree->Electrons_isTight[i]==false) continue;       
+    if (ReducedTree->Electrons_isLoose[i]==false) continue;       //NB: CHANGE TO VETO!!!
       if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug loose el: "<<i<<", pt: "<<ReducedTree->ElectronsPt[i]<<", eta: "<<ReducedTree->ElectronsEta[i]<<std::endl; count++;
-      if (ReducedTree->ElectronsPt[i]<35) continue;       
+      if (ReducedTree->ElectronsPt[i]<30) continue;       
       //    if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug: "<<i<<std::endl; count++;
       //       if (fabs(ReducedTree->ElectronsEta[i])>=2.5) continue;
     if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug loose el: "<<i<<std::endl; count++;
@@ -450,7 +568,7 @@ int main (int argc, char** argv)
     }
     for (int i=0; i<ReducedTree->MuonsNum; i++) {
     if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug loose mu: "<<i<<std::endl; count++;
-      if (ReducedTree->Muons_isTight[i]==false) continue;
+      if (ReducedTree->Muons_isLoose[i]==false) continue;
     if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug loose mu: "<<i<<std::endl; count++;
       if ((ReducedTree->Muons_trackIso[i]/ReducedTree->MuonsPt[i])>=0.1) continue;
     if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug loose mu: "<<i<<std::endl; count++;
@@ -639,7 +757,7 @@ int main (int argc, char** argv)
     //    W = NU2+LEP; 
     ////
 
-    if (W.Pt()<100) continue;
+    if (W.Pt()<150) continue;
     cutEff[2]++;
     if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug: "<<count<<std::endl; count++;
 
@@ -721,6 +839,7 @@ int main (int argc, char** argv)
       }
 
     if (nGoodAK8jets==0) continue; //not found a good hadronic W candidate
+    if (WWTree->ungroomed_jet_pt < 150) continue;
     cutEff[3]++;
 
     //AK10
