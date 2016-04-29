@@ -146,6 +146,8 @@ int main (int argc, char** argv)
   int applyTrigger = atoi(argv[10]);
   std::string jsonFileName = argv[11];
 
+  int isLocal = atoi(argv[12]);
+
   //  std::string jsonFileName="/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON.txt";
   std::map<int, std::vector<std::pair<int, int> > > jsonMap;
   jsonMap = readJSONFile(jsonFileName);
@@ -191,13 +193,18 @@ int main (int argc, char** argv)
   int fileCounter=0;
   Long64_t totalEntries=0;
 
-  while (!rootList.eof())
-    {
-      char iRun_tW[700];
-      rootList >> iRun_tW;
-      ReducedTree->fChain->Add(iRun_tW);
-      fileCounter++;
-    }
+  if (isLocal==1) {
+      ReducedTree->fChain->Add("ReducedSelection.root");
+  }
+  else {
+    while (!rootList.eof())
+      {
+	char iRun_tW[700];
+	rootList >> iRun_tW;
+	ReducedTree->fChain->Add(iRun_tW);
+	fileCounter++;
+      }
+  }
 
   std::cout<<"number of files found: "<<fileCounter-2<<std::endl;
   std::cout<<"total entries: "<<ReducedTree->fChain->GetEntries()<<std::endl;
@@ -298,7 +305,7 @@ int main (int argc, char** argv)
     if (ReducedTree->passFilterCSCHalo == 0) continue;
     if (ReducedTree->passFilterGoodVtx == 0) continue;
     if (ReducedTree->passFilterEEBadSC == 0) continue;
-    
+
     WWTree->issignal = 0;
     WWTree->wSampleWeight = weight; //xsec/numberOfEntries
     WWTree->eff_and_pu_Weight = 1.; //temporary value
@@ -362,7 +369,7 @@ int main (int argc, char** argv)
 	    if(TString(ReducedTree->TriggerProducerTriggerNames->at(t)).Contains("HLT_Ele27_eta2p1_WP75_Gsf_v") || 
 	       TString(ReducedTree->TriggerProducerTriggerNames->at(t)).Contains("HLT_Ele27_eta2p1_WPLoose_Gsf_v"))
 	      if (ReducedTree->TriggerProducerTriggerPass->at(t)==1) passTrigger=1; //trigger
-	if (passTrigger==0) continue;
+	if (passTrigger==0 && applyTrigger==1) continue;
 	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug ele: "<<i<<std::endl;
 	//if (ReducedTree->TriggerProducerTriggerPass->at(0)==0) continue; //trigger
 	if (ReducedTree->Electrons_isTight[i]==false) continue;       
@@ -393,7 +400,7 @@ int main (int argc, char** argv)
 	    if(TString(ReducedTree->TriggerProducerTriggerNames->at(t)).Contains("HLT_IsoMu27"))
 	      if (ReducedTree->TriggerProducerTriggerPass->at(t)==1) passTrigger=1; //trigger
 	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug mu: "<<i<<std::endl;
-	if (passTrigger==0) continue;
+	if (passTrigger==0 && applyTrigger==1) continue;
 	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug mu: "<<i<<std::endl;
 	//if (ReducedTree->TriggerProducerTriggerPass->at(1)==0) continue; //trigger
 	if (ReducedTree->Muons_isTight[i]==false) continue;
@@ -419,6 +426,7 @@ int main (int argc, char** argv)
     }
     if (nTightLepton==0) continue; //no leptons with required ID
     if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug: "<<count<<std::endl; count++;
+
     /*
     if (strcmp(leptonName.c_str(),"mu")==0 && isMC==1) { //trigger SF for muon (from B2G-15-005)
       if ( fabs(WWTree->l_eta) < 0.4) {
