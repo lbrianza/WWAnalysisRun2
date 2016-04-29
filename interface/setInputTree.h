@@ -133,30 +133,6 @@ public :
    Float_t         GenJetsAK8_tau1[30];   //[GenJetsAK8Num]
    Float_t         GenJetsAK8_tau2[30];   //[GenJetsAK8Num]
    Float_t         GenJetsAK8_tau3[30];   //[GenJetsAK8Num]
-   UShort_t        GenJetsAK10Num;
-   Float_t         GenJetsAK10Pt[12];   //[GenJetsAK10Num]
-   Float_t         GenJetsAK10Eta[12];   //[GenJetsAK10Num]
-   Float_t         GenJetsAK10Phi[12];   //[GenJetsAK10Num]
-   Float_t         GenJetsAK10E[12];   //[GenJetsAK10Num]
-   Float_t         GenJetsAK10TLorentzVector[12];   //[GenJetsAK10Num]
-   Float_t         GenJetsAK10_prunedMass[12];   //[GenJetsAK10Num]
-   Float_t         GenJetsAK10_softdropMass[12];   //[GenJetsAK10Num]
-   Float_t         GenJetsAK10_softdropPt[12];   //[GenJetsAK10Num]
-   Float_t         GenJetsAK10_tau1[12];   //[GenJetsAK10Num]
-   Float_t         GenJetsAK10_tau2[12];   //[GenJetsAK10Num]
-   Float_t         GenJetsAK10_tau3[12];   //[GenJetsAK10Num]
-   UShort_t        GenJetsAK12Num;
-   Float_t         GenJetsAK12Pt[12];   //[GenJetsAK12Num]
-   Float_t         GenJetsAK12Eta[12];   //[GenJetsAK12Num]
-   Float_t         GenJetsAK12Phi[12];   //[GenJetsAK12Num]
-   Float_t         GenJetsAK12E[12];   //[GenJetsAK12Num]
-   Float_t         GenJetsAK12TLorentzVector[12];   //[GenJetsAK12Num]
-   Float_t         GenJetsAK12_prunedMass[12];   //[GenJetsAK12Num]
-   Float_t         GenJetsAK12_softdropMass[12];   //[GenJetsAK12Num]
-   Float_t         GenJetsAK12_softdropPt[12];   //[GenJetsAK12Num]
-   Float_t         GenJetsAK12_tau1[12];   //[GenJetsAK12Num]
-   Float_t         GenJetsAK12_tau2[12];   //[GenJetsAK12Num]
-   Float_t         GenJetsAK12_tau3[12];   //[GenJetsAK12Num]
    UShort_t        JetsNum;
    Float_t         JetsPt[25];   //[JetsNum]
    Float_t         JetsEta[25];   //[JetsNum]
@@ -225,86 +201,6 @@ public :
    Float_t         AK8Jets_AK8massCorrection[30];   //[AK8JetsNum]
    Float_t         AK8Jets_AK8massCorrectionUp[30];   //[AK8JetsNum]
    Float_t         AK8Jets_AK8massCorrectionDown[30];   //[AK8JetsNum]
-   UShort_t        AK10JetsNum;
-   Float_t         AK10JetsPt[30];   //[AK10JetsNum]
-   Float_t         AK10JetsEta[30];   //[AK10JetsNum]
-   Float_t         AK10JetsPhi[30];   //[AK10JetsNum]
-   Float_t         AK10JetsE[30];   //[AK10JetsNum]
-   Float_t         AK10JetsTLorentzVector[30];   //[AK10JetsNum]
-   Float_t         AK10Jets_bDiscriminatorCSV[30];   //[AK10JetsNum]
-   Float_t         AK10Jets_bDiscriminatorICSV[30];   //[AK10JetsNum]
-   Float_t         AK10Jets_chargedEmEnergyFraction[30];   //[AK10JetsNum]
-   Float_t         AK10Jets_chargedHadronEnergyFraction[30];   //[AK10JetsNum]
-   Int_t           AK10Jets_chargedHadronMultiplicity[30];   //[AK10JetsNum]
-   Int_t           AK10Jets_electronMultiplicity[30];   //[AK10JetsNum]
-   Float_t         AK10Jets_jetArea[30];   //[AK10JetsNum]
-   Float_t         AK10Jets_muonEnergyFraction[30];   //[AK10JetsNum]
-   Int_t           AK10Jets_muonMultiplicity[30];   //[AK10JetsNum]
-   Float_t         AK10Jets_neutralEmEnergyFraction[30];   //[AK10JetsNum]
-   Int_t           AK10Jets_neutralHadronMultiplicity[30];   //[AK10JetsNum]
-   Float_t         AK10Jets_photonEnergyFraction[30];   //[AK10JetsNum]
-   Int_t           AK10Jets_photonMultiplicity[30];   //[AK10JetsNum]
-   Float_t         AK10Jets_prunedMass[30];   //[AK10JetsNum]
-   Float_t         AK10Jets_softDropMass[30];   //[AK10JetsNum]
-   Float_t         AK10Jets_softDropPt[30];   //[AK10JetsNum]
-   Float_t         AK10Jets_trimmedMass[30];   //[AK10JetsNum]
-   Float_t         AK10Jets_filteredMass[30];   //[AK10JetsNum]
-   Float_t         AK10Jets_tau1[30];   //[AK10JetsNum]
-   Float_t         AK10Jets_tau2[30];   //[AK10JetsNum]
-   Float_t         AK10Jets_tau3[30];   //[AK10JetsNum]
-   UChar_t         AK10Jets_AK10isLooseJetId[30];   //[AK10JetsNum]
-   UChar_t         AK10Jets_AK10isTightJetId[30];   //[AK10JetsNum]
-   Float_t         AK10Jets_PtCorr[30];   //[AK10JetsNum]
-   Float_t         AK10Jets_EtaCorr[30];   //[AK10JetsNum]
-   Float_t         AK10Jets_PhiCorr[30];   //[AK10JetsNum]
-   Float_t         AK10Jets_ECorr[30];   //[AK10JetsNum]
-   Float_t         AK10Jets_mass[30];   //[AK10JetsNum]
-   Float_t         AK10Jets_AK10correction[30];   //[AK10JetsNum]
-   Float_t         AK10Jets_AK10correctionUp[30];   //[AK10JetsNum]
-   Float_t         AK10Jets_AK10correctionDown[30];   //[AK10JetsNum]
-   Float_t         AK10Jets_AK10massCorrection[30];   //[AK10JetsNum]
-   Float_t         AK10Jets_AK10massCorrectionUp[30];   //[AK10JetsNum]
-   Float_t         AK10Jets_AK10massCorrectionDown[30];   //[AK10JetsNum]
-   UShort_t        AK12JetsNum;
-   Float_t         AK12JetsPt[30];   //[AK12JetsNum]
-   Float_t         AK12JetsEta[30];   //[AK12JetsNum]
-   Float_t         AK12JetsPhi[30];   //[AK12JetsNum]
-   Float_t         AK12JetsE[30];   //[AK12JetsNum]
-   Float_t         AK12JetsTLorentzVector[30];   //[AK12JetsNum]
-   Float_t         AK12Jets_bDiscriminatorCSV[30];   //[AK12JetsNum]
-   Float_t         AK12Jets_bDiscriminatorICSV[30];   //[AK12JetsNum]
-   Float_t         AK12Jets_chargedEmEnergyFraction[30];   //[AK12JetsNum]
-   Float_t         AK12Jets_chargedHadronEnergyFraction[30];   //[AK12JetsNum]
-   Int_t           AK12Jets_chargedHadronMultiplicity[30];   //[AK12JetsNum]
-   Int_t           AK12Jets_electronMultiplicity[30];   //[AK12JetsNum]
-   Float_t         AK12Jets_jetArea[30];   //[AK12JetsNum]
-   Float_t         AK12Jets_muonEnergyFraction[30];   //[AK12JetsNum]
-   Int_t           AK12Jets_muonMultiplicity[30];   //[AK12JetsNum]
-   Float_t         AK12Jets_neutralEmEnergyFraction[30];   //[AK12JetsNum]
-   Int_t           AK12Jets_neutralHadronMultiplicity[30];   //[AK12JetsNum]
-   Float_t         AK12Jets_photonEnergyFraction[30];   //[AK12JetsNum]
-   Int_t           AK12Jets_photonMultiplicity[30];   //[AK12JetsNum]
-   Float_t         AK12Jets_prunedMass[30];   //[AK12JetsNum]
-   Float_t         AK12Jets_softDropMass[30];   //[AK12JetsNum]
-   Float_t         AK12Jets_softDropPt[30];   //[AK12JetsNum]
-   Float_t         AK12Jets_trimmedMass[30];   //[AK12JetsNum]
-   Float_t         AK12Jets_filteredMass[30];   //[AK12JetsNum]
-   Float_t         AK12Jets_tau1[30];   //[AK12JetsNum]
-   Float_t         AK12Jets_tau2[30];   //[AK12JetsNum]
-   Float_t         AK12Jets_tau3[30];   //[AK12JetsNum]
-   UChar_t         AK12Jets_AK12isLooseJetId[30];   //[AK12JetsNum]
-   UChar_t         AK12Jets_AK12isTightJetId[30];   //[AK12JetsNum]
-   Float_t         AK12Jets_PtCorr[30];   //[AK12JetsNum]
-   Float_t         AK12Jets_EtaCorr[30];   //[AK12JetsNum]
-   Float_t         AK12Jets_PhiCorr[30];   //[AK12JetsNum]
-   Float_t         AK12Jets_ECorr[30];   //[AK12JetsNum]
-   Float_t         AK12Jets_mass[30];   //[AK12JetsNum]
-   Float_t         AK12Jets_AK12correction[30];   //[AK12JetsNum]
-   Float_t         AK12Jets_AK12correctionUp[30];   //[AK12JetsNum]
-   Float_t         AK12Jets_AK12correctionDown[30];   //[AK12JetsNum]
-   Float_t         AK12Jets_AK12massCorrection[30];   //[AK12JetsNum]
-   Float_t         AK12Jets_AK12massCorrectionUp[30];   //[AK12JetsNum]
-   Float_t         AK12Jets_AK12massCorrectionDown[30];   //[AK12JetsNum]
    UShort_t        PuppiJetsNum;
    Float_t         PuppiJetsPt[30];   //[PuppiJetsNum]
    Float_t         PuppiJetsEta[30];   //[PuppiJetsNum]
@@ -506,30 +402,6 @@ public :
    TBranch        *b_GenJetsAK8_tau1;   //!
    TBranch        *b_GenJetsAK8_tau2;   //!
    TBranch        *b_GenJetsAK8_tau3;   //!
-   TBranch        *b_GenJetsAK10Num;   //!
-   TBranch        *b_GenJetsAK10Pt;   //!
-   TBranch        *b_GenJetsAK10Eta;   //!
-   TBranch        *b_GenJetsAK10Phi;   //!
-   TBranch        *b_GenJetsAK10E;   //!
-   TBranch        *b_GenJetsAK10TLorentzVector;   //!
-   TBranch        *b_GenJetsAK10_prunedMass;   //!
-   TBranch        *b_GenJetsAK10_softdropMass;   //!
-   TBranch        *b_GenJetsAK10_softdropPt;   //!
-   TBranch        *b_GenJetsAK10_tau1;   //!
-   TBranch        *b_GenJetsAK10_tau2;   //!
-   TBranch        *b_GenJetsAK10_tau3;   //!
-   TBranch        *b_GenJetsAK12Num;   //!
-   TBranch        *b_GenJetsAK12Pt;   //!
-   TBranch        *b_GenJetsAK12Eta;   //!
-   TBranch        *b_GenJetsAK12Phi;   //!
-   TBranch        *b_GenJetsAK12E;   //!
-   TBranch        *b_GenJetsAK12TLorentzVector;   //!
-   TBranch        *b_GenJetsAK12_prunedMass;   //!
-   TBranch        *b_GenJetsAK12_softdropMass;   //!
-   TBranch        *b_GenJetsAK12_softdropPt;   //!
-   TBranch        *b_GenJetsAK12_tau1;   //!
-   TBranch        *b_GenJetsAK12_tau2;   //!
-   TBranch        *b_GenJetsAK12_tau3;   //!
    TBranch        *b_JetsNum;   //!
    TBranch        *b_JetsPt;   //!
    TBranch        *b_JetsEta;   //!
@@ -598,86 +470,6 @@ public :
    TBranch        *b_AK8Jets_AK8massCorrection;   //!
    TBranch        *b_AK8Jets_AK8massCorrectionUp;   //!
    TBranch        *b_AK8Jets_AK8massCorrectionDown;   //!
-   TBranch        *b_AK10JetsNum;   //!
-   TBranch        *b_AK10JetsPt;   //!
-   TBranch        *b_AK10JetsEta;   //!
-   TBranch        *b_AK10JetsPhi;   //!
-   TBranch        *b_AK10JetsE;   //!
-   TBranch        *b_AK10JetsTLorentzVector;   //!
-   TBranch        *b_AK10Jets_bDiscriminatorCSV;   //!
-   TBranch        *b_AK10Jets_bDiscriminatorICSV;   //!
-   TBranch        *b_AK10Jets_chargedEmEnergyFraction;   //!
-   TBranch        *b_AK10Jets_chargedHadronEnergyFraction;   //!
-   TBranch        *b_AK10Jets_chargedHadronMultiplicity;   //!
-   TBranch        *b_AK10Jets_electronMultiplicity;   //!
-   TBranch        *b_AK10Jets_jetArea;   //!
-   TBranch        *b_AK10Jets_muonEnergyFraction;   //!
-   TBranch        *b_AK10Jets_muonMultiplicity;   //!
-   TBranch        *b_AK10Jets_neutralEmEnergyFraction;   //!
-   TBranch        *b_AK10Jets_neutralHadronMultiplicity;   //!
-   TBranch        *b_AK10Jets_photonEnergyFraction;   //!
-   TBranch        *b_AK10Jets_photonMultiplicity;   //!
-   TBranch        *b_AK10Jets_prunedMass;   //!
-   TBranch        *b_AK10Jets_softDropMass;   //!
-   TBranch        *b_AK10Jets_softDropPt;   //!
-   TBranch        *b_AK10Jets_trimmedMass;   //!
-   TBranch        *b_AK10Jets_filteredMass;   //!
-   TBranch        *b_AK10Jets_tau1;   //!
-   TBranch        *b_AK10Jets_tau2;   //!
-   TBranch        *b_AK10Jets_tau3;   //!
-   TBranch        *b_AK10Jets_AK10isLooseJetId;   //!
-   TBranch        *b_AK10Jets_AK10isTightJetId;   //!
-   TBranch        *b_AK10Jets_PtCorr;   //!
-   TBranch        *b_AK10Jets_EtaCorr;   //!
-   TBranch        *b_AK10Jets_PhiCorr;   //!
-   TBranch        *b_AK10Jets_ECorr;   //!
-   TBranch        *b_AK10Jets_mass;   //!
-   TBranch        *b_AK10Jets_AK10correction;   //!
-   TBranch        *b_AK10Jets_AK10correctionUp;   //!
-   TBranch        *b_AK10Jets_AK10correctionDown;   //!
-   TBranch        *b_AK10Jets_AK10massCorrection;   //!
-   TBranch        *b_AK10Jets_AK10massCorrectionUp;   //!
-   TBranch        *b_AK10Jets_AK10massCorrectionDown;   //!
-   TBranch        *b_AK12JetsNum;   //!
-   TBranch        *b_AK12JetsPt;   //!
-   TBranch        *b_AK12JetsEta;   //!
-   TBranch        *b_AK12JetsPhi;   //!
-   TBranch        *b_AK12JetsE;   //!
-   TBranch        *b_AK12JetsTLorentzVector;   //!
-   TBranch        *b_AK12Jets_bDiscriminatorCSV;   //!
-   TBranch        *b_AK12Jets_bDiscriminatorICSV;   //!
-   TBranch        *b_AK12Jets_chargedEmEnergyFraction;   //!
-   TBranch        *b_AK12Jets_chargedHadronEnergyFraction;   //!
-   TBranch        *b_AK12Jets_chargedHadronMultiplicity;   //!
-   TBranch        *b_AK12Jets_electronMultiplicity;   //!
-   TBranch        *b_AK12Jets_jetArea;   //!
-   TBranch        *b_AK12Jets_muonEnergyFraction;   //!
-   TBranch        *b_AK12Jets_muonMultiplicity;   //!
-   TBranch        *b_AK12Jets_neutralEmEnergyFraction;   //!
-   TBranch        *b_AK12Jets_neutralHadronMultiplicity;   //!
-   TBranch        *b_AK12Jets_photonEnergyFraction;   //!
-   TBranch        *b_AK12Jets_photonMultiplicity;   //!
-   TBranch        *b_AK12Jets_prunedMass;   //!
-   TBranch        *b_AK12Jets_softDropMass;   //!
-   TBranch        *b_AK12Jets_softDropPt;   //!
-   TBranch        *b_AK12Jets_trimmedMass;   //!
-   TBranch        *b_AK12Jets_filteredMass;   //!
-   TBranch        *b_AK12Jets_tau1;   //!
-   TBranch        *b_AK12Jets_tau2;   //!
-   TBranch        *b_AK12Jets_tau3;   //!
-   TBranch        *b_AK12Jets_AK12isLooseJetId;   //!
-   TBranch        *b_AK12Jets_AK12isTightJetId;   //!
-   TBranch        *b_AK12Jets_PtCorr;   //!
-   TBranch        *b_AK12Jets_EtaCorr;   //!
-   TBranch        *b_AK12Jets_PhiCorr;   //!
-   TBranch        *b_AK12Jets_ECorr;   //!
-   TBranch        *b_AK12Jets_mass;   //!
-   TBranch        *b_AK12Jets_AK12correction;   //!
-   TBranch        *b_AK12Jets_AK12correctionUp;   //!
-   TBranch        *b_AK12Jets_AK12correctionDown;   //!
-   TBranch        *b_AK12Jets_AK12massCorrection;   //!
-   TBranch        *b_AK12Jets_AK12massCorrectionUp;   //!
-   TBranch        *b_AK12Jets_AK12massCorrectionDown;   //!
    TBranch        *b_PuppiJetsNum;   //!
    TBranch        *b_PuppiJetsPt;   //!
    TBranch        *b_PuppiJetsEta;   //!
