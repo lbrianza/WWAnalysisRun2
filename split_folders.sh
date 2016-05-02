@@ -159,11 +159,69 @@ mkdir TTbar_powheg_2
 mkdir TTbar_powheg_3
 mkdir TTbar_powheg_4
 mkdir TTbar_powheg_5
-mv TTbar_powheg/ReducedSelection_1* TTbar_powheg_1/
-mv TTbar_powheg/ReducedSelection_2* TTbar_powheg_2/
-mv TTbar_powheg/ReducedSelection_3* TTbar_powheg_3/
-mv TTbar_powheg/ReducedSelection_4* TTbar_powheg_4/
-mv TTbar_powheg/ReducedSelection_* TTbar_powheg_5/
+mkdir TTbar_powheg_6
+mkdir TTbar_powheg_7
+mkdir TTbar_powheg_8
+mkdir TTbar_powheg_9
+mkdir TTbar_powheg_10
+mkdir TTbar_powheg_11
+mkdir TTbar_powheg_12
+mkdir TTbar_powheg_13
+mkdir TTbar_powheg_14
+mkdir TTbar_powheg_15
+mkdir TTbar_powheg_16
+mkdir TTbar_powheg_17
+mkdir TTbar_powheg_18
+mkdir TTbar_powheg_19
+mkdir TTbar_powheg_20
+mkdir TTbar_powheg_21
+mkdir TTbar_powheg_22
+mkdir TTbar_powheg_23
+mv TTbar_powheg/ReducedSelection_46* TTbar_powheg_23/
+mv TTbar_powheg/ReducedSelection_45* TTbar_powheg_23/
+mv TTbar_powheg/ReducedSelection_44* TTbar_powheg_22/
+mv TTbar_powheg/ReducedSelection_43* TTbar_powheg_22/
+mv TTbar_powheg/ReducedSelection_42* TTbar_powheg_21/
+mv TTbar_powheg/ReducedSelection_41* TTbar_powheg_21/
+mv TTbar_powheg/ReducedSelection_40* TTbar_powheg_20/
+mv TTbar_powheg/ReducedSelection_39* TTbar_powheg_20/
+mv TTbar_powheg/ReducedSelection_38* TTbar_powheg_19/
+mv TTbar_powheg/ReducedSelection_37* TTbar_powheg_19/
+mv TTbar_powheg/ReducedSelection_36* TTbar_powheg_18/
+mv TTbar_powheg/ReducedSelection_35* TTbar_powheg_18/
+mv TTbar_powheg/ReducedSelection_34* TTbar_powheg_17/
+mv TTbar_powheg/ReducedSelection_33* TTbar_powheg_17/
+mv TTbar_powheg/ReducedSelection_32* TTbar_powheg_16/
+mv TTbar_powheg/ReducedSelection_31* TTbar_powheg_16/
+mv TTbar_powheg/ReducedSelection_30* TTbar_powheg_15/
+mv TTbar_powheg/ReducedSelection_29* TTbar_powheg_15/
+mv TTbar_powheg/ReducedSelection_28* TTbar_powheg_14/
+mv TTbar_powheg/ReducedSelection_27* TTbar_powheg_14/
+mv TTbar_powheg/ReducedSelection_26* TTbar_powheg_13/
+mv TTbar_powheg/ReducedSelection_25* TTbar_powheg_13/
+mv TTbar_powheg/ReducedSelection_24* TTbar_powheg_12/
+mv TTbar_powheg/ReducedSelection_23* TTbar_powheg_12/
+mv TTbar_powheg/ReducedSelection_22* TTbar_powheg_11/
+mv TTbar_powheg/ReducedSelection_21* TTbar_powheg_11/
+mv TTbar_powheg/ReducedSelection_20* TTbar_powheg_10/
+mv TTbar_powheg/ReducedSelection_19* TTbar_powheg_10/
+mv TTbar_powheg/ReducedSelection_18* TTbar_powheg_9/
+mv TTbar_powheg/ReducedSelection_17* TTbar_powheg_9/
+mv TTbar_powheg/ReducedSelection_16* TTbar_powheg_8/
+mv TTbar_powheg/ReducedSelection_15* TTbar_powheg_8/
+mv TTbar_powheg/ReducedSelection_14* TTbar_powheg_7/
+mv TTbar_powheg/ReducedSelection_13* TTbar_powheg_7/
+mv TTbar_powheg/ReducedSelection_12* TTbar_powheg_6/
+mv TTbar_powheg/ReducedSelection_11* TTbar_powheg_6/
+mv TTbar_powheg/ReducedSelection_10* TTbar_powheg_5/
+mv TTbar_powheg/ReducedSelection_9* TTbar_powheg_5/
+mv TTbar_powheg/ReducedSelection_8* TTbar_powheg_4/
+mv TTbar_powheg/ReducedSelection_7* TTbar_powheg_4/
+mv TTbar_powheg/ReducedSelection_6* TTbar_powheg_3/
+mv TTbar_powheg/ReducedSelection_5* TTbar_powheg_3/
+mv TTbar_powheg/ReducedSelection_4* TTbar_powheg_2/
+mv TTbar_powheg/ReducedSelection_3* TTbar_powheg_2/
+mv TTbar_powheg/ReducedSelection_* TTbar_powheg_1/
 mkdir TTbar_madgraph_1
 mkdir TTbar_madgraph_2
 mkdir TTbar_madgraph_3
