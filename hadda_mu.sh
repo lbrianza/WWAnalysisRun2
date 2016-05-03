@@ -1,5 +1,7 @@
 hadd -f WWTree_data_golden_2p1.root WWTree_data_mu_*runD*
 hadd -f WWTree_TTbar.root WWTree_TTbar_powheg_*
+hadd -f WWTree_TTbar_amcatnlo.root WWTree_TTbar_amcatnlo_*
+hadd -f WWTree_TTbar_madgraph.root WWTree_TTbar_madgraph_*
 hadd -f WWTree_STop.root WWTree_*ch*root
 hadd -f WWTree_WZ_excl.root WWTree_WZ_excl_*
 hadd -f WWTree_ZZ_excl.root WWTree_ZZ_excl_*
