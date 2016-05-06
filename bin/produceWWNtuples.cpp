@@ -1027,26 +1027,10 @@ int main (int argc, char** argv)
 	  }
 	}
 
-	/*
-	for (int j=0; j<ReducedTree->ElectronsNum; j++) {
-	  if (ReducedTree->Electrons_isHEEP[j]==false) continue;       
-          if (ReducedTree->ElectronsPt[j]<=90) continue;
-	  if (deltaR(ReducedTree->ElectronsEta[j], ReducedTree->ElectronsPhi[j],
-		     ReducedTree->JetsEta[i],   ReducedTree->JetsPhi[i]) <0.3)
-	    isCleanedJet = false;
-	}      
-	for (int j=0; j<ReducedTree->MuonsNum; j++) {
-	  if (ReducedTree->Muons_isHighPt[i]==false) continue;
-	  if ((ReducedTree->Muons_trackIso[i]/ReducedTree->MuonsPt[i])>=0.1) continue;
-	  if (ReducedTree->MuonsPt[i]<50) continue;
-	  if (fabs(ReducedTree->MuonsEta[i])>=2.1) continue;
-	    isCleanedJet = false;
-	}
-	*/
 	if (isCleanedJet==false) continue;
 
 
-	WWTree->njets++;
+	WWTree->njets++; //TO BE FIX
 
 	AK4.SetPtEtaPhiE(ReducedTree->Jets_PtCorr[i],ReducedTree->JetsEta[i],ReducedTree->JetsPhi[i],ReducedTree->Jets_ECorr[i]);
 
@@ -1094,9 +1078,7 @@ int main (int argc, char** argv)
 	}	
 	
 	if (deltaR<oldDeltaR)  indexCloserJet = i; //index of the closest jet to the AK8
-	indexGoodJets.push_back(i); //save index of the "good" vbf jets candidate
       }
-    if (indexGoodJets.size()<2)  fillVBF=false; //check if at least 2 jets are inside the collection
 
     if (indexCloserJet>=0) { //fill hadronic top mass
       AK4.SetPtEtaPhiE(ReducedTree->Jets_PtCorr[indexCloserJet],ReducedTree->JetsEta[indexCloserJet],ReducedTree->JetsPhi[indexCloserJet],ReducedTree->Jets_ECorr[indexCloserJet]);
@@ -1110,6 +1092,44 @@ int main (int argc, char** argv)
       AK4.SetPtEtaPhiE(ReducedTree->Jets_PtCorr[indexCloserJetLep],ReducedTree->JetsEta[indexCloserJetLep],ReducedTree->JetsPhi[indexCloserJetLep],ReducedTree->Jets_ECorr[indexCloserJetLep]);
       WWTree->mass_leptonic_closerjet  = (W + AK4).M();
     }
+
+
+    WWTree->njets=0; //NOT A SMART SOLUTION....
+
+    for (unsigned int i=0; i<ReducedTree->JetsNum; i++) //loop again on AK4 jet for the VBF part
+      {
+	bool isCleanedJet = true;
+	if (ReducedTree->Jets_PtCorr[i]<=30 || ReducedTree->JetsPt[i]<=20)  continue;
+	if (ReducedTree->Jets_isLooseJetId[i]==false) continue;
+
+	//CLEANING
+	if (deltaR(WWTree->ungroomed_jet_eta, WWTree->ungroomed_jet_phi,
+		       ReducedTree->JetsEta[i],   ReducedTree->JetsPhi[i]) <0.8)
+	  isCleanedJet = false;
+
+	//CLEANING FROM LEPTONS
+	for (int j=0; j<tightEle.size(); j++) {
+	  if (deltaR(tightEle.at(j).Eta(), tightEle.at(j).Phi(),
+		     ReducedTree->JetsEta[i],   ReducedTree->JetsPhi[i]) <0.3) {
+	    isCleanedJet = false;
+	  }
+	}
+	for (int j=0; j<tightMuon.size(); j++) {
+	  if (deltaR(tightMuon.at(j).Eta(), tightMuon.at(j).Phi(),
+		     ReducedTree->JetsEta[i],   ReducedTree->JetsPhi[i]) <0.3) {
+	    isCleanedJet = false;
+	  }
+	}
+
+	if (isCleanedJet==false) continue;
+
+	WWTree->njets++;
+	//	if (ReducedTree->Jets_bDiscriminatorICSV[i]>0.970)   WWTree->nBTagJet_tight++;
+	
+	indexGoodJets.push_back(i); //save index of the "good" vbf jets candidate
+      }
+    if (indexGoodJets.size()<2)  fillVBF=false; //check if at least 2 jets are inside the collection
+
 
     if (fillVBF) 
       {
@@ -1130,6 +1150,10 @@ int main (int argc, char** argv)
 	
 	if (nVBF1!=-1 && nVBF2!=-1) //save infos for vbf jet pair
 	  {
+            nVBF1 = indexGoodJets.at(0); //save position of the 1st vbf jet
+            nVBF2 = indexGoodJets.at(1); //save position of the 2nd vbf jet
+	    //	    nVBF1=0; nVBF2=1;
+
 	    VBF1.SetPtEtaPhiE(ReducedTree->Jets_PtCorr[nVBF1],ReducedTree->JetsEta[nVBF1],ReducedTree->JetsPhi[nVBF1],ReducedTree->Jets_ECorr[nVBF1]);
 	    VBF2.SetPtEtaPhiE(ReducedTree->Jets_PtCorr[nVBF2],ReducedTree->JetsEta[nVBF2],ReducedTree->JetsPhi[nVBF2],ReducedTree->Jets_ECorr[nVBF2]);
 	    TOT = VBF1 + VBF2;
