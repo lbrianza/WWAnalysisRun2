@@ -28,7 +28,6 @@ public :
    UInt_t          LumiBlockNum;
    UInt_t          EvtNum;
    Int_t           NJets;
-   Int_t           BTags;
    Int_t           NVtx;
    Int_t           npT;
    Int_t           passFilterHBHE;
@@ -40,7 +39,6 @@ public :
    Int_t           passFilterHBHETightRerun;
    Int_t           passFilterHBHEIsoRerun;
    Float_t         Weight;
-   Float_t         MHT;
    Double_t         METPt;
    Double_t         METPhi;
    Double_t         METPtUp;
@@ -51,10 +49,6 @@ public :
    Double_t         METPhiRaw;
    Float_t         CaloMetPt;
    Float_t         CaloMetPhi;
-   Float_t         HT;
-   Float_t         DeltaPhi1;
-   Float_t         DeltaPhi2;
-   Float_t         DeltaPhi3;
    Float_t         genEventWeight;
    Float_t         PUWeight;
    Float_t         METpuppiPt;
@@ -67,12 +61,6 @@ public :
    Float_t         METpuppiPhiRaw;
    Float_t         METpuppiCaloMetPt;
    Float_t         METpuppiCaloMetPhi;
-   UShort_t        IsolatedTracksNum;
-   Float_t         IsolatedTracksPt[20];   //[IsolatedTracksNum]
-   Float_t         IsolatedTracksEta[20];   //[IsolatedTracksNum]
-   Float_t         IsolatedTracksPhi[20];   //[IsolatedTracksNum]
-   Float_t         IsolatedTracksE[20];   //[IsolatedTracksNum]
-   Float_t         IsolatedTracksTLorentzVector[20];   //[IsolatedTracksNum]
    UShort_t        GenBosonNum;
    Float_t         GenBosonPt[30];   //[GenBosonNum]
    Float_t         GenBosonEta[30];   //[GenBosonNum]
@@ -161,6 +149,34 @@ public :
    Float_t         Jets_AK4correction[25];   //[JetsNum]
    Float_t         Jets_AK4correctionUp[25];   //[JetsNum]
    Float_t         Jets_AK4correctionDown[25];   //[JetsNum]
+   UShort_t        JetsPuppiNum;
+   Float_t         JetsPuppiPt[25];   //[JetsPuppiNum]
+   Float_t         JetsPuppiEta[25];   //[JetsPuppiNum]
+   Float_t         JetsPuppiPhi[25];   //[JetsPuppiNum]
+   Float_t         JetsPuppiE[25];   //[JetsPuppiNum]
+   Float_t         JetsPuppiTLorentzVector[25];   //[JetsPuppiNum]
+   Float_t         JetsPuppi_bDiscriminatorCSV[25];   //[JetsPuppiNum]
+   Float_t         JetsPuppi_bDiscriminatorICSV[25];   //[JetsPuppiNum]
+   Float_t         JetsPuppi_chargedEmEnergyFraction[25];   //[JetsPuppiNum]
+   Float_t         JetsPuppi_chargedHadronEnergyFraction[25];   //[JetsPuppiNum]
+   Int_t           JetsPuppi_chargedHadronMultiplicity[25];   //[JetsPuppiNum]
+   Int_t           JetsPuppi_electronMultiplicity[25];   //[JetsPuppiNum]
+   Float_t         JetsPuppi_jetArea[25];   //[JetsPuppiNum]
+   Float_t         JetsPuppi_muonEnergyFraction[25];   //[JetsPuppiNum]
+   Int_t           JetsPuppi_muonMultiplicity[25];   //[JetsPuppiNum]
+   Float_t         JetsPuppi_neutralEmEnergyFraction[25];   //[JetsPuppiNum]
+   Int_t           JetsPuppi_neutralHadronMultiplicity[25];   //[JetsPuppiNum]
+   Float_t         JetsPuppi_photonEnergyFraction[25];   //[JetsPuppiNum]
+   Int_t           JetsPuppi_photonMultiplicity[25];   //[JetsPuppiNum]
+   UChar_t         JetsPuppi_isLooseJetId[25];   //[JetsPuppiNum]
+   UChar_t         JetsPuppi_isTightJetId[25];   //[JetsPuppiNum]
+   Float_t         JetsPuppi_PtCorr[25];   //[JetsPuppiNum]
+   Float_t         JetsPuppi_EtaCorr[25];   //[JetsPuppiNum]
+   Float_t         JetsPuppi_PhiCorr[25];   //[JetsPuppiNum]
+   Float_t         JetsPuppi_ECorr[25];   //[JetsPuppiNum]
+   Float_t         JetsPuppi_AK4correction[25];   //[JetsPuppiNum]
+   Float_t         JetsPuppi_AK4correctionUp[25];   //[JetsPuppiNum]
+   Float_t         JetsPuppi_AK4correctionDown[25];   //[JetsPuppiNum]
    UShort_t        AK8JetsNum;
    Float_t         AK8JetsPt[30];   //[AK8JetsNum]
    Float_t         AK8JetsEta[30];   //[AK8JetsNum]
@@ -201,46 +217,46 @@ public :
    Float_t         AK8Jets_AK8massCorrection[30];   //[AK8JetsNum]
    Float_t         AK8Jets_AK8massCorrectionUp[30];   //[AK8JetsNum]
    Float_t         AK8Jets_AK8massCorrectionDown[30];   //[AK8JetsNum]
-   UShort_t        PuppiJetsNum;
-   Float_t         PuppiJetsPt[30];   //[PuppiJetsNum]
-   Float_t         PuppiJetsEta[30];   //[PuppiJetsNum]
-   Float_t         PuppiJetsPhi[30];   //[PuppiJetsNum]
-   Float_t         PuppiJetsE[30];   //[PuppiJetsNum]
-   Float_t         PuppiJetsTLorentzVector[30];   //[PuppiJetsNum]
-   Float_t         PuppiJets_bDiscriminatorCSV[30];   //[PuppiJetsNum]
-   Float_t         PuppiJets_bDiscriminatorICSV[30];   //[PuppiJetsNum]
-   Float_t         PuppiJets_chargedEmEnergyFraction[30];   //[PuppiJetsNum]
-   Float_t         PuppiJets_chargedHadronEnergyFraction[30];   //[PuppiJetsNum]
-   Int_t           PuppiJets_chargedHadronMultiplicity[30];   //[PuppiJetsNum]
-   Int_t           PuppiJets_electronMultiplicity[30];   //[PuppiJetsNum]
-   Float_t         PuppiJets_jetArea[30];   //[PuppiJetsNum]
-   Float_t         PuppiJets_muonEnergyFraction[30];   //[PuppiJetsNum]
-   Int_t           PuppiJets_muonMultiplicity[30];   //[PuppiJetsNum]
-   Float_t         PuppiJets_neutralEmEnergyFraction[30];   //[PuppiJetsNum]
-   Int_t           PuppiJets_neutralHadronMultiplicity[30];   //[PuppiJetsNum]
-   Float_t         PuppiJets_photonEnergyFraction[30];   //[PuppiJetsNum]
-   Int_t           PuppiJets_photonMultiplicity[30];   //[PuppiJetsNum]
-   Float_t         PuppiJets_prunedMass[30];   //[PuppiJetsNum]
-   Float_t         PuppiJets_softDropMass[30];   //[PuppiJetsNum]
-   Float_t         PuppiJets_softDropPt[30];   //[PuppiJetsNum]
-   Float_t         PuppiJets_trimmedMass[30];   //[PuppiJetsNum]
-   Float_t         PuppiJets_filteredMass[30];   //[PuppiJetsNum]
-   Float_t         PuppiJets_tau1[30];   //[PuppiJetsNum]
-   Float_t         PuppiJets_tau2[30];   //[PuppiJetsNum]
-   Float_t         PuppiJets_tau3[30];   //[PuppiJetsNum]
-   UChar_t         PuppiJets_PuppiisLooseJetId[30];   //[PuppiJetsNum]
-   UChar_t         PuppiJets_PuppiisTightJetId[30];   //[PuppiJetsNum]
-   Float_t         PuppiJets_PtCorr[30];   //[PuppiJetsNum]
-   Float_t         PuppiJets_EtaCorr[30];   //[PuppiJetsNum]
-   Float_t         PuppiJets_PhiCorr[30];   //[PuppiJetsNum]
-   Float_t         PuppiJets_ECorr[30];   //[PuppiJetsNum]
-   Float_t         PuppiJets_mass[30];   //[PuppiJetsNum]
-   Float_t         PuppiJets_Puppicorrection[30];   //[PuppiJetsNum]
-   Float_t         PuppiJets_PuppicorrectionUp[30];   //[PuppiJetsNum]
-   Float_t         PuppiJets_PuppicorrectionDown[30];   //[PuppiJetsNum]
-   Float_t         PuppiJets_PuppimassCorrection[30];   //[PuppiJetsNum]
-   Float_t         PuppiJets_PuppimassCorrectionUp[30];   //[PuppiJetsNum]
-   Float_t         PuppiJets_PuppimassCorrectionDown[30];   //[PuppiJetsNum]
+   UShort_t        PuppiAK8JetsNum;
+   Float_t         PuppiAK8JetsPt[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8JetsEta[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8JetsPhi[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8JetsE[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8JetsTLorentzVector[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8Jets_bDiscriminatorCSV[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8Jets_bDiscriminatorICSV[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8Jets_chargedEmEnergyFraction[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8Jets_chargedHadronEnergyFraction[30];   //[PuppiAK8JetsNum]
+   Int_t           PuppiAK8Jets_chargedHadronMultiplicity[30];   //[PuppiAK8JetsNum]
+   Int_t           PuppiAK8Jets_electronMultiplicity[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8Jets_jetArea[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8Jets_muonEnergyFraction[30];   //[PuppiAK8JetsNum]
+   Int_t           PuppiAK8Jets_muonMultiplicity[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8Jets_neutralEmEnergyFraction[30];   //[PuppiAK8JetsNum]
+   Int_t           PuppiAK8Jets_neutralHadronMultiplicity[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8Jets_photonEnergyFraction[30];   //[PuppiAK8JetsNum]
+   Int_t           PuppiAK8Jets_photonMultiplicity[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8Jets_prunedMass[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8Jets_softDropMass[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8Jets_softDropPt[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8Jets_trimmedMass[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8Jets_filteredMass[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8Jets_tau1[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8Jets_tau2[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8Jets_tau3[30];   //[PuppiAK8JetsNum]
+   UChar_t         PuppiAK8Jets_PuppiAK8isLooseJetId[30];   //[PuppiAK8JetsNum]
+   UChar_t         PuppiAK8Jets_PuppiAK8isTightJetId[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8Jets_PtCorr[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8Jets_EtaCorr[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8Jets_PhiCorr[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8Jets_ECorr[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8Jets_mass[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8Jets_PuppiAK8correction[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8Jets_PuppiAK8correctionUp[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8Jets_PuppiAK8correctionDown[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8Jets_PuppiAK8massCorrection[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8Jets_PuppiAK8massCorrectionUp[30];   //[PuppiAK8JetsNum]
+   Float_t         PuppiAK8Jets_PuppiAK8massCorrectionDown[30];   //[PuppiAK8JetsNum]
    UShort_t        ElectronsNum;
    Float_t         ElectronsPt[30];   //[ElectronsNum]
    Float_t         ElectronsEta[30];   //[ElectronsNum]
@@ -297,7 +313,6 @@ public :
    TBranch        *b_LumiBlockNum;   //!
    TBranch        *b_EvtNum;   //!
    TBranch        *b_NJets;   //!
-   TBranch        *b_BTags;   //!
    TBranch        *b_NVtx;   //!
    TBranch        *b_npT;   //!
    TBranch        *b_passFilterHBHE;   //!
@@ -309,7 +324,6 @@ public :
    TBranch        *b_passFilterHBHETightRerun;   //!
    TBranch        *b_passFilterHBHEIsoRerun;   //!
    TBranch        *b_Weight;   //!
-   TBranch        *b_MHT;   //!
    TBranch        *b_METPt;   //!
    TBranch        *b_METPhi;   //!
    TBranch        *b_METPtUp;   //!
@@ -320,10 +334,6 @@ public :
    TBranch        *b_METPhiRaw;   //!
    TBranch        *b_CaloMetPt;   //!
    TBranch        *b_CaloMetPhi;   //!
-   TBranch        *b_HT;   //!
-   TBranch        *b_DeltaPhi1;   //!
-   TBranch        *b_DeltaPhi2;   //!
-   TBranch        *b_DeltaPhi3;   //!
    TBranch        *b_genEventWeight;   //!
    TBranch        *b_PUWeight;   //!
    TBranch        *b_METpuppiPt;   //!
@@ -336,12 +346,6 @@ public :
    TBranch        *b_METpuppiPhiRaw;   //!
    TBranch        *b_METpuppiCaloMetPt;   //!
    TBranch        *b_METpuppiCaloMetPhi;   //!
-   TBranch        *b_IsolatedTracksNum;   //!
-   TBranch        *b_IsolatedTracksPt;   //!
-   TBranch        *b_IsolatedTracksEta;   //!
-   TBranch        *b_IsolatedTracksPhi;   //!
-   TBranch        *b_IsolatedTracksE;   //!
-   TBranch        *b_IsolatedTracksTLorentzVector;   //!
    TBranch        *b_GenBosonNum;   //!
    TBranch        *b_GenBosonPt;   //!
    TBranch        *b_GenBosonEta;   //!
@@ -470,46 +474,74 @@ public :
    TBranch        *b_AK8Jets_AK8massCorrection;   //!
    TBranch        *b_AK8Jets_AK8massCorrectionUp;   //!
    TBranch        *b_AK8Jets_AK8massCorrectionDown;   //!
-   TBranch        *b_PuppiJetsNum;   //!
-   TBranch        *b_PuppiJetsPt;   //!
-   TBranch        *b_PuppiJetsEta;   //!
-   TBranch        *b_PuppiJetsPhi;   //!
-   TBranch        *b_PuppiJetsE;   //!
-   TBranch        *b_PuppiJetsTLorentzVector;   //!
-   TBranch        *b_PuppiJets_bDiscriminatorCSV;   //!
-   TBranch        *b_PuppiJets_bDiscriminatorICSV;   //!
-   TBranch        *b_PuppiJets_chargedEmEnergyFraction;   //!
-   TBranch        *b_PuppiJets_chargedHadronEnergyFraction;   //!
-   TBranch        *b_PuppiJets_chargedHadronMultiplicity;   //!
-   TBranch        *b_PuppiJets_electronMultiplicity;   //!
-   TBranch        *b_PuppiJets_jetArea;   //!
-   TBranch        *b_PuppiJets_muonEnergyFraction;   //!
-   TBranch        *b_PuppiJets_muonMultiplicity;   //!
-   TBranch        *b_PuppiJets_neutralEmEnergyFraction;   //!
-   TBranch        *b_PuppiJets_neutralHadronMultiplicity;   //!
-   TBranch        *b_PuppiJets_photonEnergyFraction;   //!
-   TBranch        *b_PuppiJets_photonMultiplicity;   //!
-   TBranch        *b_PuppiJets_prunedMass;   //!
-   TBranch        *b_PuppiJets_softDropMass;   //!
-   TBranch        *b_PuppiJets_softDropPt;   //!
-   TBranch        *b_PuppiJets_trimmedMass;   //!
-   TBranch        *b_PuppiJets_filteredMass;   //!
-   TBranch        *b_PuppiJets_tau1;   //!
-   TBranch        *b_PuppiJets_tau2;   //!
-   TBranch        *b_PuppiJets_tau3;   //!
-   TBranch        *b_PuppiJets_PuppiisLooseJetId;   //!
-   TBranch        *b_PuppiJets_PuppiisTightJetId;   //!
-   TBranch        *b_PuppiJets_PtCorr;   //!
-   TBranch        *b_PuppiJets_EtaCorr;   //!
-   TBranch        *b_PuppiJets_PhiCorr;   //!
-   TBranch        *b_PuppiJets_ECorr;   //!
-   TBranch        *b_PuppiJets_mass;   //!
-   TBranch        *b_PuppiJets_Puppicorrection;   //!
-   TBranch        *b_PuppiJets_PuppicorrectionUp;   //!
-   TBranch        *b_PuppiJets_PuppicorrectionDown;   //!
-   TBranch        *b_PuppiJets_PuppimassCorrection;   //!
-   TBranch        *b_PuppiJets_PuppimassCorrectionUp;   //!
-   TBranch        *b_PuppiJets_PuppimassCorrectionDown;   //!
+   TBranch        *b_PuppiAK8JetsNum;   //!
+   TBranch        *b_PuppiAK8JetsPt;   //!
+   TBranch        *b_PuppiAK8JetsEta;   //!
+   TBranch        *b_PuppiAK8JetsPhi;   //!
+   TBranch        *b_PuppiAK8JetsE;   //!
+   TBranch        *b_PuppiAK8JetsTLorentzVector;   //!
+   TBranch        *b_PuppiAK8Jets_bDiscriminatorCSV;   //!
+   TBranch        *b_PuppiAK8Jets_bDiscriminatorICSV;   //!
+   TBranch        *b_PuppiAK8Jets_chargedEmEnergyFraction;   //!
+   TBranch        *b_PuppiAK8Jets_chargedHadronEnergyFraction;   //!
+   TBranch        *b_PuppiAK8Jets_chargedHadronMultiplicity;   //!
+   TBranch        *b_PuppiAK8Jets_electronMultiplicity;   //!
+   TBranch        *b_PuppiAK8Jets_jetArea;   //!
+   TBranch        *b_PuppiAK8Jets_muonEnergyFraction;   //!
+   TBranch        *b_PuppiAK8Jets_muonMultiplicity;   //!
+   TBranch        *b_PuppiAK8Jets_neutralEmEnergyFraction;   //!
+   TBranch        *b_PuppiAK8Jets_neutralHadronMultiplicity;   //!
+   TBranch        *b_PuppiAK8Jets_photonEnergyFraction;   //!
+   TBranch        *b_PuppiAK8Jets_photonMultiplicity;   //!
+   TBranch        *b_PuppiAK8Jets_prunedMass;   //!
+   TBranch        *b_PuppiAK8Jets_softDropMass;   //!
+   TBranch        *b_PuppiAK8Jets_softDropPt;   //!
+   TBranch        *b_PuppiAK8Jets_trimmedMass;   //!
+   TBranch        *b_PuppiAK8Jets_filteredMass;   //!
+   TBranch        *b_PuppiAK8Jets_tau1;   //!
+   TBranch        *b_PuppiAK8Jets_tau2;   //!
+   TBranch        *b_PuppiAK8Jets_tau3;   //!
+   TBranch        *b_PuppiAK8Jets_PuppiAK8isLooseJetId;   //!
+   TBranch        *b_PuppiAK8Jets_PuppiAK8isTightJetId;   //!
+   TBranch        *b_PuppiAK8Jets_PtCorr;   //!
+   TBranch        *b_PuppiAK8Jets_EtaCorr;   //!
+   TBranch        *b_PuppiAK8Jets_PhiCorr;   //!
+   TBranch        *b_PuppiAK8Jets_ECorr;   //!
+   TBranch        *b_PuppiAK8Jets_mass;   //!
+   TBranch        *b_PuppiAK8Jets_PuppiAK8correction;   //!
+   TBranch        *b_PuppiAK8Jets_PuppiAK8correctionUp;   //!
+   TBranch        *b_PuppiAK8Jets_PuppiAK8correctionDown;   //!
+   TBranch        *b_PuppiAK8Jets_PuppiAK8massCorrection;   //!
+   TBranch        *b_PuppiAK8Jets_PuppiAK8massCorrectionUp;   //!
+   TBranch        *b_PuppiAK8Jets_PuppiAK8massCorrectionDown;   //!
+   TBranch        *b_JetsPuppiNum;   //!
+   TBranch        *b_JetsPuppiPt;   //!
+   TBranch        *b_JetsPuppiEta;   //!
+   TBranch        *b_JetsPuppiPhi;   //!
+   TBranch        *b_JetsPuppiE;   //!
+   TBranch        *b_JetsPuppiTLorentzVector;   //!
+   TBranch        *b_JetsPuppi_bDiscriminatorCSV;   //!
+   TBranch        *b_JetsPuppi_bDiscriminatorICSV;   //!
+   TBranch        *b_JetsPuppi_chargedEmEnergyFraction;   //!
+   TBranch        *b_JetsPuppi_chargedHadronEnergyFraction;   //!
+   TBranch        *b_JetsPuppi_chargedHadronMultiplicity;   //!
+   TBranch        *b_JetsPuppi_electronMultiplicity;   //!
+   TBranch        *b_JetsPuppi_jetArea;   //!
+   TBranch        *b_JetsPuppi_muonEnergyFraction;   //!
+   TBranch        *b_JetsPuppi_muonMultiplicity;   //!
+   TBranch        *b_JetsPuppi_neutralEmEnergyFraction;   //!
+   TBranch        *b_JetsPuppi_neutralHadronMultiplicity;   //!
+   TBranch        *b_JetsPuppi_photonEnergyFraction;   //!
+   TBranch        *b_JetsPuppi_photonMultiplicity;   //!
+   TBranch        *b_JetsPuppi_isLooseJetId;   //!
+   TBranch        *b_JetsPuppi_isTightJetId;   //!
+   TBranch        *b_JetsPuppi_PtCorr;   //!
+   TBranch        *b_JetsPuppi_EtaCorr;   //!
+   TBranch        *b_JetsPuppi_PhiCorr;   //!
+   TBranch        *b_JetsPuppi_ECorr;   //!
+   TBranch        *b_JetsPuppi_AK4correction;   //!
+   TBranch        *b_JetsPuppi_AK4correctionUp;   //!
+   TBranch        *b_JetsPuppi_AK4correctionDown;   //!
    TBranch        *b_ElectronsNum;   //!
    TBranch        *b_ElectronsPt;   //!
    TBranch        *b_ElectronsEta;   //!
