@@ -16,8 +16,8 @@ void setOutputTree::initializeVariables()
   lumi=-999;
   njets=-999;
   nPV=-999;
-  issignal=-999;
-  issignal_PuppiAK8=-999;
+  issignal=0;
+  issignal_PuppiAK8=0;
   wSampleWeight=-999;
   genWeight=1;
   top1_NNLO_Weight=1.;
