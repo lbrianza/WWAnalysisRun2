@@ -69,7 +69,7 @@ int main (int argc, char** argv)
 
     int iEntry = rand_no1*ReducedTree->fChain->GetEntries();
     iEntry = (int)iEntry;
-    int nb = ReducedTree->fChain->GetEntry(iEntry);   
+    ReducedTree->fChain->GetEntry(iEntry);   
 
     double iW = rand_no2*0.00036;
 

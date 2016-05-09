@@ -64,7 +64,7 @@ int main (int argc, char** argv)
 
     Long64_t iEntry = ReducedTree->LoadTree(jentry);
     if (iEntry < 0) break;
-    int nb = ReducedTree->fChain->GetEntry(jentry);   
+    ReducedTree->fChain->GetEntry(jentry);   
     // if (Cut(ientry) < 0) continue;                                                                                                                           
 
     if(iEntry % 1000 == 0)    

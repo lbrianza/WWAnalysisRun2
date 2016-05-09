@@ -784,6 +784,7 @@ int main (int argc, char** argv)
     int nGoodPuppiAK8jets=0;
     // if (ReducedTree->PuppiJetsNum < 1 ) continue; 
     if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug: "<<count<<std::endl; count++;
+<<<<<<< HEAD
     
     for (unsigned int i=0; i<ReducedTree->PuppiJetsNum; i++)
     {
@@ -794,6 +795,70 @@ int main (int argc, char** argv)
              (ReducedTree->PuppiJetsEta[i]<0 && WWTree->l_eta>0)) { //jet and lepton in opposite hemisphere for ttb
           tempMass=ReducedTree->PuppiJets_prunedMass[i];
         }
+=======
+   
+    for (unsigned int i=0; i<ReducedTree->PuppiAK8JetsNum; i++)
+      {
+	bool isCleanedJet = true;
+	if (ReducedTree->PuppiAK8Jets_PtCorr[i]<100 || fabs(ReducedTree->PuppiAK8JetsEta[i])>2.4)  continue; //be careful: this is not inside the synchntuple code
+	if (ReducedTree->PuppiAK8Jets_prunedMass[i]>tempMass) {
+	  if ( (ReducedTree->PuppiAK8JetsEta[i]>0 && WWTree->l_eta<0) || 
+	       (ReducedTree->PuppiAK8JetsEta[i]<0 && WWTree->l_eta>0)) { //jet and lepton in opposite hemisphere for ttb
+	    tempMass=ReducedTree->PuppiAK8Jets_prunedMass[i];
+	  }
+	}
+	if (ReducedTree->PuppiAK8Jets_PtCorr[i]<=tempPt) continue; //save the jet with the largest pt
+	if (ReducedTree->PuppiAK8Jets_PuppiAK8isLooseJetId[i]==false) continue; //fat jet must satisfy loose ID
+
+	//CLEANING FROM LEPTONS
+	for (int j=0; j<tightEle.size(); j++) {
+	  if (deltaR(tightEle.at(j).Eta(), tightEle.at(j).Phi(),
+		     ReducedTree->PuppiAK8JetsEta[i],   ReducedTree->PuppiAK8JetsPhi[i]) <1.0)
+	    isCleanedJet = false;
+	}
+	for (int j=0; j<tightMuon.size(); j++) {
+	  if (deltaR(tightMuon.at(j).Eta(), tightMuon.at(j).Phi(),
+		     ReducedTree->PuppiAK8JetsEta[i],   ReducedTree->PuppiAK8JetsPhi[i]) <1.0)
+	    isCleanedJet = false;
+	}
+
+	/*	for (int j=0; j<ReducedTree->ElectronsNum; j++) {
+	  if (ReducedTree->Electrons_isHEEP[j]==false) continue;     
+          if (ReducedTree->ElectronsPt[j]<=90) continue;  
+	  if (deltaR(ReducedTree->ElectronsEta[j], ReducedTree->ElectronsPhi[j],
+		     ReducedTree->PuppiAK8JetsEta[i],   ReducedTree->PuppiAK8JetsPhi[i]) <1.0)
+	    isCleanedJet = false;
+	}
+	for (int j=0; j<ReducedTree->MuonsNum; j++) {
+	  if (ReducedTree->Muons_isHighPt[i]==false) continue;
+	  if ((ReducedTree->Muons_trackIso[i]/ReducedTree->MuonsPt[i])>=0.1) continue;
+	  if (ReducedTree->MuonsPt[i]<50) continue;
+	  if (fabs(ReducedTree->MuonsEta[i])>=2.1) continue;
+	  if (deltaR(ReducedTree->MuonsEta[j], ReducedTree->MuonsPhi[j],
+		     ReducedTree->PuppiAK8JetsEta[i],   ReducedTree->PuppiAK8JetsPhi[i]) <1.0)
+	    isCleanedJet = false;
+	}
+	*/
+
+	if (isCleanedJet==false) continue; //jet is overlapped with a lepton
+
+	WWTree->ungroomed_PuppiAK8_jet_pt  = ReducedTree->PuppiAK8Jets_PtCorr[i];
+	WWTree->ungroomed_PuppiAK8_jet_pt_jes_up = (ReducedTree->PuppiAK8Jets_PtCorr[i]/ReducedTree->PuppiAK8Jets_PuppiAK8correction[i])*ReducedTree->PuppiAK8Jets_PuppiAK8correctionUp[i];
+	WWTree->ungroomed_PuppiAK8_jet_pt_jes_dn = (ReducedTree->PuppiAK8Jets_PtCorr[i]/ReducedTree->PuppiAK8Jets_PuppiAK8correction[i])*ReducedTree->PuppiAK8Jets_PuppiAK8correctionDown[i];
+	WWTree->ungroomed_PuppiAK8_jet_eta = ReducedTree->PuppiAK8JetsEta[i];
+	WWTree->ungroomed_PuppiAK8_jet_phi = ReducedTree->PuppiAK8JetsPhi[i];
+	WWTree->ungroomed_PuppiAK8_jet_e   = ReducedTree->PuppiAK8Jets_ECorr[i];
+	WWTree->PuppiAK8_jet_mass_pr   = ReducedTree->PuppiAK8Jets_prunedMass[i];
+	WWTree->PuppiAK8_jet_mass_pr_jes_up = (ReducedTree->PuppiAK8Jets_prunedMass[i]/ReducedTree->PuppiAK8Jets_PuppiAK8massCorrection[i])*ReducedTree->PuppiAK8Jets_PuppiAK8massCorrectionUp[i];
+	WWTree->PuppiAK8_jet_mass_pr_jes_dn = (ReducedTree->PuppiAK8Jets_prunedMass[i]/ReducedTree->PuppiAK8Jets_PuppiAK8massCorrection[i])*ReducedTree->PuppiAK8Jets_PuppiAK8massCorrectionDown[i];
+        WWTree->PuppiAK8_jet_mass_so   = ReducedTree->PuppiAK8Jets_softDropMass[i];
+        WWTree->PuppiAK8_jet_pt_so   = ReducedTree->PuppiAK8Jets_softDropPt[i];
+	WWTree->PuppiAK8_jet_mass_tr   = ReducedTree->PuppiAK8Jets_trimmedMass[i];
+	WWTree->PuppiAK8_jet_mass_fi   = ReducedTree->PuppiAK8Jets_filteredMass[i];
+	WWTree->PuppiAK8_jet_tau2tau1   = ReducedTree->PuppiAK8Jets_tau2[i]/ReducedTree->PuppiAK8Jets_tau1[i];
+	tempPt = WWTree->ungroomed_PuppiAK8_jet_pt;
+	nGoodPuppiAK8jets++;
+>>>>>>> upstream/76x_devel
       }
       if (ReducedTree->PuppiJets_PtCorr[i]<=tempPt) continue; //save the jet with the largest pt
       if (ReducedTree->PuppiJets_PuppiisLooseJetId[i]==false) continue; //fat jet must satisfy loose ID
@@ -1145,26 +1210,10 @@ int main (int argc, char** argv)
 	  }
 	}
 
-	/*
-	for (int j=0; j<ReducedTree->ElectronsNum; j++) {
-	  if (ReducedTree->Electrons_isHEEP[j]==false) continue;       
-          if (ReducedTree->ElectronsPt[j]<=90) continue;
-	  if (deltaR(ReducedTree->ElectronsEta[j], ReducedTree->ElectronsPhi[j],
-		     ReducedTree->JetsEta[i],   ReducedTree->JetsPhi[i]) <0.3)
-	    isCleanedJet = false;
-	}      
-	for (int j=0; j<ReducedTree->MuonsNum; j++) {
-	  if (ReducedTree->Muons_isHighPt[i]==false) continue;
-	  if ((ReducedTree->Muons_trackIso[i]/ReducedTree->MuonsPt[i])>=0.1) continue;
-	  if (ReducedTree->MuonsPt[i]<50) continue;
-	  if (fabs(ReducedTree->MuonsEta[i])>=2.1) continue;
-	    isCleanedJet = false;
-	}
-	*/
 	if (isCleanedJet==false) continue;
 
 
-	WWTree->njets++;
+	WWTree->njets++; //TO BE FIX
 
 	AK4.SetPtEtaPhiE(ReducedTree->Jets_PtCorr[i],ReducedTree->JetsEta[i],ReducedTree->JetsPhi[i],ReducedTree->Jets_ECorr[i]);
         
@@ -1212,9 +1261,9 @@ int main (int argc, char** argv)
 	}	
 	
 	if (deltaR<oldDeltaR)  indexCloserJet = i; //index of the closest jet to the AK8
-	indexGoodJets.push_back(i); //save index of the "good" vbf jets candidate
       }
-    if (indexGoodJets.size()<2)  fillVBF=false; //check if at least 2 jets are inside the collection
+
+
 
     if (indexCloserJet>=0) { //fill hadronic top mass
       AK4.SetPtEtaPhiE(ReducedTree->Jets_PtCorr[indexCloserJet],ReducedTree->JetsEta[indexCloserJet],ReducedTree->JetsPhi[indexCloserJet],ReducedTree->Jets_ECorr[indexCloserJet]);
@@ -1228,6 +1277,44 @@ int main (int argc, char** argv)
       AK4.SetPtEtaPhiE(ReducedTree->Jets_PtCorr[indexCloserJetLep],ReducedTree->JetsEta[indexCloserJetLep],ReducedTree->JetsPhi[indexCloserJetLep],ReducedTree->Jets_ECorr[indexCloserJetLep]);
       WWTree->mass_leptonic_closerjet  = (W + AK4).M();
     }
+
+
+    WWTree->njets=0; //NOT A SMART SOLUTION....
+
+    for (unsigned int i=0; i<ReducedTree->JetsNum; i++) //loop again on AK4 jet for the VBF part
+      {
+	bool isCleanedJet = true;
+	if (ReducedTree->Jets_PtCorr[i]<=30 || ReducedTree->JetsPt[i]<=20)  continue;
+	if (ReducedTree->Jets_isLooseJetId[i]==false) continue;
+
+	//CLEANING
+	if (deltaR(WWTree->ungroomed_jet_eta, WWTree->ungroomed_jet_phi,
+		       ReducedTree->JetsEta[i],   ReducedTree->JetsPhi[i]) <0.8)
+	  isCleanedJet = false;
+
+	//CLEANING FROM LEPTONS
+	for (int j=0; j<tightEle.size(); j++) {
+	  if (deltaR(tightEle.at(j).Eta(), tightEle.at(j).Phi(),
+		     ReducedTree->JetsEta[i],   ReducedTree->JetsPhi[i]) <0.3) {
+	    isCleanedJet = false;
+	  }
+	}
+	for (int j=0; j<tightMuon.size(); j++) {
+	  if (deltaR(tightMuon.at(j).Eta(), tightMuon.at(j).Phi(),
+		     ReducedTree->JetsEta[i],   ReducedTree->JetsPhi[i]) <0.3) {
+	    isCleanedJet = false;
+	  }
+	}
+
+	if (isCleanedJet==false) continue;
+
+	WWTree->njets++;
+	//	if (ReducedTree->Jets_bDiscriminatorICSV[i]>0.970)   WWTree->nBTagJet_tight++;
+	
+	indexGoodJets.push_back(i); //save index of the "good" vbf jets candidate
+      }
+    if (indexGoodJets.size()<2)  fillVBF=false; //check if at least 2 jets are inside the collection
+
 
     if (fillVBF) 
       {
@@ -1248,6 +1335,10 @@ int main (int argc, char** argv)
 	
 	if (nVBF1!=-1 && nVBF2!=-1) //save infos for vbf jet pair
 	  {
+            nVBF1 = indexGoodJets.at(0); //save position of the 1st vbf jet
+            nVBF2 = indexGoodJets.at(1); //save position of the 2nd vbf jet
+	    //	    nVBF1=0; nVBF2=1;
+
 	    VBF1.SetPtEtaPhiE(ReducedTree->Jets_PtCorr[nVBF1],ReducedTree->JetsEta[nVBF1],ReducedTree->JetsPhi[nVBF1],ReducedTree->Jets_ECorr[nVBF1]);
 	    VBF2.SetPtEtaPhiE(ReducedTree->Jets_PtCorr[nVBF2],ReducedTree->JetsEta[nVBF2],ReducedTree->JetsPhi[nVBF2],ReducedTree->Jets_ECorr[nVBF2]);
 	    TOT = VBF1 + VBF2;
