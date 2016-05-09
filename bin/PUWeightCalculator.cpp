@@ -37,8 +37,8 @@ int main (int argc, char** argv)
 
 TFile *temp = new TFile("PU.root", "RECREATE");
 
- float inix= 0;
- float finx= 60;
+ // float inix= 0;
+ // float finx= 60;
  float nbinx= 60.0; 
  /* 
 TFile * fD = new TFile("EOS/cms/store/caf/user/lbrianza/WWReducedTree_run2/data_forPU.root");

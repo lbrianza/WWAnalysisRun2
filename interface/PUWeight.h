@@ -5,8 +5,9 @@
   #include <vector>
  
   #include "TH1.h"
+  #include "TAxis.h"
   #include "TString.h"
- 
+
   // Compute pile-up weights to match data distribtution
   class PUWeight {
   public:

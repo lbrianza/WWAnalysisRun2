@@ -44,7 +44,7 @@ int main (int argc, char** argv)
   std::string inputFile = argv[6];
   std::string xSecWeight = argv[7];
   std::string numberOfEntries = argv[8];
-  float weight = std::atof(xSecWeight.c_str())/std::atof(numberOfEntries.c_str());
+  // float weight = std::atof(xSecWeight.c_str())/std::atof(numberOfEntries.c_str());
   if (strcmp(leptonName.c_str(),"el")!=0 && strcmp(leptonName.c_str(),"mu")!=0) {
     std::cout<<"Error: wrong lepton category"<<std::endl;
     return(-1);
@@ -73,7 +73,7 @@ int main (int argc, char** argv)
   sprintf(command3, "rm listTemp_%s.txt", outputFile.c_str());
   system(command3);
 
-  int cutEff[20]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+  // int cutEff[20]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
   //---------output tree----------------
   TFile* outROOT = TFile::Open((std::string("output/output_")+leptonName+std::string("/")+outputFile+(".root")).c_str(),"recreate");
@@ -88,7 +88,7 @@ int main (int argc, char** argv)
 
     Long64_t iEntry = ReducedTree->LoadTree(jentry);
     if (iEntry < 0) break;
-    int nb = ReducedTree->fChain->GetEntry(jentry);   
+    ReducedTree->fChain->GetEntry(jentry);   
     // if (Cut(ientry) < 0) continue;                                                                                                                           
 
     if(iEntry % 1000 == 0)    
@@ -296,7 +296,7 @@ int main (int argc, char** argv)
     NeutrinoPz_type0.SetLeptonType(leptonName.c_str());
 
     double pz1_type0 = NeutrinoPz_type0.Calculate(); // Default one -> according to type0
-    double pz2_type0 = NeutrinoPz_type0.getOther(); // Default one
+    // double pz2_type0 = NeutrinoPz_type0.getOther();  // Default one
 
     // don't touch the neutrino pT
     TLorentzVector W_neutrino_type0_met; 
@@ -337,7 +337,7 @@ int main (int argc, char** argv)
     NeutrinoPz_type2.SetLeptonType(leptonName.c_str());
 
     double pz1_type2 = NeutrinoPz_type2.Calculate(2); // Default one -> according to type2
-    double pz2_type2 = NeutrinoPz_type2.getOther(); // Default one
+    // double pz2_type2 = NeutrinoPz_type2.getOther();   // Default one
 
     // don't touch the neutrino pT
     TLorentzVector W_neutrino_type2_met; 
@@ -416,7 +416,8 @@ int main (int argc, char** argv)
 
     
     /////////////////MC Infos
-    /*    if (isMC)
+    if (isMC)
+    /*
       {
 	TLorentzVector temp, temp2;
 	//	std::cout<<"entry: "<<iEntry<<" "<<GenNuNum<<std::endl;

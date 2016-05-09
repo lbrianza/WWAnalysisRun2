@@ -111,7 +111,7 @@ int main (int argc, char** argv)
 
     Long64_t iEntry = ReducedTree->LoadTree(jentry);
     if (iEntry < 0) break;
-    int nb = ReducedTree->fChain->GetEntry(jentry);   
+    ReducedTree->fChain->GetEntry(jentry);   
     // if (Cut(ientry) < 0) continue;                                                                                                                           
     std::cout<<ReducedTree->EvtNum<<std::endl;
 
@@ -261,7 +261,7 @@ int main (int argc, char** argv)
     NeutrinoPz_run2.SetLeptonType(leptonName.c_str());
 
     double pz1_type0 = NeutrinoPz_type0.Calculate(); // Default one -> according to type0
-    double pz2_type0 = NeutrinoPz_type0.getOther(); // Default one
+    // double pz2_type0 = NeutrinoPz_type0.getOther();  // Default one
 
     double pz1_run2 = NeutrinoPz_run2.Calculate(); 
 
@@ -304,7 +304,7 @@ int main (int argc, char** argv)
     NeutrinoPz_type2.SetLeptonType(leptonName.c_str());
 
     double pz1_type2 = NeutrinoPz_type2.Calculate(2); // Default one -> according to type2
-    double pz2_type2 = NeutrinoPz_type2.getOther(); // Default one
+    //double pz2_type2 = NeutrinoPz_type2.getOther();   // Default one
 
     // don't touch the neutrino pT
     TLorentzVector W_neutrino_type2_met; 
@@ -389,12 +389,12 @@ int main (int argc, char** argv)
 	if (ReducedTree->AK8Jets_AK8isLooseJetId[i]==false) continue; //fat jet must satisfy loose ID
 
 	//CLEANING FROM LEPTONS
-	for (int j=0; j<tightEle.size(); j++) {
+	for (unsigned int j=0; j<tightEle.size(); j++) {
 	  if (deltaR(tightEle.at(j).Eta(), tightEle.at(j).Phi(),
 		     ReducedTree->AK8JetsEta[i],   ReducedTree->AK8JetsPhi[i]) <1.0)
 	    isCleanedJet = false;
 	}
-	for (int j=0; j<tightMuon.size(); j++) {
+	for (unsigned int j=0; j<tightMuon.size(); j++) {
 	  if (deltaR(tightMuon.at(j).Eta(), tightMuon.at(j).Phi(),
 		     ReducedTree->AK8JetsEta[i],   ReducedTree->AK8JetsPhi[i]) <1.0)
 	    isCleanedJet = false;
@@ -491,13 +491,13 @@ int main (int argc, char** argv)
 	  isCleanedJet = false;
 
 	//CLEANING FROM LEPTONS
-	for (int j=0; j<tightEle.size(); j++) {
+	for (unsigned int j=0; j<tightEle.size(); j++) {
 	  if (deltaR(tightEle.at(j).Eta(), tightEle.at(j).Phi(),
 		     ReducedTree->JetsEta[i],   ReducedTree->JetsPhi[i]) <0.3) {
 	    isCleanedJet = false;
 	  }
 	}
-	for (int j=0; j<tightMuon.size(); j++) {
+	for (unsigned int j=0; j<tightMuon.size(); j++) {
 	  if (deltaR(tightMuon.at(j).Eta(), tightMuon.at(j).Phi(),
 		     ReducedTree->JetsEta[i],   ReducedTree->JetsPhi[i]) <0.3) {
 	    isCleanedJet = false;
