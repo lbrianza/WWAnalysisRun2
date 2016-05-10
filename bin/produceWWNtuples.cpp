@@ -141,7 +141,6 @@ int main (int argc, char** argv)
   std::string jsonFileName = argv[11];
   int isLocal = atoi(argv[12]);
   
-  float weight = std::atof(xSecWeight.c_str())/std::atof(numberOfEntries.c_str());
   if (strcmp(leptonName.c_str(),"el")!=0 && strcmp(leptonName.c_str(),"mu")!=0) {
     std::cout<<"Error: wrong lepton category"<<std::endl;
     return(-1);
@@ -281,6 +280,8 @@ int main (int argc, char** argv)
       }      
   }
   badEventsFile.close();
+
+  float weight = std::atof(xSecWeight.c_str())/ReducedTree->fChain->GetEntries();
 
   //---------start loop on events------------
   Long64_t jentry2=0;
