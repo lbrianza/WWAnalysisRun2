@@ -12,6 +12,8 @@ class setOutputTree {
   
   int run;
   int event;
+  int nEvents;
+  int nNegEvents;
   int lumi;
   int njets;
   int nPV;

@@ -13,6 +13,8 @@ void setOutputTree::initializeVariables()
 {
   run=-999;
   event=-999;
+  nEvents=0;
+  nNegEvents=0;
   lumi=-999;
   njets=-999;
   nPV=-999;
@@ -286,6 +288,8 @@ void setOutputTree::setBranches()
 {
   fTree->Branch("run",&run,"run/I");
   fTree->Branch("event",&event,"event/I");
+  fTree->Branch("nEvents",&nEvents,"nEvents/I");
+  fTree->Branch("nNegEvents",&nNegEvents,"nNegEvents/I");
   fTree->Branch("lumi",&lumi,"lumi/I");
   fTree->Branch("njets",&njets,"njets/I");
   fTree->Branch("nPV",&nPV,"nPV/I");

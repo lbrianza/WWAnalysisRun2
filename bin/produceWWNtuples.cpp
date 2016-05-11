@@ -281,10 +281,19 @@ int main (int argc, char** argv)
   }
   badEventsFile.close();
 
-  float weight = std::atof(xSecWeight.c_str())/ReducedTree->fChain->GetEntries();
+  int nNegEvents=0; 
+  int nEvents=0;
+
+  Long64_t jentry2=0;
+  std::cout<<"count negative events.. wait.."<<std::endl;
+  for (Long64_t jentry=0; jentry<ReducedTree->fChain->GetEntries();jentry++) {
+    nEvents++;
+    if (ReducedTree->genEventWeight<0) 
+      nNegEvents++;      
+  }
+  std::cout<<"found "<<nNegEvents<<" negative events..\nNow start main loop:"<<std::endl;
 
   //---------start loop on events------------
-  Long64_t jentry2=0;
   for (Long64_t jentry=0; jentry<ReducedTree->fChain->GetEntries();jentry++,jentry2++) {
     //for (Long64_t jentry=531000; jentry<532000;jentry++,jentry2++) {
 
@@ -329,7 +338,6 @@ int main (int argc, char** argv)
     if (ReducedTree->passFilterEEBadSC == 0) continue;
     
     WWTree->issignal = 0;
-    WWTree->wSampleWeight = weight; //xsec/numberOfEntries
     WWTree->eff_and_pu_Weight = 1.; //temporary value
     WWTree->eff_and_pu_Weight_2 = 1.; //temporary value
     WWTree->eff_and_pu_Weight_3 = 1.; //temporary value
@@ -339,8 +347,10 @@ int main (int argc, char** argv)
 
     if (ReducedTree->genEventWeight>0)
       WWTree->genWeight=1.;
-    else if (ReducedTree->genEventWeight<0)
+    else if (ReducedTree->genEventWeight<0) {
       WWTree->genWeight=-1.;
+      nNegEvents++;
+    }
     // WWTree->genWeight = ReducedTree->genEventWeight;
     
     //PILE-UP WEIGHT
@@ -1451,6 +1461,9 @@ int main (int argc, char** argv)
     }
     if (isBadEvent) continue;
     
+    WWTree->wSampleWeight = std::atof(xSecWeight.c_str())/nEvents; //xsec/numberOfEntries
+    WWTree->nEvents = nEvents-nNegEvents;
+    WWTree->nNegEvents = nNegEvents;
     
     
     /////////////////FILL THE TREE
