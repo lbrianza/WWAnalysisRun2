@@ -40,6 +40,13 @@ class setOutputTree {
   float pfMET_jer_up;
   float pfMET_jer_dn;
   float pfMET_Phi;
+  float pfMETpuppi;
+  float pfMETpuppi_jes_up;
+  float pfMETpuppi_jes_dn;
+  float pfMETpuppi_jer;
+  float pfMETpuppi_jer_up;
+  float pfMETpuppi_jer_dn;
+  float pfMETpuppi_Phi;
   float nu_pz_type0;
   float nu_pz_type2;
   float nu_pz_run2;
@@ -191,6 +198,10 @@ class setOutputTree {
   float v_eta;
   float v_phi;
   float v_mt;
+  float v_puppi_pt;
+  float v_puppi_eta;
+  float v_puppi_phi;
+  float v_puppi_mt;
   float mass_lvj_type0;
   float mass_lvj_type0_met_jes_up;
   float mass_lvj_type0_met_jes_dn;

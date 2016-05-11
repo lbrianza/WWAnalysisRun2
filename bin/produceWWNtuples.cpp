@@ -157,8 +157,8 @@ int main (int argc, char** argv)
   //applyTrigger=false;
   std::cout<<"apply trigger: "<<applyTrigger<<std::endl;
 
-  TLorentzVector W,LEP;
-  TLorentzVector NU0,NU1,NU2;
+  TLorentzVector W,W_puppi,LEP;
+  TLorentzVector NU0,NU1,NU2,NU0_puppi,NU1_puppi,NU2_puppi;
   TLorentzVector NU0_jes_up, NU0_jes_dn;
   TLorentzVector JET, JET_PuppiAK8, HADW, AK4;
   TLorentzVector JET_jes_up, JET_jes_dn;
@@ -172,7 +172,9 @@ int main (int argc, char** argv)
   TLorentzVector ELE,MU;
 
   W.SetPtEtaPhiE(0,0,0,0);  LEP.SetPtEtaPhiE(0,0,0,0);
+  W_puppi.SetPtEtaPhiE(0,0,0,0);
   NU0.SetPtEtaPhiE(0,0,0,0);    NU1.SetPtEtaPhiE(0,0,0,0);    NU2.SetPtEtaPhiE(0,0,0,0);
+  NU0_puppi.SetPtEtaPhiE(0,0,0,0);    NU1_puppi.SetPtEtaPhiE(0,0,0,0);    NU2_puppi.SetPtEtaPhiE(0,0,0,0);
   NU0_jes_up.SetPtEtaPhiE(0,0,0,0);    NU0_jes_dn.SetPtEtaPhiE(0,0,0,0);
   JET.SetPtEtaPhiE(0,0,0,0);  JET_PuppiAK8.SetPtEtaPhiE(0,0,0,0);   HADW.SetPtEtaPhiE(0,0,0,0);    AK4.SetPtEtaPhiE(0,0,0,0);
   JET_jes_up.SetPtEtaPhiE(0,0,0,0);     JET_jes_dn.SetPtEtaPhiE(0,0,0,0);
@@ -726,13 +728,136 @@ int main (int argc, char** argv)
     WWTree->v_phi = W.Phi();
     WWTree->v_mt = TMath::Sqrt(2*LEP.Et()*NU2.Et()*(1-TMath::Cos(LEP.DeltaPhi(NU2))));
 
+
+
+    //////////////THE PUPPI MET
+    
+    //preselection on met
+    //    if (ReducedTree->METPt < 30) continue;
+    //    cutEff[1]++;
+    if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug: "<<count<<std::endl; count++;
+    
+    // Calculate Neutrino Pz using all the possible choices : 
+    // type0 -> if real roots, pick the one nearest to the lepton Pz except when the Pz so chosen
+    //               is greater than 300 GeV in which case pick the most central root.
+    // type1 -> type = 1: if real roots, choose the one closest to the lepton Pz if complex roots, use only the real part.
+    //          type = 2: if real roots, choose the most central solution. if complex roots, use only the real part. 
+    //          type = 3: if real roots, pick the largest value of the cosine*
+
+    W_mu.SetPtEtaPhiE(WWTree->l_pt,WWTree->l_eta,WWTree->l_phi,WWTree->l_e);
+    W_Met.SetPxPyPzE(ReducedTree->METpuppiPt * TMath::Cos(ReducedTree->METpuppiPhi), ReducedTree->METpuppiPt * TMath::Sin(ReducedTree->METpuppiPhi), 0., sqrt(ReducedTree->METpuppiPt*ReducedTree->METpuppiPt));
+    W_Met_jes_up.SetPxPyPzE(ReducedTree->METpuppiPtUp * TMath::Cos(ReducedTree->METpuppiPhiUp), ReducedTree->METpuppiPtUp * TMath::Sin(ReducedTree->METpuppiPhiUp), 0., sqrt(ReducedTree->METpuppiPtUp*ReducedTree->METpuppiPtUp));
+    W_Met_jes_dn.SetPxPyPzE(ReducedTree->METpuppiPtDown * TMath::Cos(ReducedTree->METpuppiPhiDown), ReducedTree->METpuppiPtDown * TMath::Sin(ReducedTree->METpuppiPhiDown), 0., sqrt(ReducedTree->METpuppiPtDown*ReducedTree->METpuppiPtDown));
+
+    //    if(W_mu.Pt()<=0 || W_Met.Pt() <= 0 ){ std::cerr<<" Negative Lepton - Neutrino Pt "<<std::endl; continue ; }
+    if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug: "<<count<<std::endl; count++;
+    
+    // type0 calculation of neutrino pZ
+    NeutrinoPz_type0.SetMET(W_Met);
+    NeutrinoPz_type0.SetLepton(W_mu);
+    NeutrinoPz_type0.SetLeptonType(leptonName.c_str());
+    
+    NeutrinoPz_type0_jes_up.SetMET(W_Met_jes_up);
+    NeutrinoPz_type0_jes_up.SetLepton(W_mu);
+    NeutrinoPz_type0_jes_up.SetLeptonType(leptonName.c_str());
+    
+    NeutrinoPz_type0_jes_dn.SetMET(W_Met_jes_dn);
+    NeutrinoPz_type0_jes_dn.SetLepton(W_mu);
+    NeutrinoPz_type0_jes_dn.SetLeptonType(leptonName.c_str());
+    
+    NeutrinoPz_run2.SetMET(W_Met);
+    NeutrinoPz_run2.SetLepton(W_mu);
+    NeutrinoPz_run2.SetLeptonType(leptonName.c_str());
+    
+     pz1_type0 = NeutrinoPz_type0.Calculate(); // Default one -> according to type0
+    // pz2_type0 = NeutrinoPz_type0.getOther();  // Default one
+    
+     pz1_run2 = NeutrinoPz_run2.Calculate();
+    
+     pz1_type0_jes_up = NeutrinoPz_type0_jes_up.Calculate(); // Default one -> according to type0
+     pz1_type0_jes_dn = NeutrinoPz_type0_jes_dn.Calculate(); // Default one -> according to type0
+    
+    // don't touch the neutrino pT
+    W_neutrino_type0_met.SetPxPyPzE(W_Met.Px(),W_Met.Py(),pz1_type0,sqrt(W_Met.Pt()*W_Met.Pt()+pz1_type0*pz1_type0));
+    
+    // change the neutrino pT in case of complex solution in order to make it real
+    W_neutrino_type0.SetPxPyPzE(W_Met.Px(),W_Met.Py(),pz1_type0,sqrt(W_Met.Pt()*W_Met.Pt()+pz1_type0*pz1_type0));
+
+    if (NeutrinoPz_type0.IsComplex()) {// if this is a complex, change MET
+      double nu_pt1 = NeutrinoPz_type0.getPtneutrino(1);
+      double nu_pt2 = NeutrinoPz_type0.getPtneutrino(2);
+      TLorentzVector W_neutrino_1;
+      W_neutrino_1.SetPxPyPzE(nu_pt1 * TMath::Cos(ReducedTree->METpuppiPhi), nu_pt1 * TMath::Sin(ReducedTree->METpuppiPhi), pz1_type0, sqrt(nu_pt1*nu_pt1 + pz1_type0*pz1_type0) );
+      TLorentzVector W_neutrino_2;
+      W_neutrino_2.SetPxPyPzE(nu_pt2 * TMath::Cos(ReducedTree->METpuppiPhi), nu_pt2 * TMath::Sin(ReducedTree->METpuppiPhi), pz1_type0, sqrt(nu_pt2*nu_pt2 + pz1_type0*pz1_type0) );
+      
+      if ( fabs((W_mu+W_neutrino_1).M()-Wmass) < fabs((W_mu+W_neutrino_2).M()-Wmass) ) W_neutrino_type0 = W_neutrino_1;
+      else W_neutrino_type0 = W_neutrino_2;
+    }
+    
+    // type2 calculation of neutrino pZ
+    NeutrinoPz_type2.SetMET(W_Met);
+    NeutrinoPz_type2.SetLepton(W_mu);
+    NeutrinoPz_type2.SetLeptonType(leptonName.c_str());
+    
+    pz1_type2 = NeutrinoPz_type2.Calculate(2); // Default one -> according to type2
+    //double pz2_type2 = NeutrinoPz_type2.getOther();   // Default one
+    
+    // don't touch the neutrino pT
+    W_neutrino_type2_met.SetPxPyPzE(W_Met.Px(),W_Met.Py(),pz1_type2,sqrt(W_Met.Pt()*W_Met.Pt()+pz1_type2*pz1_type2));
+    
+    // change the neutrino pT in case of complex solution in order to make it real
+    W_neutrino_type2.SetPxPyPzE(W_Met.Px(),W_Met.Py(),pz1_type2,sqrt(W_Met.Pt()*W_Met.Pt()+pz1_type2*pz1_type2));
+    
+    if (NeutrinoPz_type2.IsComplex()) {// if this is a complex, change MET
+      double nu_pt1 = NeutrinoPz_type2.getPtneutrino(1);
+      double nu_pt2 = NeutrinoPz_type2.getPtneutrino(2);
+      TLorentzVector W_neutrino_1;
+      W_neutrino_1.SetPxPyPzE(nu_pt1 * TMath::Cos(ReducedTree->METpuppiPhi), nu_pt1 * TMath::Sin(ReducedTree->METpuppiPhi), pz1_type2, sqrt(nu_pt1*nu_pt1 + pz1_type2*pz1_type2) );
+      TLorentzVector W_neutrino_2;
+      W_neutrino_2.SetPxPyPzE(nu_pt2 * TMath::Cos(ReducedTree->METpuppiPhi), nu_pt2 * TMath::Sin(ReducedTree->METpuppiPhi), pz1_type2, sqrt(nu_pt2*nu_pt2 + pz1_type2*pz1_type2) );
+      
+      if ( fabs((W_mu+W_neutrino_1).M()-Wmass) < fabs((W_mu+W_neutrino_2).M()-Wmass) ) W_neutrino_type2 = W_neutrino_1;
+      else W_neutrino_type2 = W_neutrino_2;
+    }
+    
+    WWTree->pfMETpuppi = sqrt(ReducedTree->METpuppiPt*ReducedTree->METpuppiPt);
+    WWTree->pfMETpuppi_jes_up = sqrt(ReducedTree->METpuppiPtUp*ReducedTree->METpuppiPtUp);
+    WWTree->pfMETpuppi_jes_dn = sqrt(ReducedTree->METpuppiPtDown*ReducedTree->METpuppiPtDown);
+    WWTree->pfMETpuppi_Phi = ReducedTree->METpuppiPhi;
+    WWTree->nu_pz_type0 = pz1_type0;
+    WWTree->nu_pz_type2 = pz1_type2;
+    WWTree->nu_pz_run2 = pz1_run2;
+    WWTree->nu_pz_isre = 1-NeutrinoPz_run2.IsComplex();
+    WWTree->nu_pz_run2_oth = NeutrinoPz_run2.getOther();
+    WWTree->nu_pz_run2_type = NeutrinoPz_run2.getType();
+
+    
+    /////////////////THE LEPTONIC W PUPPI
+    
+    LEP.SetPtEtaPhiE(WWTree->l_pt,WWTree->l_eta,WWTree->l_phi,WWTree->l_e);
+    
+    NU0_puppi.SetPxPyPzE(ReducedTree->METpuppiPt*TMath::Cos(ReducedTree->METpuppiPhi),ReducedTree->METpuppiPt*TMath::Sin(ReducedTree->METpuppiPhi),WWTree->nu_pz_type0,TMath::Sqrt(WWTree->pfMETpuppi*WWTree->pfMETpuppi+WWTree->nu_pz_type0*WWTree->nu_pz_type0));
+    NU0_jes_up.SetPxPyPzE(ReducedTree->METpuppiPtUp*TMath::Cos(ReducedTree->METpuppiPhiUp),ReducedTree->METpuppiPtUp*TMath::Sin(ReducedTree->METpuppiPhiUp),pz1_type0_jes_up,TMath::Sqrt(WWTree->pfMETpuppi_jes_up*WWTree->pfMETpuppi_jes_up+pz1_type0_jes_up*pz1_type0_jes_up));
+    NU0_jes_dn.SetPxPyPzE(ReducedTree->METpuppiPtDown*TMath::Cos(ReducedTree->METpuppiPhiDown),ReducedTree->METpuppiPtDown*TMath::Sin(ReducedTree->METpuppiPhiDown),pz1_type0_jes_dn,TMath::Sqrt(WWTree->pfMETpuppi_jes_dn*WWTree->pfMETpuppi_jes_dn+pz1_type0_jes_dn*pz1_type0_jes_dn));
+    
+    NU2_puppi.SetPxPyPzE(ReducedTree->METpuppiPt*TMath::Cos(ReducedTree->METpuppiPhi),ReducedTree->METpuppiPt*TMath::Sin(ReducedTree->METpuppiPhi),WWTree->nu_pz_type2,TMath::Sqrt(WWTree->pfMETpuppi*WWTree->pfMETpuppi+WWTree->nu_pz_type2*WWTree->nu_pz_type2));
+    NU1_puppi.SetPxPyPzE(ReducedTree->METpuppiPt*TMath::Cos(ReducedTree->METpuppiPhi),ReducedTree->METpuppiPt*TMath::Sin(ReducedTree->METpuppiPhi),WWTree->nu_pz_run2,TMath::Sqrt(WWTree->pfMETpuppi*WWTree->pfMETpuppi+WWTree->nu_pz_run2*WWTree->nu_pz_run2));
+    
+    W_puppi = LEP + NU2_puppi;
+    
+    WWTree->v_puppi_pt = W_puppi.Pt();
+    WWTree->v_puppi_eta = W_puppi.Eta();
+    WWTree->v_puppi_phi = W_puppi.Phi();
+    WWTree->v_puppi_mt = TMath::Sqrt(2*LEP.Et()*NU2_puppi.Et()*(1-TMath::Cos(LEP.DeltaPhi(NU2_puppi))));
+
     
     //FOR THE SYNCHORNIZATION!!! REMOVE IT FOR THE REAL ANALYSIS!!!!
     //    NU2.SetPtEtaPhiE(ReducedTree->METPt,0.,ReducedTree->METPhi,0.);
     //    W = NU2+LEP; 
     ////
     
-    if (W.Pt()<150) continue;
+    //    if (W.Pt()<150) continue;
     cutEff[2]++;
     if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug: "<<count<<std::endl; count++;
     
@@ -1069,8 +1194,8 @@ int main (int argc, char** argv)
     WWTree->deltaphi_METak8jet = deltaPhi(JET.Phi(),NU2.Phi());
     WWTree->deltaphi_Vak8jet = deltaPhi(JET.Phi(),W.Phi());
     WWTree->deltaR_lPuppiak8jet = deltaR(JET_PuppiAK8.Eta(),JET_PuppiAK8.Phi(),LEP.Eta(),LEP.Phi());
-    WWTree->deltaphi_METPuppiak8jet = deltaPhi(JET_PuppiAK8.Phi(),NU2.Phi());
-    WWTree->deltaphi_VPuppiak8jet = deltaPhi(JET_PuppiAK8.Phi(),W.Phi());
+    WWTree->deltaphi_METPuppiak8jet = deltaPhi(JET_PuppiAK8.Phi(),NU2_puppi.Phi());
+    WWTree->deltaphi_VPuppiak8jet = deltaPhi(JET_PuppiAK8.Phi(),W_puppi.Phi());
     if (WWTree->deltaR_lak8jet>(TMath::Pi()/2.0) && fabs(WWTree->deltaphi_METak8jet)>2.0 && fabs(WWTree->deltaphi_Vak8jet)>2.0 && nGoodAK8jets>0)
       WWTree->issignal=1;
     if (WWTree->deltaR_lPuppiak8jet>(TMath::Pi()/2.0) && fabs(WWTree->deltaphi_METPuppiak8jet)>2.0 && fabs(WWTree->deltaphi_VPuppiak8jet)>2.0 && nGoodPuppiAK8jets>0)
@@ -1096,9 +1221,9 @@ int main (int argc, char** argv)
     WWTree->mass_lvj_run2  = (LEP + NU1 + JET).M();
     WWTree->mass_lvj_type0_met_jes_up = (LEP + NU0_jes_up + JET_jes_up).M();
     WWTree->mass_lvj_type0_met_jes_dn = (LEP + NU0_jes_dn + JET_jes_dn).M();
-    WWTree->mass_lvj_type0_PuppiAK8 = (LEP + NU0 + JET_PuppiAK8).M();
-    WWTree->mass_lvj_type2_PuppiAK8 = (LEP + NU2 + JET_PuppiAK8).M();
-    WWTree->mass_lvj_run2_PuppiAK8  = (LEP + NU1 + JET_PuppiAK8).M();
+    WWTree->mass_lvj_type0_PuppiAK8 = (LEP + NU0_puppi + JET_PuppiAK8).M();
+    WWTree->mass_lvj_type2_PuppiAK8 = (LEP + NU2_puppi + JET_PuppiAK8).M();
+    WWTree->mass_lvj_run2_PuppiAK8  = (LEP + NU1_puppi + JET_PuppiAK8).M();
     
     WWTree->mass_lvjj_type0_AK4 = (LEP + NU0 + AK4_JET1 + AK4_JET2).M();
     WWTree->mass_lvjj_type2_AK4 = (LEP + NU2 + AK4_JET1 + AK4_JET2).M();

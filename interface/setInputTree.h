@@ -51,16 +51,16 @@ public :
    Float_t         CaloMetPhi;
    Float_t         genEventWeight;
    Float_t         PUWeight;
-   Float_t         METpuppiPt;
-   Float_t         METpuppiPhi;
-   Float_t         METpuppiPtUp;
-   Float_t         METpuppiPhiUp;
-   Float_t         METpuppiPtDown;
-   Float_t         METpuppiPhiDown;
-   Float_t         METpuppiPtRaw;
-   Float_t         METpuppiPhiRaw;
-   Float_t         METpuppiCaloMetPt;
-   Float_t         METpuppiCaloMetPhi;
+   Double_t         METpuppiPt;
+   Double_t         METpuppiPhi;
+   Double_t         METpuppiPtUp;
+   Double_t         METpuppiPhiUp;
+   Double_t         METpuppiPtDown;
+   Double_t         METpuppiPhiDown;
+   Double_t         METpuppiPtRaw;
+   Double_t         METpuppiPhiRaw;
+   Double_t         METpuppiCaloMetPt;
+   Double_t         METpuppiCaloMetPhi;
    UShort_t        GenBosonNum;
    Float_t         GenBosonPt[30];   //[GenBosonNum]
    Float_t         GenBosonEta[30];   //[GenBosonNum]
