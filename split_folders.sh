@@ -1,3 +1,12 @@
+mkdir data_mu_16dec_25ns_runD_26
+mkdir data_mu_16dec_25ns_runD_25
+mkdir data_mu_16dec_25ns_runD_24
+mkdir data_mu_16dec_25ns_runD_23
+mkdir data_mu_16dec_25ns_runD_22
+mkdir data_mu_16dec_25ns_runD_21
+mkdir data_mu_16dec_25ns_runD_20
+mkdir data_mu_16dec_25ns_runD_19
+mkdir data_mu_16dec_25ns_runD_18
 mkdir data_mu_16dec_25ns_runD_17
 mkdir data_mu_16dec_25ns_runD_16
 mkdir data_mu_16dec_25ns_runD_15
@@ -32,7 +41,26 @@ mv data_mu_16dec_25ns_runD/ReducedSelection_4* data_mu_16dec_25ns_runD_4/
 mv data_mu_16dec_25ns_runD/ReducedSelection_3* data_mu_16dec_25ns_runD_3/
 mv data_mu_16dec_25ns_runD/ReducedSelection_2* data_mu_16dec_25ns_runD_2/
 mv data_mu_16dec_25ns_runD/ReducedSelection_* data_mu_16dec_25ns_runD_1/
+mv data_mu_16dec_25ns_runD_2/ReducedSelection_20* data_mu_16dec_25ns_runD_18/
+mv data_mu_16dec_25ns_runD_2/ReducedSelection_21* data_mu_16dec_25ns_runD_19/
+mv data_mu_16dec_25ns_runD_2/ReducedSelection_22* data_mu_16dec_25ns_runD_20/
+mv data_mu_16dec_25ns_runD_2/ReducedSelection_23* data_mu_16dec_25ns_runD_21/
+mv data_mu_16dec_25ns_runD_2/ReducedSelection_24* data_mu_16dec_25ns_runD_22/
+mv data_mu_16dec_25ns_runD_2/ReducedSelection_25* data_mu_16dec_25ns_runD_23/
+mv data_mu_16dec_25ns_runD_2/ReducedSelection_26* data_mu_16dec_25ns_runD_24/
+mv data_mu_16dec_25ns_runD_2/ReducedSelection_27* data_mu_16dec_25ns_runD_25/
+mv data_mu_16dec_25ns_runD_2/ReducedSelection_28* data_mu_16dec_25ns_runD_26/
 
+
+mkdir data_el_16dec_25ns_runD_26
+mkdir data_el_16dec_25ns_runD_25
+mkdir data_el_16dec_25ns_runD_24
+mkdir data_el_16dec_25ns_runD_23
+mkdir data_el_16dec_25ns_runD_22
+mkdir data_el_16dec_25ns_runD_21
+mkdir data_el_16dec_25ns_runD_20
+mkdir data_el_16dec_25ns_runD_19
+mkdir data_el_16dec_25ns_runD_18
 mkdir data_el_16dec_25ns_runD_17
 mkdir data_el_16dec_25ns_runD_16
 mkdir data_el_16dec_25ns_runD_15
@@ -67,6 +95,16 @@ mv data_el_16dec_25ns_runD/ReducedSelection_4* data_el_16dec_25ns_runD_4/
 mv data_el_16dec_25ns_runD/ReducedSelection_3* data_el_16dec_25ns_runD_3/
 mv data_el_16dec_25ns_runD/ReducedSelection_2* data_el_16dec_25ns_runD_2/
 mv data_el_16dec_25ns_runD/ReducedSelection_* data_el_16dec_25ns_runD_1/
+mv data_el_16dec_25ns_runD_2/ReducedSelection_20* data_el_16dec_25ns_runD_18/
+mv data_el_16dec_25ns_runD_2/ReducedSelection_21* data_el_16dec_25ns_runD_19/
+mv data_el_16dec_25ns_runD_2/ReducedSelection_22* data_el_16dec_25ns_runD_20/
+mv data_el_16dec_25ns_runD_2/ReducedSelection_23* data_el_16dec_25ns_runD_21/
+mv data_el_16dec_25ns_runD_2/ReducedSelection_24* data_el_16dec_25ns_runD_22/
+mv data_el_16dec_25ns_runD_2/ReducedSelection_25* data_el_16dec_25ns_runD_23/
+mv data_el_16dec_25ns_runD_2/ReducedSelection_26* data_el_16dec_25ns_runD_24/
+mv data_el_16dec_25ns_runD_2/ReducedSelection_27* data_el_16dec_25ns_runD_25/
+mv data_el_16dec_25ns_runD_2/ReducedSelection_28* data_el_16dec_25ns_runD_26/
+
 
 mkdir TTbar_powheg_1
 mkdir TTbar_powheg_2
