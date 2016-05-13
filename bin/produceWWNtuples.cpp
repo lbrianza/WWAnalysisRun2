@@ -141,6 +141,7 @@ int main (int argc, char** argv)
   std::string jsonFileName = argv[11];
   int isLocal = atoi(argv[12]);
   
+  float weight = std::atof(xSecWeight.c_str())/std::atof(numberOfEntries.c_str());
   if (strcmp(leptonName.c_str(),"el")!=0 && strcmp(leptonName.c_str(),"mu")!=0) {
     std::cout<<"Error: wrong lepton category"<<std::endl;
     return(-1);
@@ -288,11 +289,11 @@ int main (int argc, char** argv)
 
   Long64_t jentry2=0;
   std::cout<<"count negative events.. wait.."<<std::endl;
-  for (Long64_t jentry=0; jentry<ReducedTree->fChain->GetEntries();jentry++) {
+  /*  for (Long64_t jentry=0; jentry<ReducedTree->fChain->GetEntries();jentry++) {
     nEvents++;
     if (ReducedTree->genEventWeight<0) 
       nNegEvents++;      
-  }
+      }*/
   std::cout<<"found "<<nNegEvents<<" negative events..\nNow start main loop:"<<std::endl;
 
   //---------start loop on events------------
@@ -340,6 +341,7 @@ int main (int argc, char** argv)
     if (ReducedTree->passFilterEEBadSC == 0) continue;
     
     WWTree->issignal = 0;
+    WWTree->wSampleWeight = weight; //xsec/numberOfEntries
     WWTree->eff_and_pu_Weight = 1.; //temporary value
     WWTree->eff_and_pu_Weight_2 = 1.; //temporary value
     WWTree->eff_and_pu_Weight_3 = 1.; //temporary value
@@ -351,7 +353,6 @@ int main (int argc, char** argv)
       WWTree->genWeight=1.;
     else if (ReducedTree->genEventWeight<0) {
       WWTree->genWeight=-1.;
-      nNegEvents++;
     }
     // WWTree->genWeight = ReducedTree->genEventWeight;
     
@@ -1586,7 +1587,7 @@ int main (int argc, char** argv)
     }
     if (isBadEvent) continue;
     
-    WWTree->wSampleWeight = std::atof(xSecWeight.c_str())/nEvents; //xsec/numberOfEntries
+    //    WWTree->wSampleWeight = std::atof(xSecWeight.c_str())/nEvents; //xsec/numberOfEntries
     WWTree->nEvents = nEvents-nNegEvents;
     WWTree->nNegEvents = nNegEvents;
     
