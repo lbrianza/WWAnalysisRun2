@@ -120,7 +120,17 @@ nameDataMu = [
     "data_mu_16dec_25ns_runD_14",
     "data_mu_16dec_25ns_runD_15",
     "data_mu_16dec_25ns_runD_16",
-    "data_mu_16dec_25ns_runD_17"];
+    "data_mu_16dec_25ns_runD_17",
+    "data_mu_16dec_25ns_runD_18",
+    "data_mu_16dec_25ns_runD_19",
+    "data_mu_16dec_25ns_runD_20",
+    "data_mu_16dec_25ns_runD_21",
+    "data_mu_16dec_25ns_runD_22",
+    "data_mu_16dec_25ns_runD_23",
+    "data_mu_16dec_25ns_runD_24",
+    "data_mu_16dec_25ns_runD_25",
+    "data_mu_16dec_25ns_runD_26"
+];
 
 nameDataEl = [
     "data_el_16dec_25ns_runD_1",
@@ -139,10 +149,20 @@ nameDataEl = [
     "data_el_16dec_25ns_runD_14",
     "data_el_16dec_25ns_runD_15",
     "data_el_16dec_25ns_runD_16",
-    "data_el_16dec_25ns_runD_17"];
+    "data_el_16dec_25ns_runD_17",
+    "data_el_16dec_25ns_runD_18",
+    "data_el_16dec_25ns_runD_19",
+    "data_el_16dec_25ns_runD_20",
+    "data_el_16dec_25ns_runD_21",
+    "data_el_16dec_25ns_runD_22",
+    "data_el_16dec_25ns_runD_23",
+    "data_el_16dec_25ns_runD_24",
+    "data_el_16dec_25ns_runD_25",
+    "data_el_16dec_25ns_runD_26"
+];
 
 #MC
-'''
+
 for a in range(len(category)):
     for i in range(len(name)):
         fn = "Job/Job_"+name[i]+"_"+category[a];
@@ -161,7 +181,7 @@ for a in range(len(category)):
         os.system(command2);
         print command2
 
-'''
+
 #data mu
 for i in range(len(nameDataMu)):
         fn = "Job/Job_"+nameDataMu[i]+"_mu";
