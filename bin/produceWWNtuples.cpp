@@ -353,7 +353,9 @@ int main (int argc, char** argv)
       WWTree->genWeight=1.;
     else if (ReducedTree->genEventWeight<0) {
       WWTree->genWeight=-1.;
+      nNegEvents++;
     }
+    //    std::cout<<ReducedTree->genEventWeight<<" "<<WWTree->genWeight<<std::endl;
     // WWTree->genWeight = ReducedTree->genEventWeight;
     
     //PILE-UP WEIGHT
@@ -1598,6 +1600,7 @@ int main (int argc, char** argv)
   }
 
   std::cout<<"matching: "<<(float)ok/(float)total<<std::endl;
+  std::cout<<"negative events: "<<nNegEvents<<std::endl;
 
   std::cout<<"lepton eff: "<<cutEff[0]<<std::endl
 	   <<"met eff:    "<<cutEff[1]<<std::endl

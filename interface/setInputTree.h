@@ -49,7 +49,7 @@ public :
    Double_t         METPhiRaw;
    Float_t         CaloMetPt;
    Float_t         CaloMetPhi;
-   Float_t         genEventWeight;
+   Double_t         genEventWeight;
    Float_t         PUWeight;
    Double_t         METpuppiPt;
    Double_t         METpuppiPhi;
