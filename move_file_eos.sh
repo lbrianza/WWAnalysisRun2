@@ -84,5 +84,5 @@ mv -if tch/*/*/*/*/ReducedSelection_* tch/
 mv -if tch_bar/*/*/*/*/ReducedSelection_* tch_bar/
 mv -if tWch/*/*/*/*/ReducedSelection_* tWch/
 mv -if tWch_bar/*/*/*/*/ReducedSelection_* tWch_bar/
-mv -if data_mu_16dec_25ns_runD/*/*/*/*/ReducedSelection_* data_mu_16dec_25ns_runD/
-mv -if data_el_16dec_25ns_runD/*/*/*/*/ReducedSelection_* data_el_16dec_25ns_runD/
+mv -if data_mu_2016_runB_v2/*/*/*/*/ReducedSelection_* data_mu_2016_runB_v2/
+mv -if data_el_2016_runB_v2/*/*/*/*/ReducedSelection_* data_el_2016_runB_v2/

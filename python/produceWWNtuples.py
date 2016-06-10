@@ -18,7 +18,7 @@ if __name__ == '__main__':
     parser.add_argument ('-no', '--numberOfEntries' , default = '28687' , help='number of initial entries of the dataset')
     parser.add_argument ('-mass', '--mass' , default = '1000' , help='mass of input signal')
     parser.add_argument ('-trig', '--applyTrigger' , default = '0' , help='apply trigger or not')
-    parser.add_argument ('-json', '--json', default = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON.txt', help="json file to apply")
+    parser.add_argument ('-json', '--json', default = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/Cert_271036-274421_13TeV_PromptReco_Collisions16_JSON.txt', help="json file to apply")
     parser.add_argument ('-loc', '--isLocal' , default = '0', help='run in local or not')
     args = parser.parse_args ()
 
