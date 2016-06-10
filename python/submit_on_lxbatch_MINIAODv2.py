@@ -104,61 +104,61 @@ mass = [
 
 
 nameDataMu = [
-    "data_mu_16dec_25ns_runD_1",
-    "data_mu_16dec_25ns_runD_2",
-    "data_mu_16dec_25ns_runD_3",
-    "data_mu_16dec_25ns_runD_4",
-    "data_mu_16dec_25ns_runD_5",
-    "data_mu_16dec_25ns_runD_6",
-    "data_mu_16dec_25ns_runD_7",
-    "data_mu_16dec_25ns_runD_8",
-    "data_mu_16dec_25ns_runD_9",
-    "data_mu_16dec_25ns_runD_10",
-    "data_mu_16dec_25ns_runD_11",
-    "data_mu_16dec_25ns_runD_12",
-    "data_mu_16dec_25ns_runD_13",
-    "data_mu_16dec_25ns_runD_14",
-    "data_mu_16dec_25ns_runD_15",
-    "data_mu_16dec_25ns_runD_16",
-    "data_mu_16dec_25ns_runD_17",
-    "data_mu_16dec_25ns_runD_18",
-    "data_mu_16dec_25ns_runD_19",
-    "data_mu_16dec_25ns_runD_20",
-    "data_mu_16dec_25ns_runD_21",
-    "data_mu_16dec_25ns_runD_22",
-    "data_mu_16dec_25ns_runD_23",
-    "data_mu_16dec_25ns_runD_24",
-    "data_mu_16dec_25ns_runD_25",
-    "data_mu_16dec_25ns_runD_26"
+    "data_mu_2016_runB_v2_1",
+    "data_mu_2016_runB_v2_2",
+    "data_mu_2016_runB_v2_3",
+    "data_mu_2016_runB_v2_4",
+    "data_mu_2016_runB_v2_5",
+    "data_mu_2016_runB_v2_6",
+    "data_mu_2016_runB_v2_7",
+    "data_mu_2016_runB_v2_8",
+    "data_mu_2016_runB_v2_9",
+    "data_mu_2016_runB_v2_10",
+    "data_mu_2016_runB_v2_11",
+    "data_mu_2016_runB_v2_12",
+    "data_mu_2016_runB_v2_13",
+    "data_mu_2016_runB_v2_14",
+    "data_mu_2016_runB_v2_15",
+    "data_mu_2016_runB_v2_16",
+    "data_mu_2016_runB_v2_17",
+    "data_mu_2016_runB_v2_18",
+    "data_mu_2016_runB_v2_19",
+    "data_mu_2016_runB_v2_20",
+    "data_mu_2016_runB_v2_21",
+    "data_mu_2016_runB_v2_22",
+    "data_mu_2016_runB_v2_23",
+    "data_mu_2016_runB_v2_24",
+    "data_mu_2016_runB_v2_25",
+    "data_mu_2016_runB_v2_26"
 ];
 
 nameDataEl = [
-    "data_el_16dec_25ns_runD_1",
-    "data_el_16dec_25ns_runD_2",
-    "data_el_16dec_25ns_runD_3",
-    "data_el_16dec_25ns_runD_4",
-    "data_el_16dec_25ns_runD_5",
-    "data_el_16dec_25ns_runD_6",
-    "data_el_16dec_25ns_runD_7",
-    "data_el_16dec_25ns_runD_8",
-    "data_el_16dec_25ns_runD_9",
-    "data_el_16dec_25ns_runD_10",
-    "data_el_16dec_25ns_runD_11",
-    "data_el_16dec_25ns_runD_12",
-    "data_el_16dec_25ns_runD_13",
-    "data_el_16dec_25ns_runD_14",
-    "data_el_16dec_25ns_runD_15",
-    "data_el_16dec_25ns_runD_16",
-    "data_el_16dec_25ns_runD_17",
-    "data_el_16dec_25ns_runD_18",
-    "data_el_16dec_25ns_runD_19",
-    "data_el_16dec_25ns_runD_20",
-    "data_el_16dec_25ns_runD_21",
-    "data_el_16dec_25ns_runD_22",
-    "data_el_16dec_25ns_runD_23",
-    "data_el_16dec_25ns_runD_24",
-    "data_el_16dec_25ns_runD_25",
-    "data_el_16dec_25ns_runD_26"
+    "data_el_2016_runB_v2_1",
+    "data_el_2016_runB_v2_2",
+    "data_el_2016_runB_v2_3",
+    "data_el_2016_runB_v2_4",
+    "data_el_2016_runB_v2_5",
+    "data_el_2016_runB_v2_6",
+    "data_el_2016_runB_v2_7",
+    "data_el_2016_runB_v2_8",
+    "data_el_2016_runB_v2_9",
+    "data_el_2016_runB_v2_10",
+    "data_el_2016_runB_v2_11",
+    "data_el_2016_runB_v2_12",
+    "data_el_2016_runB_v2_13",
+    "data_el_2016_runB_v2_14",
+    "data_el_2016_runB_v2_15",
+    "data_el_2016_runB_v2_16",
+    "data_el_2016_runB_v2_17",
+    "data_el_2016_runB_v2_18",
+    "data_el_2016_runB_v2_19",
+    "data_el_2016_runB_v2_20",
+    "data_el_2016_runB_v2_21",
+    "data_el_2016_runB_v2_22",
+    "data_el_2016_runB_v2_23",
+    "data_el_2016_runB_v2_24",
+    "data_el_2016_runB_v2_25",
+    "data_el_2016_runB_v2_26"
 ];
 
 
@@ -182,7 +182,7 @@ for a in range(len(category)):
         print command2
 
 
-'''
+
 #data mu
 for i in range(len(nameDataMu)):
         fn = "Job/Job_"+nameDataMu[i]+"_mu";
@@ -219,4 +219,4 @@ for i in range(len(nameDataEl)):
         command2 = "bsub -q cmscaf1nd -cwd "+currentDir+" "+currentDir+"/"+fn+".sh";
         os.system(command2);
         print command2
-'''
+
