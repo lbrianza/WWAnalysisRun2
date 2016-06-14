@@ -201,7 +201,7 @@ int main (int argc, char** argv)
   std::vector<double> weights_pu1; //these are made with our recipe
   std::vector<double> weights_pu2; //these are made with the official recipe
 
-  TFile* pileupFile1 = TFile::Open("pileupDataRun2015D_72mb.root");  
+  TFile* pileupFile1 = TFile::Open("pileupDataRun2016B_69mb.root");  
   TH1F *pileupHisto1 = (TH1F*)pileupFile1->Get("pileup");  
   weights_pu1 = generate_weights(pileupHisto1,0);
   pileupFile1->Close();
