@@ -37,80 +37,36 @@ using namespace std;
 //*****PU WEIGHT***************
 
 vector<double> generate_weights(TH1* data_npu_estimated, int isForSynch){
-  // see SimGeneral/MixingModule/python/mix_2015_25ns_Startup_PoissonOOTPU_cfi.pyy; copy and paste from there:
-  const double npu_probs[52] = {
-                        4.8551E-07,
-                        1.74806E-06,
-                        3.30868E-06,
-                        1.62972E-05,
-                        4.95667E-05,
-                        0.000606966,
-                        0.003307249,
-                        0.010340741,
-                        0.022852296,
-                        0.041948781,
-                        0.058609363,
-                        0.067475755,
-                        0.072817826,
-                        0.075931405,
-                        0.076782504,
-                        0.076202319,
-                        0.074502547,
-                        0.072355135,
-                        0.069642102,
-                        0.064920999,
-                        0.05725576,
-                        0.047289348,
-                        0.036528446,
-                        0.026376131,
-                        0.017806872,
-                        0.011249422,
-                        0.006643385,
-                        0.003662904,
-                        0.001899681,
-                        0.00095614,
-                        0.00050028,
-                        0.000297353,
-                        0.000208717,
-                        0.000165856,
-                        0.000139974,
-                        0.000120481,
-                        0.000103826,
-                        8.88868E-05,
-                        7.53323E-05,
-                        6.30863E-05,
-                        5.21356E-05,
-                        4.24754E-05,
-                        3.40876E-05,
-                        2.69282E-05,
-                        2.09267E-05,
-                        1.5989E-05,
-                        4.8551E-06,
-                        2.42755E-06,
-                        4.8551E-07,
-                        2.42755E-07,
-                        1.21378E-07,
-                        4.8551E-08
-};
+  // see SimGeneral/MixingModule/python/mix_2016_25ns_SpringMC_PUScenarioV1_PoissonOOTPU_cfi.py; copy and paste from there:
+  const double npu_probs[50] = { 0.000829312873542, 0.00124276120498,  0.00339329181587,  0.00408224735376, 0.00383036590008,
+                                 0.00659159288946,  0.00816022734493,  0.00943640833116,  0.0137777376066,  0.017059392038,
+                                 0.0213193035468,   0.0247343174676,   0.0280848773878,   0.0323308476564,  0.0370394341409,
+                                 0.0456917721191,   0.0558762890594,   0.0576956187107,   0.0625325287017,  0.0591603758776,
+                                 0.0656650815128,   0.0678329011676,   0.0625142146389,   0.0548068448797,  0.0503893295063,
+                                 0.040209818868,    0.0374446988111,   0.0299661572042,   0.0272024759921,  0.0219328403791,
+                                 0.0179586571619,   0.0142926728247,   0.00839941654725,  0.00522366397213, 0.00224457976761,
+                                 0.000779274977993, 0.000197066585944, 7.16031761328e-05, 0.0,              0.0,
+                                 0.0, 0.0, 0.0, 0.0, 0.0,
+                                 0.0, 0.0, 0.0, 0.0, 0.0 };
   
   if (isForSynch==0) { //OFFICIAL RECIPE
-    vector<double> result(52);
+    vector<double> result(50);
     double s = 0.0;
-    for(int npu=0; npu<52; ++npu){
+    for(int npu=0; npu<50; ++npu){
       double npu_estimated = data_npu_estimated->GetBinContent(data_npu_estimated->GetXaxis()->FindBin(npu));                              
       result[npu] = npu_estimated / npu_probs[npu];
       s += npu_estimated;
     }
     // normalize weights such that the total sum of weights over thw whole sample is 1.0, i.e., sum_i  result[i] * npu_probs[i] should be 1.0 (!)
-    for(int npu=0; npu<52; ++npu){
+    for(int npu=0; npu<50; ++npu){
       result[npu] /= s;
     }
     return result;
   }
 
   else { //THIS IS FOR THE SYNCH ONLY. THIS IS NOT THE OFFICIAL RECIPE!
-    vector<double> result(60);
-    for(int npu=0; npu<60; ++npu){
+    vector<double> result(50);
+    for(int npu=0; npu<50; ++npu){
       if (data_npu_estimated->GetBinContent(data_npu_estimated->GetXaxis()->FindBin(npu))==0.)
 	result[npu] = 0.;
       else {
@@ -1091,7 +1047,7 @@ int main (int argc, char** argv)
     tempPt1 = 0.; int pos1Puppi = -1;
     tempPt2 = 0.; int pos2Puppi = -1;
     int nGoodPuppiAK4jets=0;
-    for (unsigned int i=0; i<ReducedTree->JetsPuppiNum; i++) //loop on AK4 jet
+    for (unsigned int i=0; i<ReducedTree->JetsPuppiNum; i++) //loop on PuppiAK4 jet
     {
       bool isCleanedJet = true;
       if (ReducedTree->JetsPuppi_PtCorr[i]<=30 || ReducedTree->JetsPuppiPt[i]<=20 || fabs(ReducedTree->JetsPuppiEta[i])>=2.4)  continue;
@@ -1124,17 +1080,17 @@ int main (int argc, char** argv)
         WWTree->PuppiAK4_jet1_phi = ReducedTree->JetsPuppiPhi[i];
         WWTree->PuppiAK4_jet1_e   = ReducedTree->JetsPuppi_ECorr[i];
         tempPt1 = WWTree->PuppiAK4_jet1_pt;
-        if (pos1!=-1)
+        if (pos1Puppi!=-1)
         {
-          WWTree->PuppiAK4_jet2_pt  = ReducedTree->JetsPuppi_PtCorr[pos1];
-          WWTree->PuppiAK4_jet2_pt_jes_up = (ReducedTree->JetsPuppi_PtCorr[pos1]/ReducedTree->JetsPuppi_AK4correction[pos1])*ReducedTree->JetsPuppi_AK4correctionUp[pos1];
-          WWTree->PuppiAK4_jet2_pt_jes_dn = (ReducedTree->JetsPuppi_PtCorr[pos1]/ReducedTree->JetsPuppi_AK4correction[pos1])*ReducedTree->JetsPuppi_AK4correctionDown[pos1];
-          WWTree->PuppiAK4_jet2_eta = ReducedTree->JetsPuppiEta[pos1];
-          WWTree->PuppiAK4_jet2_phi = ReducedTree->JetsPuppiPhi[pos1];
-          WWTree->PuppiAK4_jet2_e   = ReducedTree->JetsPuppi_ECorr[pos1];
+          WWTree->PuppiAK4_jet2_pt  = ReducedTree->JetsPuppi_PtCorr[pos1Puppi];
+          WWTree->PuppiAK4_jet2_pt_jes_up = (ReducedTree->JetsPuppi_PtCorr[pos1Puppi]/ReducedTree->JetsPuppi_AK4correction[pos1Puppi])*ReducedTree->JetsPuppi_AK4correctionUp[pos1Puppi];
+          WWTree->PuppiAK4_jet2_pt_jes_dn = (ReducedTree->JetsPuppi_PtCorr[pos1Puppi]/ReducedTree->JetsPuppi_AK4correction[pos1Puppi])*ReducedTree->JetsPuppi_AK4correctionDown[pos1Puppi];
+          WWTree->PuppiAK4_jet2_eta = ReducedTree->JetsPuppiEta[pos1Puppi];
+          WWTree->PuppiAK4_jet2_phi = ReducedTree->JetsPuppiPhi[pos1Puppi];
+          WWTree->PuppiAK4_jet2_e   = ReducedTree->JetsPuppi_ECorr[pos1Puppi];
           tempPt2 = WWTree->PuppiAK4_jet2_pt;
         }
-        pos1 = i;
+        pos1Puppi = i;
         nGoodPuppiAK4jets++;
       }
       else if (ReducedTree->JetsPuppi_PtCorr[i]>tempPt2)
@@ -1146,7 +1102,7 @@ int main (int argc, char** argv)
         WWTree->PuppiAK4_jet2_phi = ReducedTree->JetsPuppiPhi[i];
         WWTree->PuppiAK4_jet2_e   = ReducedTree->JetsPuppi_ECorr[i];
         tempPt2 = WWTree->PuppiAK4_jet2_pt;
-        pos2 = i;
+        pos2Puppi = i;
         nGoodPuppiAK4jets++;
       }
     }
