@@ -14,7 +14,7 @@ ReducedTreeDir = "";
 category = ["mu","el"];
 xSecWeight = [
 #    "1.352", "0.6398", "0.1233", "0.2719", "0.1915", "0.08732", #https://twiki.cern.ch/twiki/bin/view/LHCPhysics/CERNYellowReportPageBSMAt13TeV
-    "61526.7", "1629.87", "435.6", "59.169", "22.7117", 
+    "61526.7", "1629.87","1629.87","1629.87", "435.6", "59.169", "22.7117", 
 #    "831.76", "831.76", "831.76", "831.76", "831.76", 
     "10.11", "43.8", "26.07", "35.6", "35.6", "118.7", "16.5", "47.13",
     "49.997", "10.71", "10.71", "10.71", "3.22", "3.22", "3.22", 
@@ -37,7 +37,7 @@ xSecWeight = [
 
 name = [
 #    "Higgs650", "Higgs750", "Higgs1000", "VBFHiggs650", "VBFHiggs750", "VBFHiggs1000",
-    "WJets","WJets100", "WJets200", "WJets400", "WJets600", 
+    "WJets","WJets100_1","WJets100_2","WJets100_3", "WJets200", "WJets400", "WJets600", 
 #"TTbar_amcatnlo_1","TTbar_amcatnlo_2","TTbar_amcatnlo_3","TTbar_amcatnlo_4","TTbar_amcatnlo_5", 
     "sch", "tch", "tch_bar", "tWch", "tWch_bar", "WW", "ZZ", "WZ",
     "WW_excl", "WZ_excl_1", "WZ_excl_2", "WZ_excl_3", "ZZ_excl_1", "ZZ_excl_2", "ZZ_excl_3", 
@@ -58,7 +58,7 @@ name = [
 
 N = [
 #    "399600.", "96200.", "400000.", "400000.", "100000.", "399634.",
-    "0.","29551425.", "4963240.", "1963464.", "0.", 
+    "0.","29551425.","29551425.","29551425.", "4963240.", "1963464.", "0.", 
 #"38475776.", "38475776.", "38475776.", "38475776.", "38475776.", 
     "1000000.", "0.", "1666000.", "998400.", "967600.", "0.", "0.", "0.",
     "1908600.", "25654593.", "25654593.", "25654593.", "15492017.", "15492017.", "15492017.", 
@@ -81,7 +81,7 @@ N = [
 
 mass = [
 #    "650", "750", "1000", "650", "750", "1000",
-    "0","0", "0", "0", "0", 
+    "0","0","0","0", "0", "0", "0", 
 #"0", "0", "0", "0", "0", 
     "0", "0", "0", "0", "0", "0", "0", "0",
     "0", "0", "0", "0", "0", "0", "0", 
@@ -180,7 +180,7 @@ for a in range(len(category)):
         command2 = "bsub -q cmscaf1nd -cwd "+currentDir+" "+currentDir+"/"+fn+".sh";
         os.system(command2);
         print command2
-
+'''
 
 
 #data mu
@@ -219,4 +219,4 @@ for i in range(len(nameDataEl)):
         command2 = "bsub -q cmscaf1nd -cwd "+currentDir+" "+currentDir+"/"+fn+".sh";
         os.system(command2);
         print command2
-
+'''
