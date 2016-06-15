@@ -961,6 +961,7 @@ int main (int argc, char** argv)
       bool isCleanedJet = true;
       if (ReducedTree->Jets_PtCorr[i]<=30 || ReducedTree->JetsPt[i]<=20 || fabs(ReducedTree->JetsEta[i])>=2.4)  continue;
       if (ReducedTree->Jets_isLooseJetId[i]==false) continue;
+      if (ReducedTree->Jets_bDiscriminatorICSV[i]>0.890) continue;
       
       //CLEANING FROM LEPTONS
       for (unsigned int j=0; j<tightEle.size(); j++) {
@@ -1052,6 +1053,7 @@ int main (int argc, char** argv)
       bool isCleanedJet = true;
       if (ReducedTree->JetsPuppi_PtCorr[i]<=30 || ReducedTree->JetsPuppiPt[i]<=20 || fabs(ReducedTree->JetsPuppiEta[i])>=2.4)  continue;
       if (ReducedTree->JetsPuppi_isLooseJetId[i]==false) continue;
+      if (ReducedTree->JetsPuppi_bDiscriminatorICSV[i]>0.890) continue;
       
       //CLEANING FROM LEPTONS
       for (unsigned int j=0; j<tightEle.size(); j++) {
