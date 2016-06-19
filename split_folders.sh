@@ -224,4 +224,11 @@ mv WJets_madgraph/ReducedSelection_2* WJets_madgraph_2/
 mv WJets_madgraph/ReducedSelection_3* WJets_madgraph_2/
 mv WJets_madgraph/ReducedSelection_4* WJets_madgraph_2/
 mv WJets_madgraph/ReducedSelection_* WJets_madgraph_3/
-
+mkdir WJets100_1
+mkdir WJets100_2
+mkdir WJets100_3
+mv WJets100/ReducedSelection_1* WJets100_1/
+mv WJets100/ReducedSelection_2* WJets100_1/
+mv WJets100/ReducedSelection_3* WJets100_2/
+mv WJets100/ReducedSelection_4* WJets100_2/
+mv WJets100/ReducedSelection_* WJets100_3/
