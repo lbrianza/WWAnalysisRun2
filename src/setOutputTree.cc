@@ -2,6 +2,7 @@
 
 setOutputTree::setOutputTree(TTree* outTree){
   fTree = outTree;
+  fTree->SetAutoSave(500000000);
   setBranches();
 }
 
@@ -16,10 +17,11 @@ void setOutputTree::initializeVariables()
   nEvents=0;
   nNegEvents=0;
   lumi=-999;
-  njets=-999;
   nPV=-999;
   issignal=0;
   issignal_PuppiAK8=0;
+  issignal_AK4jetjet=0;
+  issignal_PuppiAK4jetjet=0;
   wSampleWeight=-999;
   genWeight=1;
   top1_NNLO_Weight=1.;
@@ -110,6 +112,8 @@ void setOutputTree::initializeVariables()
   mass_lvj_type0_met_jer=-999;
   mass_lvj_type0_met_jer_up=-999;
   mass_lvj_type0_met_jer_dn=-999;
+  mass_lvj_type0_met_PuppiAK8_jes_up=-999;
+  mass_lvj_type0_met_PuppiAK8_jes_dn=-999;
   mass_lvj_type2=-999;
   mass_lvj_run2=-999;
   mass_lvj_type0_PuppiAK8=-999;
@@ -125,9 +129,22 @@ void setOutputTree::initializeVariables()
   mass_lvjj_type0_met_jes_dn_PuppiAK4=-999;
   mass_lvjj_type2_PuppiAK4=-999;
   mass_lvjj_run2_PuppiAK4=-999;
+  njets=-999;
+  njetsPuppi=-999;
+  njets_unmerged=-999;
+  njetsPuppi_unmerged=-999;
   nBTagJet_loose=-999;
   nBTagJet_medium=-999;
   nBTagJet_tight=-999;
+  nBTagJetPuppi_loose=-999;
+  nBTagJetPuppi_medium=-999;
+  nBTagJetPuppi_tight=-999;
+  nBTagJet_loose_unmerged=-999;
+  nBTagJet_medium_unmerged=-999;
+  nBTagJet_tight_unmerged=-999;
+  nBTagJetPuppi_loose_unmerged=-999;
+  nBTagJetPuppi_medium_unmerged=-999;
+  nBTagJetPuppi_tight_unmerged=-999;
   ungroomed_jet_pt=-999;
   ungroomed_jet_pt_jes_up=-999;
   ungroomed_jet_pt_jes_dn=-999;
@@ -302,10 +319,11 @@ void setOutputTree::setBranches()
   fTree->Branch("nEvents",&nEvents,"nEvents/I");
   fTree->Branch("nNegEvents",&nNegEvents,"nNegEvents/I");
   fTree->Branch("lumi",&lumi,"lumi/I");
-  fTree->Branch("njets",&njets,"njets/I");
   fTree->Branch("nPV",&nPV,"nPV/I");
   fTree->Branch("issignal",&issignal,"issignal/I");
   fTree->Branch("issignal_PuppiAK8",&issignal_PuppiAK8,"issignal_PuppiAK8/I");
+  fTree->Branch("issignal_AK4jetjet",&issignal_AK4jetjet,"issignal_AK4jetjet/I");
+  fTree->Branch("issignal_PuppiAK4jetjet",&issignal_PuppiAK4jetjet,"issignal_PuppiAK4jetjet/I");
   fTree->Branch("wSampleWeight",&wSampleWeight,"wSampleWeight/F");
   fTree->Branch("genWeight",&genWeight,"genWeight/F");
   fTree->Branch("top1_NNLO_Weight",&top1_NNLO_Weight,"top1_NNLO_Weight/F");
@@ -495,6 +513,8 @@ void setOutputTree::setBranches()
   fTree->Branch("mass_lvj_type0_met_jer",&mass_lvj_type0_met_jer,"mass_lvj_type0_met_jer/F");
   fTree->Branch("mass_lvj_type0_met_jer_up",&mass_lvj_type0_met_jer_up,"mass_lvj_type0_met_jer_up/F");
   fTree->Branch("mass_lvj_type0_met_jer_dn",&mass_lvj_type0_met_jer_dn,"mass_lvj_type0_met_jer_dn/F");
+  fTree->Branch("mass_lvj_type0_met_PuppiAK8_jes_up",&mass_lvj_type0_met_PuppiAK8_jes_up,"mass_lvj_type0_met_PuppiAK8_jes_up/F");
+  fTree->Branch("mass_lvj_type0_met_PuppiAK8_jes_dn",&mass_lvj_type0_met_PuppiAK8_jes_dn,"mass_lvj_type0_met_PuppiAK8_jes_dn/F");
   fTree->Branch("mass_lvj_type2",&mass_lvj_type2,"mass_lvj_type2/F");
   fTree->Branch("mass_lvj_run2",&mass_lvj_run2,"mass_lvj_run2/F");
   fTree->Branch("mass_lvj_type0_PuppiAK8",&mass_lvj_type0_PuppiAK8,"mass_lvj_type0_PuppiAK8/F");
@@ -510,9 +530,22 @@ void setOutputTree::setBranches()
   fTree->Branch("mass_lvjj_type0_met_jes_dn_PuppiAK4",&mass_lvjj_type0_met_jes_dn_PuppiAK4,"mass_lvjj_type0_met_jes_dn_PuppiAK4/F");
   fTree->Branch("mass_lvjj_type2_PuppiAK4",&mass_lvjj_type2_PuppiAK4,"mass_lvjj_type2_PuppiAK4/F");
   fTree->Branch("mass_lvjj_run2_PuppiAK4",&mass_lvjj_run2_PuppiAK4,"mass_lvjj_run2_PuppiAK4/F");
+  fTree->Branch("njets",&njets,"njets/I");
+  fTree->Branch("njetsPuppi",&njetsPuppi,"njetsPuppi/I");
+  fTree->Branch("njets_unmerged",&njets_unmerged,"njets_unmerged/I");
+  fTree->Branch("njetsPuppi_unmerged",&njetsPuppi_unmerged,"njetsPuppi_unmerged/I");
   fTree->Branch("nBTagJet_loose",&nBTagJet_loose,"nBTagJet_loose/I");
   fTree->Branch("nBTagJet_medium",&nBTagJet_medium,"nBTagJet_medium/I");
   fTree->Branch("nBTagJet_tight",&nBTagJet_tight,"nBTagJet_tight/I");
+  fTree->Branch("nBTagJetPuppi_loose",&nBTagJetPuppi_loose,"nBTagJetPuppi_loose/I");
+  fTree->Branch("nBTagJetPuppi_medium",&nBTagJetPuppi_medium,"nBTagJetPuppi_medium/I");
+  fTree->Branch("nBTagJetPuppi_tight",&nBTagJetPuppi_tight,"nBTagJetPuppi_tight/I");
+  fTree->Branch("nBTagJet_loose_unmerged",&nBTagJet_loose_unmerged,"nBTagJet_loose_unmerged/I");
+  fTree->Branch("nBTagJet_medium_unmerged",&nBTagJet_medium_unmerged,"nBTagJet_medium_unmerged/I");
+  fTree->Branch("nBTagJet_tight_unmerged",&nBTagJet_tight_unmerged,"nBTagJet_tight_unmerged/I");
+  fTree->Branch("nBTagJetPuppi_loose_unmerged",&nBTagJetPuppi_loose_unmerged,"nBTagJetPuppi_loose_unmerged/I");
+  fTree->Branch("nBTagJetPuppi_medium_unmerged",&nBTagJetPuppi_medium_unmerged,"nBTagJetPuppi_medium_unmerged/I");
+  fTree->Branch("nBTagJetPuppi_tight_unmerged",&nBTagJetPuppi_tight_unmerged,"nBTagJetPuppi_tight_unmerged/I");
   fTree->Branch("mass_leptonic_closerjet",&mass_leptonic_closerjet,"mass_leptonic_closerjet/F");
   fTree->Branch("mass_ungroomedjet_closerjet",&mass_ungroomedjet_closerjet,"mass_ungroomedjet_closerjet/F");
   fTree->Branch("AK8_closerjet_pt",&AK8_closerjet_pt,"AK8_closerjet_pt/F");
@@ -579,6 +612,4 @@ void setOutputTree::setBranches()
   fTree->Branch("AK4_2_mass_gen",&AK4_2_mass_gen,"AK4_2_mass_gen/F");
   fTree->Branch("AK4_BIG_gen_mass",&AK4_BIG_gen_mass,"AK4_BIG_gen_mass/F");
   fTree->Branch("deltaR_AK4",&deltaR_AK4,"deltaR_AK4/F");
-
 }
-
