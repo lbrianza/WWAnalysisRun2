@@ -277,6 +277,7 @@ int main (int argc, char** argv)
     
     
     bool skipEvent = false;
+    /*
     if( isMC==0 ) //apply json file
     {
       if(AcceptEventByRunAndLumiSection(ReducedTree->RunNum,ReducedTree->LumiBlockNum,jsonMap) == false) skipEvent = true;                           
@@ -286,7 +287,7 @@ int main (int argc, char** argv)
       else eventsMap[eventRUNandLSandID] = 1;                                                          
     }
     if( skipEvent == true ) continue;    
-    
+    */    
     
     WWTree->initializeVariables(); //initialize all variables
     
