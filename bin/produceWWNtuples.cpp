@@ -193,7 +193,7 @@ int main (int argc, char** argv)
 
 
   //---------output tree----------------
-  TFile* outROOT = TFile::Open((std::string("output/output_")+leptonName+std::string("/")+outputFile+(".root")).c_str(),"recreate");
+  TFile* outROOT = TFile::Open((outputFile+(".root")).c_str(),"recreate");
   outROOT->cd();
   TTree* outTree = new TTree("otree", "otree");
   setOutputTree* WWTree = new setOutputTree(outTree);
@@ -328,7 +328,8 @@ int main (int argc, char** argv)
 	if (applyTrigger==1)
 	  for (unsigned int t=0; t<ReducedTree->TriggerProducerTriggerNames->size(); t++)
 	    if(TString(ReducedTree->TriggerProducerTriggerNames->at(t)).Contains("HLT_Ele27_eta2p1_WP75_Gsf_v") || 
-	       TString(ReducedTree->TriggerProducerTriggerNames->at(t)).Contains("HLT_Ele27_eta2p1_WPLoose_Gsf_v"))
+	       TString(ReducedTree->TriggerProducerTriggerNames->at(t)).Contains("HLT_Ele27_eta2p1_WPLoose_Gsf_v") ||
+	       TString(ReducedTree->TriggerProducerTriggerNames->at(t)).Contains("HLT_Ele105_CaloIdVT_GsfTrkIdT_v") )
 	      if (ReducedTree->TriggerProducerTriggerPass->at(t)==1) passTrigger=1; //trigger
 	if (passTrigger==0 && applyTrigger==1) continue;
 	if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"debug ele: "<<i<<std::endl;
