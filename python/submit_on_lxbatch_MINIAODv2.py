@@ -224,10 +224,10 @@ for a in range(len(category)):
             outScript.write("\n"+'eval `scram runtime -sh`');
             #outScript.write("\n"+'cd '+currentDir);
             #outScript.write("\n"+'source scripts/setup.sh');
-            outScript.write("\n"+command);
             outScript.write("\n"+"cd -");
             outScript.write("\n"+"cp "+currentDir+"/*.txt ./");
             outScript.write("\n"+"cp "+currentDir+"/*.root ./");
+            outScript.write("\n"+command);
             outScript.write("\n"+"mv WWTree_"+(nameData[category[a]])[i]+".root "+outputFolder+"/output_"+category[a]);
             outScript.write("\n");
             outScript.close();
