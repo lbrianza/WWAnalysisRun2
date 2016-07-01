@@ -168,8 +168,8 @@ int main (int argc, char** argv)
   }
   
   std::cout<<"number of files found: "<<fileCounter-2<<std::endl;
-  std::cout<<"total entries: "<<ReducedTree->fChain->GetEntries()<<std::endl;
   totalEntries=ReducedTree->fChain->GetEntries();
+  std::cout<<"total entries: "<<totalEntries<<std::endl;
   
   char command3[300];
   sprintf(command3, "rm listTemp_%s.txt", outputFile.c_str());
@@ -202,7 +202,7 @@ int main (int argc, char** argv)
 
   std::ifstream badEventsFile;
   std::multimap<int,int> badEventsList;
-
+  
   int run, lumi, evt;
   if (isMC==0) {
     if (strcmp(leptonName.c_str(),"el")==0)
@@ -211,8 +211,8 @@ int main (int argc, char** argv)
       badEventsFile.open("SingleMuon_csc2015.txt");      
     while(!badEventsFile.eof()) 
       {
-	badEventsFile >> run >> lumi >> evt;
-	badEventsList.insert(std::pair<int,int>(run,evt));
+        badEventsFile >> run >> lumi >> evt;
+        badEventsList.insert(std::pair<int,int>(run,evt));
       }      
   }
   badEventsFile.close();
@@ -222,6 +222,7 @@ int main (int argc, char** argv)
   Long64_t jentry2=0;
   
   //---------start loop on events------------
+  std::cout << "---------start loop on events------------" << std::endl;
   for (Long64_t jentry=0; jentry<ReducedTree->fChain->GetEntries();jentry++,jentry2++)
   {
     //for (Long64_t jentry=531000; jentry<532000;jentry++,jentry2++) {
@@ -236,7 +237,7 @@ int main (int argc, char** argv)
     looseMuon.clear();
     looseEle.clear();
 
-    if (jentry2%10000 == 0) std::cout << "read entry: " << jentry2 <<"/"<<totalEntries<<std:: endl;
+    if (jentry2%100 == 0) std::cout << "read entry: " << jentry2 <<"/"<<totalEntries<<std:: endl;
     
     //*********************************
     // JSON FILE AND DUPLIACTES IN DATA
@@ -938,6 +939,7 @@ int main (int argc, char** argv)
       bool isCleanedJet = true;
       if (ReducedTree->Jets_PtCorr[i]<=30 || ReducedTree->JetsPt[i]<=20 || fabs(ReducedTree->JetsEta[i])>=2.4)  continue;
       if (ReducedTree->Jets_isLooseJetId[i]==false) continue;
+      if (ReducedTree->Jets_bDiscriminatorICSV[i]>0.890) continue;
       
       //CLEANING FROM LEPTONS
       for (unsigned int j=0; j<tightEle.size(); j++) {
@@ -1039,6 +1041,7 @@ int main (int argc, char** argv)
       bool isCleanedJet = true;
       if (ReducedTree->JetsPuppi_PtCorr[i]<=30 || ReducedTree->JetsPuppiPt[i]<=20 || fabs(ReducedTree->JetsPuppiEta[i])>=2.4)  continue;
       if (ReducedTree->JetsPuppi_isLooseJetId[i]==false) continue;
+      if (ReducedTree->JetsPuppi_bDiscriminatorICSV[i]>0.890) continue;
       
       //CLEANING FROM LEPTONS
       for (unsigned int j=0; j<tightEle.size(); j++) {
@@ -1653,7 +1656,9 @@ int main (int argc, char** argv)
     if(WWTree->event==evento && WWTree->run==runno && WWTree->lumi==lumo) std::cout<<"fill: "<<count<<std::endl; count++;
     outTree->Fill();
   }
-
+  std::cout << "---------end loop on events------------" << std::endl;
+  std::cout << std::endl;
+  
   std::cout << "----------------------" << std::endl;
   std::cout << " SUMMARY" << std::endl;
   std::cout << "----------------------" << std::endl;
