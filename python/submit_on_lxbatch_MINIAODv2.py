@@ -189,7 +189,7 @@ for a in range(len(category)):
     #MC
     if( doMC ):
         for i in range(len(samples)):
-            fn = "jobs/job_"+samples[i][1]+"_"+category[a];
+            fn = "Job/job_"+samples[i][1]+"_"+category[a];
             outScript = open(fn+".sh","w");
             command = "python "+currentDir+"/python/produceWWNtuples.py --exe "+exeName+" -i "+inputFolder+" -n "+str(samples[i][1])+" -o WWTree_"+str(samples[i][1])+" -l "+category[a]+" -w "+str(samples[i][0])+" -no "+str(samples[i][2])+" -mass "+str(samples[i][3])+" --ismc 1 -trig 0";
             print command;
@@ -215,9 +215,9 @@ for a in range(len(category)):
     #data
     if( doData ):
         for i in range(len(nameData[category[a]])):
-            fn = "jobs/job_"+(nameData[category[a]])[i]+"_mu";
+            fn = "Job/job_"+(nameData[category[a]])[i]+"_"+category[a];
             outScript = open(fn+".sh","w");
-            command = "python "+currentDir+"/python/produceWWNtuples.py --exe "+exeName+" -i "+inputFolder+" -n "+(nameData[category[a]])[i]+" -o WWTree_"+(nameData[category[a]])[i]+" -l mu"+" -w 1. -no 1. -mass 0 --ismc 0 -trig 0";
+            command = "python "+currentDir+"/python/produceWWNtuples.py --exe "+exeName+" -i "+inputFolder+" -n "+(nameData[category[a]])[i]+" -o WWTree_"+(nameData[category[a]])[i]+" -l "+category[a]+" -w 1. -no 1. -mass 0 --ismc 0 -trig 1";
             print command;
             outScript.write('#!/bin/bash');
             outScript.write("\n"+'cd '+CMSSWDir);
