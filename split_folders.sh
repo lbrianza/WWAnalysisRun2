@@ -1,3 +1,11 @@
+mkdir data_el_2016_runB_v2_37
+mkdir data_el_2016_runB_v2_36
+mkdir data_el_2016_runB_v2_35
+mkdir data_el_2016_runB_v2_34
+mkdir data_el_2016_runB_v2_33
+mkdir data_el_2016_runB_v2_32
+mkdir data_el_2016_runB_v2_31
+mkdir data_el_2016_runB_v2_30
 mkdir data_el_2016_runB_v2_29
 mkdir data_el_2016_runB_v2_28
 mkdir data_el_2016_runB_v2_27
@@ -27,6 +35,22 @@ mkdir data_el_2016_runB_v2_4
 mkdir data_el_2016_runB_v2_3
 mkdir data_el_2016_runB_v2_2
 mkdir data_el_2016_runB_v2_1
+mv data_el_2016_runB_v2/ReducedSelection_74* data_el_2016_runB_v2_37/
+mv data_el_2016_runB_v2/ReducedSelection_73* data_el_2016_runB_v2_37/
+mv data_el_2016_runB_v2/ReducedSelection_72* data_el_2016_runB_v2_36/
+mv data_el_2016_runB_v2/ReducedSelection_71* data_el_2016_runB_v2_36/
+mv data_el_2016_runB_v2/ReducedSelection_70* data_el_2016_runB_v2_35/
+mv data_el_2016_runB_v2/ReducedSelection_69* data_el_2016_runB_v2_35/
+mv data_el_2016_runB_v2/ReducedSelection_68* data_el_2016_runB_v2_34/
+mv data_el_2016_runB_v2/ReducedSelection_67* data_el_2016_runB_v2_34/
+mv data_el_2016_runB_v2/ReducedSelection_66* data_el_2016_runB_v2_33/
+mv data_el_2016_runB_v2/ReducedSelection_65* data_el_2016_runB_v2_33/
+mv data_el_2016_runB_v2/ReducedSelection_64* data_el_2016_runB_v2_32/
+mv data_el_2016_runB_v2/ReducedSelection_63* data_el_2016_runB_v2_32/
+mv data_el_2016_runB_v2/ReducedSelection_62* data_el_2016_runB_v2_31/
+mv data_el_2016_runB_v2/ReducedSelection_61* data_el_2016_runB_v2_31/
+mv data_el_2016_runB_v2/ReducedSelection_60* data_el_2016_runB_v2_30/
+mv data_el_2016_runB_v2/ReducedSelection_59* data_el_2016_runB_v2_30/
 mv data_el_2016_runB_v2/ReducedSelection_58* data_el_2016_runB_v2_29/
 mv data_el_2016_runB_v2/ReducedSelection_57* data_el_2016_runB_v2_28/
 mv data_el_2016_runB_v2/ReducedSelection_56* data_el_2016_runB_v2_27/
@@ -88,6 +112,14 @@ mv data_el_2016_runB_v2/ReducedSelection_* data_el_2016_runB_v2_1/
 
 
 
+mkdir data_mu_2016_runB_v2_37
+mkdir data_mu_2016_runB_v2_36
+mkdir data_mu_2016_runB_v2_35
+mkdir data_mu_2016_runB_v2_34
+mkdir data_mu_2016_runB_v2_33
+mkdir data_mu_2016_runB_v2_32
+mkdir data_mu_2016_runB_v2_31
+mkdir data_mu_2016_runB_v2_30
 mkdir data_mu_2016_runB_v2_29
 mkdir data_mu_2016_runB_v2_28
 mkdir data_mu_2016_runB_v2_27
@@ -117,6 +149,22 @@ mkdir data_mu_2016_runB_v2_4
 mkdir data_mu_2016_runB_v2_3
 mkdir data_mu_2016_runB_v2_2
 mkdir data_mu_2016_runB_v2_1
+mv data_mu_2016_runB_v2/ReducedSelection_74* data_mu_2016_runB_v2_37/
+mv data_mu_2016_runB_v2/ReducedSelection_73* data_mu_2016_runB_v2_37/
+mv data_mu_2016_runB_v2/ReducedSelection_72* data_mu_2016_runB_v2_36/
+mv data_mu_2016_runB_v2/ReducedSelection_71* data_mu_2016_runB_v2_36/
+mv data_mu_2016_runB_v2/ReducedSelection_70* data_mu_2016_runB_v2_35/
+mv data_mu_2016_runB_v2/ReducedSelection_69* data_mu_2016_runB_v2_35/
+mv data_mu_2016_runB_v2/ReducedSelection_68* data_mu_2016_runB_v2_34/
+mv data_mu_2016_runB_v2/ReducedSelection_67* data_mu_2016_runB_v2_34/
+mv data_mu_2016_runB_v2/ReducedSelection_66* data_mu_2016_runB_v2_33/
+mv data_mu_2016_runB_v2/ReducedSelection_65* data_mu_2016_runB_v2_33/
+mv data_mu_2016_runB_v2/ReducedSelection_64* data_mu_2016_runB_v2_32/
+mv data_mu_2016_runB_v2/ReducedSelection_63* data_mu_2016_runB_v2_32/
+mv data_mu_2016_runB_v2/ReducedSelection_62* data_mu_2016_runB_v2_31/
+mv data_mu_2016_runB_v2/ReducedSelection_61* data_mu_2016_runB_v2_31/
+mv data_mu_2016_runB_v2/ReducedSelection_60* data_mu_2016_runB_v2_30/
+mv data_mu_2016_runB_v2/ReducedSelection_59* data_mu_2016_runB_v2_30/
 mv data_mu_2016_runB_v2/ReducedSelection_58* data_mu_2016_runB_v2_29/
 mv data_mu_2016_runB_v2/ReducedSelection_57* data_mu_2016_runB_v2_28/
 mv data_mu_2016_runB_v2/ReducedSelection_56* data_mu_2016_runB_v2_27/
