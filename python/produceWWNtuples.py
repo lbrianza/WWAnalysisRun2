@@ -20,7 +20,7 @@ if __name__ == '__main__':
     parser.add_argument ('-trig', '--applyTrigger' , default = '0' , help='apply trigger or not')
     parser.add_argument ('-json', '--json', default = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON.txt', help="json file to apply")
     parser.add_argument ('-loc', '--isLocal' , default = '0', help='run in local or not')
-    parser.add_argument ('-exe', '--exe' , default = './bin/produceWWNtuples.exe', help='location of the executable')
+    parser.add_argument ('-exe', '--exe' , default = './produceWWNtuples.exe', help='location of the executable')
     args = parser.parse_args ()
 
     command = args.exe+' '+args.inputFolder+' '+args.output+' '+args.ismc+' '+args.lepton+' '+args.tree+' '+args.name+' '+args.xsecWeight+' '+args.numberOfEntries+' '+args.mass+' '+args.applyTrigger+' '+args.json+' '+args.isLocal

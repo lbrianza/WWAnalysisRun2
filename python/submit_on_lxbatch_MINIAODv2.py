@@ -154,7 +154,41 @@ nameDataMu = [
     "data_mu_2016_runB_v2_35",
     "data_mu_2016_runB_v2_36",
     "data_mu_2016_runB_v2_37",
-    "data_mu_2016_runC_v2"
+    "data_mu_2016_runB_v2_38",
+    "data_mu_2016_runC_v2_1",
+    "data_mu_2016_runC_v2_2",
+    "data_mu_2016_runC_v2_3",
+    "data_mu_2016_runC_v2_4",
+    "data_mu_2016_runC_v2_5",
+    "data_mu_2016_runC_v2_6",
+    "data_mu_2016_runC_v2_7",
+    "data_mu_2016_runC_v2_8",
+    "data_mu_2016_runC_v2_9",
+    "data_mu_2016_runC_v2_10",
+    "data_mu_2016_runC_v2_11",
+    "data_mu_2016_runC_v2_12",
+    "data_mu_2016_runC_v2_13",
+    "data_mu_2016_runD_v2_1",
+    "data_mu_2016_runD_v2_2",
+    "data_mu_2016_runD_v2_3",
+    "data_mu_2016_runD_v2_4",
+    "data_mu_2016_runD_v2_5",
+    "data_mu_2016_runD_v2_6",
+    "data_mu_2016_runD_v2_7",
+    "data_mu_2016_runD_v2_8",
+    "data_mu_2016_runD_v2_9",
+    "data_mu_2016_runD_v2_10",
+    "data_mu_2016_runD_v2_11",
+    "data_mu_2016_runD_v2_12",
+    "data_mu_2016_runD_v2_13",
+    "data_mu_2016_runD_v2_14",
+    "data_mu_2016_runD_v2_15",
+    "data_mu_2016_runD_v2_16",
+    "data_mu_2016_runD_v2_17",
+    "data_mu_2016_runD_v2_18",
+    "data_mu_2016_runD_v2_19",
+    "data_mu_2016_runD_v2_20",
+    "data_mu_2016_runD_v2_21"
 ];
 
 nameDataEl = [
@@ -195,7 +229,41 @@ nameDataEl = [
     "data_el_2016_runB_v2_35",
     "data_el_2016_runB_v2_36",
     "data_el_2016_runB_v2_37",
-    "data_el_2016_runC_v2"
+    "data_el_2016_runB_v2_38",
+    "data_el_2016_runC_v2_1",
+    "data_el_2016_runC_v2_2",
+    "data_el_2016_runC_v2_3",
+    "data_el_2016_runC_v2_4",
+    "data_el_2016_runC_v2_5",
+    "data_el_2016_runC_v2_6",
+    "data_el_2016_runC_v2_7",
+    "data_el_2016_runC_v2_8",
+    "data_el_2016_runC_v2_9",
+    "data_el_2016_runC_v2_10",
+    "data_el_2016_runC_v2_11",
+    "data_el_2016_runC_v2_12",
+    "data_el_2016_runC_v2_13",
+    "data_el_2016_runD_v2_1",
+    "data_el_2016_runD_v2_2",
+    "data_el_2016_runD_v2_3",
+    "data_el_2016_runD_v2_4",
+    "data_el_2016_runD_v2_5",
+    "data_el_2016_runD_v2_6",
+    "data_el_2016_runD_v2_7",
+    "data_el_2016_runD_v2_8",
+    "data_el_2016_runD_v2_9",
+    "data_el_2016_runD_v2_10",
+    "data_el_2016_runD_v2_11",
+    "data_el_2016_runD_v2_12",
+    "data_el_2016_runD_v2_13",
+    "data_el_2016_runD_v2_14",
+    "data_el_2016_runD_v2_15",
+    "data_el_2016_runD_v2_16",
+    "data_el_2016_runD_v2_17",
+    "data_el_2016_runD_v2_18",
+    "data_el_2016_runD_v2_19",
+    "data_el_2016_runD_v2_20",
+    "data_el_2016_runD_v2_21"
 ];
 
 
@@ -229,7 +297,7 @@ for a in range(len(category)):
             print command2
             if( dryRun != True ):
                 os.system(command2);
-                time.sleep(1)
+                time.sleep(3)
     
     #data
     if( doData ):
@@ -255,4 +323,4 @@ for a in range(len(category)):
             print command2
             if( dryRun != True ):
                 os.system(command2);
-                time.sleep(1)
+                time.sleep(3)

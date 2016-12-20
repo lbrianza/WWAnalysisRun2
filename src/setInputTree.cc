@@ -72,6 +72,10 @@ void setInputTree::Init()
    fChain->SetBranchAddress("passFilterCSCHalo", &passFilterCSCHalo, &b_passFilterCSCHalo);
    fChain->SetBranchAddress("passFilterGoodVtx", &passFilterGoodVtx, &b_passFilterGoodVtx);
    fChain->SetBranchAddress("passFilterEEBadSC", &passFilterEEBadSC, &b_passFilterEEBadSC);
+   fChain->SetBranchAddress("passFilterEcalDeadCellTriggerPrimitive", &passFilterEcalDeadCellTriggerPrimitive, &b_passFilterEcalDeadCellTriggerPrimitive);
+   fChain->SetBranchAddress("passFilterGlobalTightHalo2016", &passFilterGlobalTightHalo2016, &b_passFilterGlobalTightHalo2016);
+   fChain->SetBranchAddress("passFilterBadChCand", &passFilterBadChCand, &b_passFilterBadChCand);
+   fChain->SetBranchAddress("passFilterBadPFMuon", &passFilterBadPFMuon, &b_passFilterBadPFMuon);
    fChain->SetBranchAddress("passFilterHBHELooseRerun", &passFilterHBHELooseRerun, &b_passFilterHBHELooseRerun);
    fChain->SetBranchAddress("passFilterHBHETightRerun", &passFilterHBHETightRerun, &b_passFilterHBHETightRerun);
    fChain->SetBranchAddress("passFilterHBHEIsoRerun", &passFilterHBHEIsoRerun, &b_passFilterHBHEIsoRerun);

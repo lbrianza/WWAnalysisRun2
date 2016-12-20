@@ -24,6 +24,7 @@
 #include "TClass.h"
 #include "TApplication.h"
 #include "TLorentzVector.h"
+#include "TF1.h"
 
 #include "../interface/setInputTree.h"
 #include "../interface/setOutputTree.h"
@@ -33,6 +34,22 @@
 #include "../interface/readJSONFile.h"
 
 using namespace std;
+
+float getPUPPIweight(float puppipt, float puppieta, TF1* puppisd_corrGEN, TF1* puppisd_corrRECO_cen, TF1* puppisd_corrRECO_for ){
+
+  float genCorr = 1.;
+  float recoCorr = 1.;
+  float totalWeight = 1.;
+
+  genCorr = puppisd_corrGEN->Eval( puppipt );
+
+  if( fabs(puppieta) <= 1.3 ) recoCorr = puppisd_corrRECO_cen->Eval( puppipt );
+  else recoCorr = puppisd_corrRECO_for->Eval( puppipt );
+
+  totalWeight = genCorr * recoCorr;
+  return totalWeight;
+
+}
 
 //*****PU WEIGHT***************
 
@@ -192,6 +209,12 @@ int main (int argc, char** argv)
   pileupFile2->Close();
 
 
+  //puppi corrections
+  TFile* file = TFile::Open( "puppiJecCorr.root" );
+  TF1* Puppisd_corrGEN = (TF1*)file->Get("puppiJECcorr_gen");
+  TF1* Puppisd_corrRECO_cen = (TF1*)file->Get("puppiJECcorr_reco_0eta1v3");
+  TF1* Puppisd_corrRECO_for = (TF1*)file->Get("puppiJECcorr_reco_1v3eta2v5");
+
   //---------output tree----------------
   TFile* outROOT = TFile::Open((outputFile+(".root")).c_str(),"recreate");
   outROOT->cd();
@@ -260,11 +283,16 @@ int main (int argc, char** argv)
     
     WWTree->initializeVariables(); //initialize all variables
     
-    if (ReducedTree->passFilterHBHELooseRerun == 0) continue;
-    if (ReducedTree->passFilterHBHEIsoRerun == 0) continue;
-    if (ReducedTree->passFilterCSCHalo == 0) continue;
+    //    if (ReducedTree->passFilterHBHELooseRerun == 0) continue;
+    if (ReducedTree->passFilterHBHE == 0) continue;
+    if (ReducedTree->passFilterHBHEIso == 0) continue;
+    //    if (ReducedTree->passFilterCSCHalo == 0) continue;
     if (ReducedTree->passFilterGoodVtx == 0) continue;
     if (ReducedTree->passFilterEEBadSC == 0) continue;
+    if (ReducedTree->passFilterEcalDeadCellTriggerPrimitive == 0) continue;
+    if (ReducedTree->passFilterGlobalTightHalo2016 == 0) continue;
+    if (ReducedTree->passFilterBadChCand == 0) continue;
+    if (ReducedTree->passFilterBadPFMuon == 0) continue;
     
     WWTree->issignal = 0;
     WWTree->wSampleWeight = weight; //xsec/numberOfEntries
@@ -897,7 +925,8 @@ int main (int argc, char** argv)
       
       WWTree->PuppiAK8_jet_pt_so    = ReducedTree->PuppiAK8Jets_softDropPt[i];
       WWTree->PuppiAK8_jet_mass_pr  = ReducedTree->PuppiAK8Jets_prunedMass[i];
-      WWTree->PuppiAK8_jet_mass_so  = ReducedTree->PuppiAK8Jets_softDropMass[i];
+      WWTree->PuppiAK8_jet_mass_so  = (ReducedTree->PuppiAK8Jets_softDropMass[i]/ReducedTree->PuppiAK8Jets_PuppiAK8massCorrection[i])*getPUPPIweight(WWTree->ungroomed_PuppiAK8_jet_pt,WWTree->ungroomed_PuppiAK8_jet_eta, Puppisd_corrGEN, Puppisd_corrRECO_cen, Puppisd_corrRECO_for);
+//      WWTree->PuppiAK8_jet_mass_so  = ReducedTree->PuppiAK8Jets_softDropMass[i];
       WWTree->PuppiAK8_jet_mass_tr  = ReducedTree->PuppiAK8Jets_trimmedMass[i];
       WWTree->PuppiAK8_jet_mass_fi  = ReducedTree->PuppiAK8Jets_filteredMass[i];
       WWTree->PuppiAK8_jet_tau2tau1 = ReducedTree->PuppiAK8Jets_tau2[i]/ReducedTree->PuppiAK8Jets_tau1[i];

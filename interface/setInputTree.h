@@ -35,6 +35,10 @@ public :
    Int_t           passFilterCSCHalo;
    Int_t           passFilterGoodVtx;
    Int_t           passFilterEEBadSC;
+   Int_t           passFilterEcalDeadCellTriggerPrimitive;
+   Int_t           passFilterGlobalTightHalo2016;
+   Int_t           passFilterBadChCand;
+   Int_t           passFilterBadPFMuon;
    Int_t           passFilterHBHELooseRerun;
    Int_t           passFilterHBHETightRerun;
    Int_t           passFilterHBHEIsoRerun;
@@ -320,6 +324,10 @@ public :
    TBranch        *b_passFilterCSCHalo;   //!
    TBranch        *b_passFilterGoodVtx;   //!
    TBranch        *b_passFilterEEBadSC;   //!
+   TBranch        *b_passFilterEcalDeadCellTriggerPrimitive;
+   TBranch        *b_passFilterGlobalTightHalo2016;
+   TBranch        *b_passFilterBadChCand;
+   TBranch        *b_passFilterBadPFMuon;
    TBranch        *b_passFilterHBHELooseRerun;   //!
    TBranch        *b_passFilterHBHETightRerun;   //!
    TBranch        *b_passFilterHBHEIsoRerun;   //!
